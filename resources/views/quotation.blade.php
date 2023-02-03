@@ -68,7 +68,6 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Final Destination</th>
-                        <!--<td>{{-- $user['state'].', '.$user['country'] --}}</td>-->
                         <td><input type="text" name="final_destination" class="form-control"
                                 placeholder="Please Enter The Final Destination"></td>
                     </tr>
@@ -82,7 +81,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">EXPIRY</th>
-                        <td>{{ $preference_data->expiry }}</td>
+                        <td>{{-- $preference_data->expiry --}}{{ $expiry_days }}</td>
                     </tr>
                 </table>
 

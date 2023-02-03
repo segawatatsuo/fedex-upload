@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Storage;
 use App\Model\Quitation_serial_number;
 use Illuminate\Support\Facades\Validator;
 
+use App\Model\SailingOn;
+use App\Model\Expirie;
+
 class QuotationController extends Controller
 {
     public function quotation(Request $request)
@@ -420,8 +423,16 @@ class QuotationController extends Controller
 
 
         //Sailing on(出航予定月)
-        $date = new Carbon();
-        $date = Carbon::now();
+        $addday=SailingOn::find(1)->number_of_days;
+        //現在の日付
+        $date=new Carbon('today');
+        //40日後
+        $date=$date->addDay($addday);
+
+        $year = $date->format('Y');
+        $month = $date->format('M');
+        $sailing_on = $month . ',' . $year;
+/*
         if ($date->day <= 23) {
             $year = $date->format('Y');
             $month = $date->format('M');
@@ -432,14 +443,15 @@ class QuotationController extends Controller
             $month = $date->format('M');
             $sailing_on = $month . ',' . $year;
         }
-
+*/
         //ユニークキー（見積番号）を作成
         $uuid = strtoupper(uniqid());
 
         $preference_data = Preference::first();
         $user_id = Auth::id();
 
-
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
 
         //quotations(見積もり)テーブルにデータを作成する
         $db = new Quotation();
@@ -538,7 +550,7 @@ class QuotationController extends Controller
 
         //return view('quotation', compact('quotations', 'uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'img_banner','quotation_no','type'));
         //return view('quotation', compact('quotations', 'uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type'));
-        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type'));
+        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
     }
 
 
