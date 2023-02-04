@@ -156,7 +156,7 @@
                         <td></td>
                     </tr>
                     <tr>
-                        <th class="table-gray">EXPIRY</th>
+                        <th class="table-gray">Quotaition Deadline</th>
                         <td>{{ $main['expiry'] }}</td>
                     </tr>
                 </table>

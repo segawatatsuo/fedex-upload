@@ -37,6 +37,7 @@ Route::get('/top', 'HomeController@top')->name('top');
 //$this->post('logout', 'Auth\LoginController@logout')->name('logout');
 
 Route::middleware(['verified'])->group(function () {
+    
     Route::get('plan', 'ProductController@plan')->name('plan');
 
     Route::get('fedex', 'ProductController@fedex')->name('fedex');
