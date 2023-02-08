@@ -34,12 +34,16 @@
                     <div class="card-header"><h5>Payment method of your choice</h5></div>
                     <div class="card-body text-center">
                         <select name="payment_method" class="form-control">
-                            @if ($payment_method == 'bank')
+                            @if(session()->get('type')=="fedex")
+                                <option value="Payoneer">Payoneer</option>
+                            @else
+                                @if ($payment_method == 'bank')
                                 <option value="bank" selected>bank</option>
                                 <option value="Payoneer">Payoneer</option>
-                            @elseif($payment_method == 'Payoneer')
+                                @elseif($payment_method == 'Payoneer')
                                 <option value="bank">bank</option>
                                 <option value="Payoneer" selected>Payoneer</option>
+                                @endif
                             @endif
                         </select>
 
