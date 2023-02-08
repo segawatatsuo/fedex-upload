@@ -432,6 +432,7 @@ class QuotationController extends Controller
         $year = $date->format('Y');
         $month = $date->format('M');
         $sailing_on = $month . ',' . $year;
+        session()->put('sailing_on',$sailing_on);
 /*
         if ($date->day <= 23) {
             $year = $date->format('Y');
@@ -452,6 +453,7 @@ class QuotationController extends Controller
 
         //見積もり有効期限
         $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
 
         //quotations(見積もり)テーブルにデータを作成する
         $db = new Quotation();
@@ -478,7 +480,7 @@ class QuotationController extends Controller
         $db->port_of_loading = $preference_data->port_of_loading;
         $db->sailing_on = $sailing_on;
         //arriving_on
-        $db->expiry = $preference_data->expiry;
+        $db->expiry = $expiry_days;
 
         $db->quantity_total = $quantity_total;
         $db->ctn_total = $ctn_total;

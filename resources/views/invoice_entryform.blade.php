@@ -1,19 +1,17 @@
 {{--@extends('layouts.app')--}}
 @extends('layouts.login')
 
+invoice
+
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-
             <div class="col-md-8">
                 <h4 class="text-center">Please enter your company information</h4>
             </div>
 
-
             <div class="col-md-8">
                 <div class="card">
-
-
 
                     <div class="card-header">{{ 'Register' }}</div>
                     <div class="card-body">
@@ -22,14 +20,8 @@
                             <h2 class="text-center">Importer (Head Office)</h2>
                         </div>
 
-
                         <form method="POST" action="invoice_entry_and_go">
                             @csrf
-
-
-
-
-
                             <div class="form-group row">
                                 <label for="bill_company_address_line1"
                                     class="col-md-4 col-form-label text-md-right">{{ 'Importer company ※' }}</label>
@@ -228,7 +220,6 @@
                                 <div class="col-md-6">
                                     <input id="industry" type="text" class="form-control" name="industry"
                                         value="{{ old('industry') }}" placeholder="(ex.)Wholesaler of beauty">
-
                                 </div>
                             </div>
 
@@ -236,7 +227,6 @@
                             <div class="form-group row">
                                 <label for="business_items"
                                     class="col-md-4 col-form-label text-md-right">{{ 'Your Items of Business' }}</label>
-
                                 <div class="col-md-6">
                                     <input id="business_items" type="text" class="form-control" name="business_items"
                                         value="{{ old('business_items') }}" placeholder="(ex.)Cosmetic bags">
@@ -246,7 +236,6 @@
                             <div class="form-group row">
                                 <label for="customer_name"
                                     class="col-md-4 col-form-label text-md-right">{{ 'Your Customer(s)' }}</label>
-
                                 <div class="col-md-6">
                                     <input id="customer_name" type="text" class="form-control" name="customer_name"
                                         value="{{ old('customer_name') }}" placeholder="(ex.)Cosmetic Shops, wholesalers,">
@@ -268,7 +257,6 @@
                             <div class="form-group row">
                                 <label for="fedex"
                                     class="col-md-4 col-form-label text-md-right">{{ 'Your FedEX Account' }}</label>
-
                                 <div class="col-md-6">
                                     <input id="fedex" type="text" class="form-control" name="fedex"
                                         value="{{ old('fedex') }}" placeholder="(ex.)012345678">
@@ -278,15 +266,11 @@
                             <div class="form-group row">
                                 <label for="sns"
                                     class="col-md-4 col-form-label text-md-right">{{ 'Your company SNS' }}</label>
-
                                 <div class="col-md-6">
                                     <input id="sns" type="text" class="form-control @error('sns') is-invalid @enderror"
                                         name="sns" value="{{ old('sns') }}" placeholder="(ex.)www.facebook.com/ccmedico">
                                 </div>
                             </div>
-
-
-
 
 
                             <!--登録ボタン -->
@@ -297,7 +281,6 @@
                                     </button>
                                 </div>
                             </div>
-
 
                             <input type="hidden" name="quotation_no" value="{{ $uuid }}">
                             <input type="hidden" name="user_id" value="{{ $user_id }}">

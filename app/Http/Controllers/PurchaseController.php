@@ -58,6 +58,8 @@ class PurchaseController extends Controller
         $final_destination = $quotations[0]->final_destination;
 
         $sailing_on = $quotations[0]->sailing_on;
+        //dd($quotations);
+
         $arriving_on = $quotations[0]->arriving_on;
         $expiry = $quotations[0]->expiry;
 
@@ -120,8 +122,6 @@ class PurchaseController extends Controller
             array_push($items, $data);
         }
 
-
-
         $quantity_total = $quotations[0]->quantity_total;
         $ctn_total = $quotations[0]->ctn_total;
         $amount_total = $quotations[0]->amount_total;
@@ -130,7 +130,6 @@ class PurchaseController extends Controller
             'ctn_total' => $ctn_total,
             'amount_total' => $amount_total
         ];
-
 
         $image_path = storage_path('app/public/hamada.png');
         $image_data = base64_encode(file_get_contents($image_path));
@@ -145,7 +144,6 @@ class PurchaseController extends Controller
         $order = Order_confirm::where('quotation_no', $quotation_no)->first();
         $order->order_sheet_pdf = $output . ".pdf";
         $order->save();
-
 
         return $pdf->download('PO-' . $invoice_no . '.pdf');
     }

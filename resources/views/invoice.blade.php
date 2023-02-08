@@ -1,5 +1,6 @@
 ﻿@extends('layouts.base')
 
+
 @section('content')
     <div class="container-fluid" style="padding:0;">
         <div class="d-flex align-items-center justify-content-center h3"
@@ -20,10 +21,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
 
     <div class="container mt-4">
@@ -47,9 +44,7 @@
                                 {{ $main['preference_data']->shipper_address5 }}
                                 {{ $main['preference_data']->shipper_address6 }}
                                 <br>
-
                                 Tel:{{ $main['preference_data']->tel }} FAX:{{ $main['preference_data']->fax }}
-
                             </td>
                         </tr>
                         <tr>
@@ -62,7 +57,6 @@
                                 <div class="font-weight-bold">
                                     <h5>{{ $main['consignee'] }}</h5>
                                 </div>
-
                                 {{ $user['address_line1'] }},
                                 {{ $user['address_line2'] }},
                                 {{ $user['city'] }},
@@ -70,13 +64,8 @@
                                 {{ $user['country'] }}
                                 {{ $user['zip'] }}
                                 <br>
-
                                 Tel:{{ $user['phone'] }} FAX:{{ $user['fax'] }}
-
                             </td>
-
-
-
                             <td rowspan="2" class="text-right">
                                 {{ $main['day'] }}<br>
                                 Invoice No.<br>
@@ -93,7 +82,6 @@
                             </td>
                         </tr>
 
-
                         <div class="text-right pb-2">
                             <button formaction="{{ 'generate_invoice_pdf' }}" type="submit" class="btn btn-warning btn-lg"
                                 style="width:200px">PRINTOUT</button>
@@ -103,13 +91,8 @@
                             <button formaction="{{ 'order' }}" type="submit" class="btn btn-warning btn-lg"
                                 style="width:200px">ORDER</button>
                         </div>
-
-
                     </tbody>
                 </table>
-
-
-
 
 
                 <table class="table table-bordered" style="font-size: 16px;">
@@ -133,7 +116,9 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Sailing on (ETD)</th>
-                        <td>{{ $main['sailing_on'] }}</td>
+                        <td>
+                            {{ session()->get('sailing_on') }}
+                        </td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
@@ -141,7 +126,9 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
-                        <td>{{ $main['expiry'] }}</td>
+                        <td>
+                            {{ session()->get('expiry_days') }}
+                        </td>
                     </tr>
                 </table>
 

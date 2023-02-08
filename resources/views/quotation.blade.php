@@ -73,7 +73,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Sailing on (ETD)</th>
-                        <td>{{ $sailing_on }}</td>
+                        <td>{{ session()->get('sailing_on') }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
@@ -81,7 +81,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
-                        <td>{{-- $preference_data->expiry --}}{{ $expiry_days }}</td>
+                        <td>{{-- $preference_data->expiry --}}{{ session()->get('expiry_days') }}</td>
                     </tr>
                 </table>
 

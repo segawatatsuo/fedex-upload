@@ -93,9 +93,14 @@
                             </td>
                             <td>
                                 <select name="payment_method" class="form-control">
-                                    <option value=""></option>
-                                    <option value="bank">bank</option>
+                                    @if(session()->get('type')=="fedex")
                                     <option value="Payoneer">Payoneer</option>
+                                    @else
+                                    <option value="Payoneer">Payoneer</option>
+                                    <option value="bank">bank</option>
+
+                                    @endif
+                                    
                                 </select>
 
 
@@ -149,7 +154,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Sailing on (ETD)</th>
-                        <td>{{ $main['sailing_on'] }}</td>
+                        <td>{{ session()->get('sailing_on') }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
@@ -157,7 +162,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
-                        <td>{{ $main['expiry'] }}</td>
+                        <td>{{ session()->get('expiry_days') }}</td>
                     </tr>
                 </table>
 
