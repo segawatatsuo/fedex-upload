@@ -81,7 +81,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
-                        <td>{{-- $preference_data->expiry --}}{{ session()->get('expiry_days') }}</td>
+                        <td>{{-- $preference_data->expiry --}}{{ session()->get('expiry_days') }}days</td>
                     </tr>
                 </table>
 

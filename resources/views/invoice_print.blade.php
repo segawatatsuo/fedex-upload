@@ -138,7 +138,7 @@
             </tr>
             <tr>
                 <th style="text-align:left;">Quotaition Deadline</th>
-                <td>{{ session()->get('expiry_days') }}</td>
+                <td>{{ session()->get('expiry_days') }}days</td>
             </tr>
         </table>
         <br>
