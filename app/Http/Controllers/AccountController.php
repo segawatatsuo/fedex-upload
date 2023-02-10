@@ -77,9 +77,11 @@ class AccountController extends Controller
         ->where('user_id', '=', $id)
         ->orderByDesc('id')
         ->paginate(10);
-        */
-        $orders =Quotation::where('consignee_no', '=', $id)->where('create_PDF', '>=', '2022-01-01 00:00:01')->orderByDesc('id')->paginate(10);
-        ;
+       */
+        //最初はPDFを出した分だけを表示していたが全部出すように変更
+        //$orders =Quotation::where('consignee_no', '=', $id)->where('create_PDF', '>=', '2022-01-01 00:00:01')->orderByDesc('id')->paginate(10);
+        $orders =Quotation::where('consignee_no', '=', $id)->orderByDesc('id')->paginate(10);
+
         return view('account/quotation', compact('orders'));
     }
 

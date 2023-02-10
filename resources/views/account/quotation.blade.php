@@ -52,10 +52,17 @@
                                     <div class="row ">
                                         <div class="col-3 ">{{ $order->updated_at }}</div>
                                         <div class="col-3 ">{{ $order->quotation_no  }}</div>
-                                        <div class="col-2 "></div>
+                                        <div class="col-2 ">{{ $order->expiry }}Days</div>
                                         <div class="col-2 "></div>
                                         <div class="col-2 text-right ">
+                                            <!--
                                             <a href="{{ asset('storage/pdf/'.$order->quotation_no.'.pdf') }}" download="{{ $order->quotation_no.'.pdf' }}">ダウンロード</a>
+                                            -->
+                                            <form action="../generate_quotation_pdf" method="post">
+                                                @csrf
+                                                <input type="hidden" name="quotation_no" value="{{ $order->quotation_no }}">
+                                               <input type="submit" value="download">
+                                            </form>
                                         </div>
                                     </div>
                                     <hr>

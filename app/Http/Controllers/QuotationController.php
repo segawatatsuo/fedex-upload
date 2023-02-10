@@ -20,6 +20,10 @@ use Illuminate\Support\Facades\Validator;
 use App\Model\SailingOn;
 use App\Model\Expirie;
 
+use App\Mail\QuotationMail;
+use Mail;
+use App\Model\Emailtext;
+
 class QuotationController extends Controller
 {
     public function quotation(Request $request)
@@ -30,12 +34,10 @@ class QuotationController extends Controller
         //カテゴリーのユニークだけ(ここではAIRSTOCKINGだけだが、今後ネールなどが入ってくる)
         //session('article')は'Air Stocking'など
         $categorys = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
-        //category" => "Air Stocking"
 
         //Air Stocking中分類
         //session('article')は'Air Stocking'など
         $groups = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
-        //dd($groups[0]['group'])==PREMIUM-SILK; 形式の配列
 
         //グループ別の商品配列
         $items = [];
@@ -44,7 +46,6 @@ class QuotationController extends Controller
             array_push($items, $b);
         }
         //dd($items[0][0]['group'])==PREMIUM-SILK; 形式の配列;
-
         $groups = [];
         foreach ($items as $item) {
             foreach ($item as $val) {
@@ -52,17 +53,6 @@ class QuotationController extends Controller
                 $groups = array_unique($groups);
             }
         }
-
-        //配列に全部のgroup(PREMIUM-SILK,PREMIUM-SILK QT...)を取り出す
-        /*
-          $groups
-          array:4 [▼
-          0 => "PREMIUM-SILK"
-          1 => "PREMIUM-SILK QT"
-          2 => "DIAMOND LEGS"
-          3 => "DIAMOND LEGS DQ"
-        ]
-        */
 
         //配列に全部の商品コード(PS01,PS02...)を取り出す
         $codes = [];
@@ -72,31 +62,6 @@ class QuotationController extends Controller
                 $codes = array_merge($codes, $hoge);
             }
         }
-
-        /*
-        $codes
-        array:20 [▼
-        "PS01" => "PREMIUM-SILK"
-        "PS02" => "PREMIUM-SILK"
-        "PS03" => "PREMIUM-SILK"
-        "PS04" => "PREMIUM-SILK"
-        "PS05" => "PREMIUM-SILK"
-        "QT01" => "PREMIUM-SILK QT"
-        "QT02" => "PREMIUM-SILK QT"
-        "QT03" => "PREMIUM-SILK QT"
-        "QT04" => "PREMIUM-SILK QT"
-        "QT05" => "PREMIUM-SILK QT"
-        "DL01" => "DIAMOND LEGS"
-        "DL02" => "DIAMOND LEGS"
-        "DL03" => "DIAMOND LEGS"
-        "DL04" => "DIAMOND LEGS"
-        "DL05" => "DIAMOND LEGS"
-        "DQ01" => "DIAMOND LEGS DQ"
-        "DQ02" => "DIAMOND LEGS DQ"
-        "DQ03" => "DIAMOND LEGS DQ"
-        "DQ04" => "DIAMOND LEGS DQ"
-        "DQ05" => "DIAMOND LEGS DQ"
-      ]*/
 
         $type = $request->type;
         //HTMLフォーム送信のnameがitemのものだけ取得
@@ -108,25 +73,17 @@ class QuotationController extends Controller
         $air2 = Limit::where('Delivery_type', '=', 'air2')->first(); //201～500
         $ship = Limit::where('Delivery_type', '=', 'ship')->first(); //501～
 
-
         $fedex_low = $fedex->lower_limit;
         $fedex_up  = $fedex->upper_limit;
-        //dd($fedex_up);99
         $fedex_min = $fedex->Minimum_orders;
 
         $air1_low = $air1->lower_limit;
-        //dd($air1_low);100
         $air1_up  = $air1->upper_limit;
-        //dd($air1_up);199
         $air1_min = $air1->Minimum_orders;
-        //dd($air1_min);20
 
         $air2_low = $air2->lower_limit;
-        //dd($air2_low);200
         $air2_up  = $air2->upper_limit;
-        //dd($air2_up);499
         $air2_min = $air2->Minimum_orders;
-        //dd($air2_min);20
 
         $ship_low = $ship->lower_limit;
         $ship_up  = $ship->upper_limit;
@@ -139,15 +96,12 @@ class QuotationController extends Controller
             $GOODS[$key] = mb_convert_kana($request->get($key), "n");
         }
         
-
         //アイテムごとを1つづつの配列に変換
         $array = [];
         foreach ($GOODS as $key => $val) {
             $ps = $codes[$key];
             $array[] = [$ps, $val];
         }
-        //dd($array);
-        //[['PREMIUM-SILK,10'],['PREMIUM-SILK',20]['PREMIUM-SIL',0]....]
 
         //各グループ別の集計
         foreach ($groups as $value) {
@@ -159,81 +113,7 @@ class QuotationController extends Controller
             }
             $group_total[$value] = $num;
         }
-        //dd($group_total);
-        /*
-        $total=
-        array:4 [▼
-        "PREMIUM-SILK" => 20
-        "PREMIUM-SILK QT" => 0
-        "DIAMOND LEGS" => 0
-        "DIAMOND LEGS DQ" => 0
-      ]
-      */
-        /*
-        dd($GOODS);
-        array:20 [▼
-            "PS01" => "10"
-            "PS02" => ""
-            "PS03" => ""
-            "PS04" => "3"
-            "PS05" => ""
-            "QT01" => ""
-            "QT02" => "7"
-            "QT03" => ""
-            "QT04" => ""
-            "QT05" => "4"
-            "DL01" => ""
-            "DL02" => ""
-            "DL03" => ""
-            "DL04" => ""
-            "DL05" => ""
-            "DQ01" => ""
-            "DQ02" => ""
-            "DQ03" => ""
-            "DQ04" => ""
-            "DQ05" => ""
-            ]
-        */
-
-        /*
-        $PREMIUM_SILK['QT01'] = mb_convert_kana($request->get('QT01'), "n");
-        $PREMIUM_SILK['QT02'] = mb_convert_kana($request->get('QT02'), "n");
-        $PREMIUM_SILK['QT03'] = mb_convert_kana($request->get('QT03'), "n");
-        $PREMIUM_SILK['QT04'] = mb_convert_kana($request->get('QT04'), "n");
-        $PREMIUM_SILK['QT05'] = mb_convert_kana($request->get('QT05'), "n");
-        $qt_count = (int)$PREMIUM_SILK['QT01'] + (int)$PREMIUM_SILK['QT02'] + (int)$PREMIUM_SILK['QT03'] + (int)$PREMIUM_SILK['QT04'] + (int)$PREMIUM_SILK['QT05'];
-        $ctn_total += $qt_count;
-        $quantity_total += $qt_count * Product::whereproduct_code('QT01')->first()->units;
-
-        $PREMIUM_SILK['DL01'] = mb_convert_kana($request->get('DL01'), "n");
-        $PREMIUM_SILK['DL02'] = mb_convert_kana($request->get('DL02'), "n");
-        $PREMIUM_SILK['DL03'] = mb_convert_kana($request->get('DL03'), "n");
-        $PREMIUM_SILK['DL04'] = mb_convert_kana($request->get('DL04'), "n");
-        $PREMIUM_SILK['DL05'] = mb_convert_kana($request->get('DL05'), "n");
-        $dl_count = (int)$PREMIUM_SILK['DL01'] + (int)$PREMIUM_SILK['DL02'] + (int)$PREMIUM_SILK['DL03'] + (int)$PREMIUM_SILK['DL04'] + (int)$PREMIUM_SILK['DL05'];
-        $ctn_total += $dl_count;
-        $quantity_total += $dl_count * Product::whereproduct_code('DL01')->first()->units;
-
-        $PREMIUM_SILK['DQ01'] = mb_convert_kana($request->get('DQ01'), "n");
-        $PREMIUM_SILK['DQ02'] = mb_convert_kana($request->get('DQ02'), "n");
-        $PREMIUM_SILK['DQ03'] = mb_convert_kana($request->get('DQ03'), "n");
-        $PREMIUM_SILK['DQ04'] = mb_convert_kana($request->get('DQ04'), "n");
-        $PREMIUM_SILK['DQ05'] = mb_convert_kana($request->get('DQ05'), "n");
-        $dq_count = (int)$PREMIUM_SILK['DQ01'] + (int)$PREMIUM_SILK['DQ02'] + (int)$PREMIUM_SILK['DQ03'] + (int)$PREMIUM_SILK['DQ04'] + (int)$PREMIUM_SILK['DQ05'];
-        $ctn_total += $dq_count;
-        $quantity_total += $dq_count * Product::whereproduct_code('DQ01')->first()->units;
-        */
-        /*
-        各行の小計
-        $ps_count
-        $qt_count
-        $dl_count
-        $dq_count
-
-        1行($ps_count)の数がfedex,air1,air2,shipのどれに当たるかを調べる
-        その次にその中の個別の数量が最低数より下回った場合はエラーとする
-        */
-
+ 
         /*エラーメッセージ作成 */
         $err = array();
         $err1 = array();
@@ -248,13 +128,6 @@ class QuotationController extends Controller
                     $err = array($key . ' should be less than ' . $zaiko);
                     $err1 = (array_merge($err1, $err));
                 }
-                //空欄は無視して最低数より少ない場合
-                /*
-                if ($val >=1 and $val < $fedex_min) {
-                    $err=array($key.'は'.$fedex_min.'より多くしてください');
-                    $err1=(array_merge($err2, $err));
-                }
-                */
             }
             //各行の少計数が最低最大に収まっているか
             foreach ($group_total as $val) {
@@ -322,30 +195,7 @@ class QuotationController extends Controller
             }
         }
 
-
         //単価を出す関数
-        function which_tanka($type, $hinban, $ctn, $fedex_low, $fedex_up, $air1_low, $air1_up, $air2_low, $air2_up, $ship_low, $ship_up)
-        {
-            /*
-            if ($ctn >=1 and $ctn <= $fedex_up) {
-                dd("1");
-                $tanka = Product::whereproduct_code($hinban)->first()->price_fedex;
-                return $tanka;
-            } elseif ($ctn >=$air1_low and $ctn <= $air1_up) {
-                dd("2");
-                $tanka = Product::whereproduct_code($hinban)->first()->price_air_1;
-                return $tanka;
-            } elseif ($ctn >=$air2_low and $ctn <= $air2_up) {
-                dd("3");
-                $tanka = Product::whereproduct_code($hinban)->first()->price_air_2;
-                return $tanka;
-            } elseif ($ctn >=$ship_low and $ctn <= $ship_up) {
-                dd("4");
-                $tanka = Product::whereproduct_code($hinban)->first()->price_ship;
-                return $tanka;
-            }
-            */
-        }
         //$type(fedex,air,ship) group_total(PREMIUM-SILK=>200,PREMIUM-SILK QT=>0,DIAMOND LEGS=>300,DIAMOND LEGS DQ) $total(groupの各合計)
         function which_tanka2($type, $group, $total, $fedex_low, $fedex_up, $air1_low, $air1_up, $air2_low, $air2_up, $ship_low, $ship_up)
         {
@@ -386,9 +236,7 @@ class QuotationController extends Controller
                 $ctn = $val; //PS01のカートン数
                 $temp = Product::whereProduct_code($hinban)->first();//PS01の商品詳細
                 $hinmei = $temp->category . ' ' . $temp->group . ' ' . $temp->kind;
-
                 $tanka = which_tanka2($type, $group, $total, $fedex_low, $fedex_up, $air1_low, $air1_up, $air2_low, $air2_up, $ship_low, $ship_up);
-                
                 $data = set_item($hinban, $ctn, $tanka, $hinmei);
                 array_push($items, $data);
             }
@@ -399,28 +247,22 @@ class QuotationController extends Controller
         foreach ($group_total as $key => $val) {
             $ctn_total += $val;
         }
-
-
         //数量合計（カートン数*ユニット数）
         $quantity_total = 0;
         foreach ($items as $item) {
             $quantity_total += $item[4];
         }
-
         //合計金額
         $amount_total = 0;
         foreach ($items as $val) {
             $amount_total += $val[5];
         }
 
-
         //アイテムをセッションに入れた
         session()->put('items', $items);
         session()->put('ctn_total', $ctn_total);
         session()->put('quantity_total', $quantity_total);
         session()->put('amount_total', $amount_total);
-
-
 
         //Sailing on(出航予定月)
         $addday=SailingOn::find(1)->number_of_days;
@@ -433,18 +275,7 @@ class QuotationController extends Controller
         $month = $date->format('M');
         $sailing_on = $month . ',' . $year;
         session()->put('sailing_on',$sailing_on);
-/*
-        if ($date->day <= 23) {
-            $year = $date->format('Y');
-            $month = $date->format('M');
-            $sailing_on = $month . ',' . $year;
-        } else {
-            $date = $date->addMonth();
-            $year = $date->format('Y');
-            $month = $date->format('M');
-            $sailing_on = $month . ',' . $year;
-        }
-*/
+
         //ユニークキー（見積番号）を作成
         $uuid = strtoupper(uniqid());
 
@@ -472,7 +303,6 @@ class QuotationController extends Controller
         $serial_number->pdf_file_name = $quotation_no . '.pdf';
         $serial_number->user_id = $user_id;
         $serial_number->save();
-        /////////////
 
         $db->date_of_issue = Carbon::now();
         $db->shipper = $preference_data->shipper;
@@ -503,7 +333,6 @@ class QuotationController extends Controller
         foreach ($items as $item) {
             //見積もり明細テーブルに登録
             $sub = new Quotation_detail();
-
             $sub->quotation_id = $user_id;
             $sub->product_code = $item[0];
             $sub->product_name = $item[1];
@@ -515,7 +344,6 @@ class QuotationController extends Controller
             $sub->quotation_id = $db->id;
             $sub->save();
         }
-
         //Userinformationsテーブルからマスターのidと同じuser_idを探し住所等を取り出す
         $Userinformations = User::find($user_id)->Userinformations;
 
@@ -541,17 +369,41 @@ class QuotationController extends Controller
             'country_codes' => $country_codes, 'phone' => $phone, 'fax' => $fax, 'delivery_method' => $type,
             'quotation_no' => $quotation_no
         );
-
         //セッションにitemsを持たす
         $collection = collect($items);
         session()->put('items', $collection);
 
-        //$b=new QuotationController;
-        //dd($request);
-        //$b->generate_quotation_pdf($request);
 
-        //return view('quotation', compact('quotations', 'uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'img_banner','quotation_no','type'));
-        //return view('quotation', compact('quotations', 'uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type'));
+        $shipper=$preference_data->shipper;
+        //dd($consignee);
+        $port_of_loading=$preference_data->port_of_loading;
+        $final_destination=$state . ',' . $country;
+        //dd($sailing_on);
+        //Arriving on
+        //$expiry_days
+        //dd($items);
+
+
+        //quoatationメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_4;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_4,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
+
         return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
     }
 
@@ -576,7 +428,6 @@ class QuotationController extends Controller
         $date = Carbon::now();
         \DB::table('quotations')->where('quotation_no', $quotation_no)->update(['create_PDF' => $date]);
         //Preferenceから
-
         $shipper = $quotations[0]->shipper;
 
         //consignee
@@ -584,9 +435,7 @@ class QuotationController extends Controller
         $Userinformations = User::find($user_id)->Userinformations;
         $consignee = $Userinformations->consignee;
         $port_of_loading = $quotations[0]->port_of_loading;
-
         $final_destination = $final_destination;
-
         $sailing_on = $quotations[0]->sailing_on;
         $arriving_on = $quotations[0]->arriving_on;
         $expiry = $quotations[0]->expiry;
@@ -614,24 +463,19 @@ class QuotationController extends Controller
         $ctn_total = $quotations[0]->ctn_total;
         $amount_total = $quotations[0]->amount_total;
         $total = [$quantity_total, $ctn_total, $amount_total];
-
         $image_path = storage_path('app/public/hamada.png');
         $image_data = base64_encode(file_get_contents($image_path));
 
         //レターヘッド画像 C:\xampp\htdocs\fedex\storage\app\public\head.png
         $image_path2 = storage_path('app/public/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path2));
-
         $output = $quotation_no . '.pdf';
-
         //quotation_print.blade.phpを読み込む
         $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2'))->setPaper('a4')->setWarnings(false);
-
         Storage::disk('public')->put('pdf/' . $output, $pdf->output());
-
+        
         return $pdf->download($output);
     }
-
 
 
     //見積書PDFの出力(FORMからhidenでuuidを受け取る)
@@ -648,36 +492,25 @@ class QuotationController extends Controller
         $main = [];
         //送信formから
         $quotation_no = $request->get('quotation_no');
-
         //Quotationから見積り内容をget
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
         $quotations_sub = Quotation_detail::where('quotation_no', $quotation_no)->get();
-
         //pdf作成日
         $day = Carbon::createFromFormat('Y-m-d H:i:s', $quotations[0]->created_at)->format('Y-m-d');
-
-
         $shipper = $quotations[0]->shipper;
-
-
         //consignee
         $user_id = Auth::id();
         //$Userinformations = User::find($user_id)->Userinformations;
         $Userinformations = Userinformation::where('user_id', $user_id)->get();
         $consignee = $Userinformations[0]['consignee'];
         $port_of_loading = $quotations[0]->port_of_loading;
-
         $final_destination = $quotations[0]->final_destination;
 
         $sailing_on = $quotations[0]->sailing_on;
         $arriving_on = $quotations[0]->arriving_on;
         $expiry = $quotations[0]->expiry;
-
         $preference_data = "";
-
         $main = [$quotation_no, $preference_data, $shipper, $consignee, $port_of_loading, $final_destination, $sailing_on, $arriving_on, $expiry];
-
-
         $items = [];
 
         foreach ($quotations_sub as $quotation) {
@@ -696,9 +529,6 @@ class QuotationController extends Controller
         $amount_total = $quotations[0]->amount_total;
         $total = [$quantity_total, $ctn_total, $amount_total];
 
-
-        //$image_path = storage_path('app/public/hamada.png');
-        //$image_path = 'https://ccmedico.com/fedex/storage/premium-silk/hamada.png';
         $image_path = 'https://ccmedico.com/fedex/storage/hamada.png';
         $image_data = base64_encode(file_get_contents($image_path));
 
@@ -706,15 +536,11 @@ class QuotationController extends Controller
         $image_path = storage_path('img/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path));
 
-
         $output = $quotation_no . '.pdf';
 
         //pdf_printout.blade.phpを読み込む
         $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day'))->setPaper('a4')->setWarnings(false);
 
-        //Storage::disk('public')->put('pdf/' . $output, $pdf->output());
-        //download
-        //return $pdf->download($output);
         //プレビュー
         return $pdf->stream($output);
     }

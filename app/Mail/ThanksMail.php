@@ -14,14 +14,12 @@ class ThanksMail extends Mailable
 
     public $content;
 
-
     public function __construct($content)
     {
         $this->content = $content;
         //このようにインスタンスに設定すれば、例えば以下のようにしてビューで値を取得することができます。
         //{{ $content['name'] }}
     }
-
 
     public function build()
     {
