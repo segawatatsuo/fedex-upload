@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\Model\SailingOn;
 use App\Model\Expirie;
+use App\Model\Etd;
 
 use App\Mail\QuotationMail;
 use Mail;
@@ -264,8 +265,16 @@ class QuotationController extends Controller
         session()->put('quantity_total', $quantity_total);
         session()->put('amount_total', $amount_total);
 
+        if($type=="fedex"){
+            $addday=Etd::find(1)->fedex;
+        }elseif($type=="air"){
+            $addday=Etd::find(1)->air;
+        }elseif($type=="ship"){
+            $addday=Etd::find(1)->ship;
+        }
+
         //Sailing on(出航予定月)
-        $addday=SailingOn::find(1)->number_of_days;
+        //$addday=SailingOn::find(1)->number_of_days;
         //現在の日付
         $date=new Carbon('today');
         //40日後
@@ -403,7 +412,6 @@ class QuotationController extends Controller
         ];
         
 	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
-
         return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
     }
 

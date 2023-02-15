@@ -281,12 +281,18 @@ class UserinformationController extends Controller
             $invoice->date_of_issue = date('Y/m/d H:i:s');
             $invoice->day = $day;
             $invoice->save();
-
-
-            //return view('invoice', compact('uuid', 'user_id', 'final_destination', 'main', 'user', 'items', 'total'));
-            //return view('invoice', compact('main', 'items', 'total', 'user'));
             return view('invoice_entryform', compact('uuid', 'user_id', 'final_destination', 'main', 'user', 'items', 'total', 'type'));
+
         } else {
+
+            /*
+            $fd=$request->final_destination;
+            if (empty($fd) or $fd==null) {
+                $err="Please ";
+                return redirect()->route('quotation')->with('flash_message', $err)->withInput();
+            }
+            */
+
             $user_id = Auth::id();
             $main = [];
             $type = $request->type;
@@ -435,7 +441,6 @@ class UserinformationController extends Controller
             $invoice->date_of_issue = date('Y/m/d H:i:s');
             $invoice->day = $day;
             $invoice->save();
-
 
             return view('invoice', compact('main', 'items', 'total', 'user', 'type'));
         }

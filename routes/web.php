@@ -45,6 +45,7 @@ Route::middleware(['verified'])->group(function () {
     Route::get('ship', 'ProductController@ship')->name('ship');
 
     Route::post('quotation', 'QuotationController@quotation')->name('quotation');
+    Route::get('quotation', 'QuotationController@quotation')->name('quotation');
 
     Route::post('invoice', 'InvoiceController@invoice')->name('invoice');
 

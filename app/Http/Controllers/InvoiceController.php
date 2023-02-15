@@ -24,12 +24,9 @@ class InvoiceController extends Controller
     {
         $user_id = Auth::id();
         $main = [];
-
         //送信formから
         $quotation_no = $request->get('quotation_no');
         $final_destination = $request->get('final_destination');
-
-
         //Preferenceから
         $preference_data = Preference::first();
 
@@ -116,7 +113,6 @@ class InvoiceController extends Controller
             'expiry' => $expiry,
             'day' => $day
         ];
-
 
         //商品を配列$itemsにまとめる
         $data = [];

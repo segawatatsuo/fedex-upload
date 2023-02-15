@@ -21,6 +21,13 @@
         </div>
     </div>
 
+    <!-- フラッシュメッセージ -->
+    @if (session('flash_message'))
+        <div class="flash_message bg-danger text-center py-3 my-0">
+            <h3>{!! session('flash_message') !!}</h3>
+        </div>
+    @endif
+
     <div class="container mt-4">
 
         <form method="post">
