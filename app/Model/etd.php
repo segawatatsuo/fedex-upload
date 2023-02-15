@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class etd extends Model
+class Etd extends Model
 {
     protected $fillable = [
         'fedex',
