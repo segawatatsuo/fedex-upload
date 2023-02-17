@@ -85,6 +85,7 @@
                 1-12-1 sibuy markcity W22 JP, Dogenzaka,, Shibuya Ku,, Tokyo,, 150-0043 Japan<br>
                 Tel:(81)3 5942-5536 FAX:(81)3 5942-5529
             </p>
+            <p style="text-align: right">by {{ $type }}</p>
         </div>
 
         <div>

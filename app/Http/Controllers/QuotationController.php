@@ -411,7 +411,9 @@ class QuotationController extends Controller
             'amount_total'=>$amount_total,
         ];
         
+        //見積もりメール
 	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
+
         return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
     }
 
@@ -419,6 +421,8 @@ class QuotationController extends Controller
     //見積書PDFの出力(FORMからhidenでuuidを受け取る)
     public function generate_quotation_pdf(Request $request)
     {
+        $type = session()->get('type');
+
         $main = [];
         //送信formから
         $quotation_no = $request->get('quotation_no');
@@ -479,7 +483,7 @@ class QuotationController extends Controller
         $image_data2 = base64_encode(file_get_contents($image_path2));
         $output = $quotation_no . '.pdf';
         //quotation_print.blade.phpを読み込む
-        $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2'))->setPaper('a4')->setWarnings(false);
+        $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'type'))->setPaper('a4')->setWarnings(false);
         Storage::disk('public')->put('pdf/' . $output, $pdf->output());
         
         return $pdf->download($output);
@@ -489,6 +493,8 @@ class QuotationController extends Controller
     //見積書PDFの出力(FORMからhidenでuuidを受け取る)
     public function generate_quotation_pdf2(Request $request)
     {
+        $type = session()->get('type');
+
         //振込先情報をセッションに入れる
         $payee = Payment_method::where('selection', '選択')->get();
         session(['bank' => $payee[0]['bank']]);
@@ -547,7 +553,7 @@ class QuotationController extends Controller
         $output = $quotation_no . '.pdf';
 
         //pdf_printout.blade.phpを読み込む
-        $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day'))->setPaper('a4')->setWarnings(false);
+        $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day', 'type'))->setPaper('a4')->setWarnings(false);
 
         //プレビュー
         return $pdf->stream($output);

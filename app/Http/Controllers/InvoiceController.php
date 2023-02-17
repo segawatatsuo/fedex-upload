@@ -170,12 +170,13 @@ class InvoiceController extends Controller
     //見積書PDFの出力(FORMからhidenでuuidを受け取る)
     public function generate_invoice_pdf(Request $request)
     {
+        $type = session()->get('type');
+
         $main = [];
         //送信formから
         $quotation_no = $request->get('quotation_no');
         //Quotationから見積り内容をget
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
-
 
         //Preferenceから
         $preference_data = Preference::first();
@@ -236,12 +237,10 @@ class InvoiceController extends Controller
             'country' => $country
 
         ];
-
         $data = [];
         $items = [];
 
         $quotations_sub = Quotation_detail::where('quotation_no', $quotation_no)->get();
-
 
         foreach ($quotations_sub as $quotation) {
             $product_code = $quotation->product_code;
@@ -264,7 +263,7 @@ class InvoiceController extends Controller
             'amount_total' => $amount_total
         ];
 
-        //濱田サイン画像
+        //濱田氏サイン画像
         $image_path = storage_path('app/public/hamada.png');
         $image_data = base64_encode(file_get_contents($image_path));
 
@@ -273,7 +272,7 @@ class InvoiceController extends Controller
         $image_data2 = base64_encode(file_get_contents($image_path));
 
 
-        $pdf = \PDF::loadView('invoice_print', compact('image_data', 'main', 'items', 'total', 'image_data2'))->setPaper('a4')->setWarnings(false);
+        $pdf = \PDF::loadView('invoice_print', compact('image_data', 'main', 'items', 'total', 'image_data2', 'type'))->setPaper('a4')->setWarnings(false);
 
         $output = $invoice_no . '.pdf';
         Storage::disk('public')->put('pdf/' . $output, $pdf->output());
@@ -283,6 +282,8 @@ class InvoiceController extends Controller
 
     public function generate_invoice_pdf2(Request $request)
     {
+        $type = session()->get('type');
+
         //振込先情報をセッションに入れる
         $payee=Payment_method::where('selection', '選択')->get();
 
@@ -365,10 +366,6 @@ class InvoiceController extends Controller
             $data = [$product_code, $product_name, $quantity, $ctn, $unit_price, $amount];
             array_push($items, $data);
         }
-
-
-
-
         //$image_path = storage_path('app/public/hamada.png');
         //$image_path = 'https://ccmedico.com/fedex/storage/premium-silk/hamada.png';
         $image_path = 'https://ccmedico.com/fedex/storage/hamada.png';
@@ -381,7 +378,7 @@ class InvoiceController extends Controller
         $output = $invoice_no . '.pdf';
 
         //pdf_printout.blade.phpを読み込む
-        $pdf = \PDF::loadView('invoice_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day'))->setPaper('a4')->setWarnings(false);
+        $pdf = \PDF::loadView('invoice_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day', 'type'))->setPaper('a4')->setWarnings(false);
 
         //Storage::disk('public')->put('pdf/' . $output, $pdf->output());
         //Download

@@ -11,4 +11,5 @@ class Etd extends Model
         'air',
         'ship'
     ];
+    
 }
