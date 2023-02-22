@@ -16,6 +16,15 @@ use App\Model\Userinformation;
 use App\Model\Invoice_serial_number;
 use App\Model\Invoice_counter;
 
+use App\Model\SailingOn;
+use App\Model\Expirie;
+use App\Model\Etd;
+
+use App\Mail\QuotationMail;
+use App\Mail\InvoiceMail;
+use Mail;
+use App\Model\Emailtext;
+
 //use App\Http\Controllers\QuotationController;
 
 
@@ -281,6 +290,35 @@ class UserinformationController extends Controller
             $invoice->date_of_issue = date('Y/m/d H:i:s');
             $invoice->day = $day;
             $invoice->save();
+
+
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
+
+        //Invoiceメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_5;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_5,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+        //インボイスメール
+	    Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
+
+
+
             return view('invoice_entryform', compact('uuid', 'user_id', 'final_destination', 'main', 'user', 'items', 'total', 'type'));
 
         } else {
@@ -442,6 +480,32 @@ class UserinformationController extends Controller
             $invoice->day = $day;
             $invoice->save();
 
+
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
+
+
+        //Invoiceメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_5;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_5,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+            //インボイスメール
+	        Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
             return view('invoice', compact('main', 'items', 'total', 'user', 'type'));
         }
     }
@@ -618,7 +682,30 @@ class UserinformationController extends Controller
         $invoice->day = $day;
         $invoice->save();
 
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
 
+        //Invoiceメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_5;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_5,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+        //インボイスメール
+	    Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
         return view('invoice', compact('main', 'items', 'total', 'user', 'type'));
     }
 
@@ -656,18 +743,11 @@ class UserinformationController extends Controller
         $user->website = $request->website;
         $user->save();
 
-
-
         $quotation_no = $request->quotation_no;
-
         $uuid = $quotation_no;
-
         $main = [];
-
         $item = Quotation::where('quotation_no', $request->quotation_no)->get();
-
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
-
 
         $consignee_no = $quotations[0]->consignee_no;
 
@@ -789,6 +869,32 @@ class UserinformationController extends Controller
             'amount_total' => $amount_total
         ];
 
+
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
+
+        //Invoiceメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_5;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_5,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+        //インボイスメール
+	    Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
+        
         return view('invoice', compact('uuid', 'user_id', 'main', 'user', 'items', 'total', 'type'));
     }
 }

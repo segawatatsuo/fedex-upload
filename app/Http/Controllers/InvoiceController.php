@@ -17,6 +17,14 @@ use Carbon\Carbon;
 use App\Model\Invoice_serial_number;
 use Illuminate\Support\Facades\Storage;
 
+use App\Model\SailingOn;
+use App\Model\Expirie;
+use App\Model\Etd;
+
+use App\Mail\InvoiceMail;
+use Mail;
+use App\Model\Emailtext;
+
 class InvoiceController extends Controller
 {
     //
@@ -162,6 +170,31 @@ class InvoiceController extends Controller
         $invoice->date_of_issue = date('Y/m/d H:i:s');
         $invoice->day = $day;
         $invoice->save();
+
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
+        
+        //Invoiceメール送信
+        $to =User::find($user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_4;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_4,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
+        
+        //インボイスメール
+	    Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
 
         return view('invoice', compact('main', 'items', 'total', 'user'));
     }

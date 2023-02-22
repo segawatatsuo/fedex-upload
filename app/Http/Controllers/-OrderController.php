@@ -27,6 +27,12 @@ use App\Mail\ThanksMail;
 use LDAP\Result;
 use Mail;
 
+use App\Model\SailingOn;
+use App\Model\Expirie;
+use App\Model\Etd;
+use App\Mail\ThankseMail;
+use App\Model\Emailtext;
+
 class OrderController extends Controller
 {
     // 受け取る変数
@@ -571,22 +577,7 @@ class OrderController extends Controller
         $order->packaging_list_pdf = "PL" . $order_number . ".pdf";
         $order->save();
 
-        //メール文章(不要なタブが入らないように端に書く)
-        $email_text = "";
-        //メール送信
-        $email = User::find($user_id)->email;
-        $content = $email_text;
-        $bcc = "info@lookingfor.jp";
 
-        $content = $content . "\n\n
-1 Shipping address" .
-            "2 Head office
-3 Payment method
-4 Items
-5 Order total";
-
-        //メール送信処理
-        Mail::to($email)->bcc($bcc)->send(new ThanksMail($content));
         return view('order_confirm', compact('quotation_no', 'payment_method', 'order_number', 'invoice_no'));
     }
 
@@ -654,6 +645,12 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
+            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+                //MacBook
+                $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
+                $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
+                copy($from, $to);
+
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;
@@ -771,6 +768,8 @@ class OrderController extends Controller
         foreach ($data as $line) {
             array_push($cartons, $line->ctn);
         }
+
+        //dd($order_number);
 
         $n = 1;
         $markes_numbers = [];
@@ -1013,25 +1012,48 @@ class OrderController extends Controller
         //メール文章(不要なタブが入らないように端に書く)
         $email_text = "";
         //メール送信
-        $email = User::find($order->user_id)->email;
-        $content = $email_text;
-        $bcc = "info@lookingfor.jp";
+        //$email = User::find($order->user_id)->email;
+        //$content = $email_text;
+        //$bcc = "info@lookingfor.jp";
 
-        $content = $content . "\n\n
-1 Shipping address" .
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days;
+        session()->put('expiry_days',$expiry_days);
 
-            "2 Head office
 
-3 Payment method
+        $quotation_no = $order_conform[0]['quotation_no'];
+        dd($quotation_no);
+        $quotations = Quotation::where('quotation_no', $quotation_no)->get();
+        $shipper = $quotations[0]->shipper;
+        $consignee = $quotations[0]->consignee;
+        $port_of_loading = $quotations[0]->port_of_loading;
+        $final_destination = $quotations[0]->final_destination;
+        $sailing_on = $quotations[0]->sailing_on;
+        $arriving_on = $quotations[0]->arriving_on;
+        $expiry = $quotations[0]->expiry;
+        $preference_data = Preference::first();
 
-4 Items
-
-5 Order total";
+        //Thanksメール送信
+        //$to =User::find($user_id)->email;
+        $to=User::find($order->user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_1;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_1,
+            'shipper'=>$shipper,
+            'consignee'=>$consignee,
+            'port_of_loading'=>$port_of_loading,
+            'final_destination'=>$final_destination,
+            'sailing_on'=>$sailing_on,
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$quantity_total,
+            'ctn_total'=>$ctn_total,
+            'amount_total'=>$amount_total,
+        ];
 
         //メール送信処理
-        Mail::to($email)->bcc($bcc)->send(new ThanksMail($content));
-
-
+        Mail::to($to)->bcc($bcc)->send(new ThanksMail($content,$subject,$items));
         return view('order_payment', compact('order_number', 'invoice_no'));
     }
 

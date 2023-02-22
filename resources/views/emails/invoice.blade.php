@@ -106,10 +106,12 @@
                                     <th class="table-gray">Arriving on (ETA)</th>
                                     <td class="line">{{ $content['Arriving on'] }}</td>
                                 </tr>
+                                
                                 <tr>
                                     <th class="table-gray">Quotaition Deadline</th>
-                                    <td class="line">{{ $content['quotaition_deadline'] }}</td>
+                                    <td class="line">{{-- $content['quotaition_deadline'] --}}</td>
                                 </tr>
+                            
                             </table>
                             <br>
                     
