@@ -7,24 +7,24 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ThanksMail extends Mailable
+class PaymentImageMail extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
+
     public $content;
     public $title;
-    public $items;
 
-    public function __construct($content,$title,$items )
+    public function __construct($content,$title )
     {
         $this->content = $content;
         $this->title = $title;
-        $this->items = $items;
     }
 
     public function build()
     {
         return $this->from('export@ccmedico.com')
         ->subject($this->title)
-        ->text('emails.complete');
+        ->view('emails.paymentImageMail');
     }
 }

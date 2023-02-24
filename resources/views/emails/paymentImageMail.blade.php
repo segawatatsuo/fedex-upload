@@ -5,7 +5,7 @@
     <meta name="viewport" content="target-densitydpi=device-dpi,width=device-width,maximum-scale=1.0,user-scalable=yes">
     <meta http-equiv="Content-Type" content="text/html; charset=iso-2022-jp" />
     <meta http-equiv="Content-Language" content="en">
-    <title>C.C.Medico Thank you. Upload completed.</title>
+    <title>C.C.Medico Thank you for your order.</title>
     <style type="text/css">
         html {
             width: 100%;
@@ -19,8 +19,17 @@
         th,
         td .line {
             border: solid 1px #333;
-            /* 線の種類 太さ 色 */
         }
+        .table-gray{
+                background-color: #EEEEEE;
+            }
+
+            table .box {
+    border-collapse: collapse; /* 枠線(ボーダー)を重ねて表示 */
+  }
+  td .box{
+    border: 1px solid #000;
+  }
     </style>
 </head>
 
@@ -49,30 +58,22 @@
                                     </td>
                                 </tr>
                             </table>
-
-
                             <!-- コンテンツエリア -->
-                            <table width="100%" border="0" cellpadding="10" cellspacing="0">
+
+                            <table border="0" cellpadding="0" cellspacing="0" height="400px" width="100%" id="bodyTable">
                                 <tr>
-                                    <th class="responsive-td" valign="top" align="center">
-                                        <font size="3" color="#000000"
-                                            style="font-size:16px;color:#000000;line-height:1.4;">Upload completed
-                                        </font>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Dear {{ $content['consignee'] }}
-                                        <br><br>
-                                        Thank you for sending proof of payment.<br>
-                                        After confirmation, we will proceed with the procedure.<br><br>
-                                        C.C.Medico Co.,Ltd.
+                                    <td align="center" valign="top">
+                                        <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer">
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    {!! nl2br($content['contents']) !!}
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
                             </table>
-                            <br><br><br><br><br><br><br><br><br>
-
-
+                    
                             <!-- フッターエリア -->
                             <table width="100%" border="0" cellpadding="20" cellspacing="0">
                                 <tr>
@@ -90,7 +91,6 @@
                                     </td>
                                 </tr>
                             </table>
-
 
                         </td>
                     </tr>

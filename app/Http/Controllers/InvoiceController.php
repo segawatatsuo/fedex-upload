@@ -178,9 +178,9 @@ class InvoiceController extends Controller
         //Invoiceメール送信
         $to =User::find($user_id)->email;
         $bcc="info@lookingfor.jp";
-        $subject = Emailtext::Find(1)->subject_4;
+        $subject = Emailtext::Find(1)->subject_5;
         $content =[
-            'contents'=>Emailtext::Find(1)->contents_4,
+            'contents'=>Emailtext::Find(1)->contents_5,
             'shipper'=>$shipper,
             'consignee'=>$consignee,
             'port_of_loading'=>$port_of_loading,

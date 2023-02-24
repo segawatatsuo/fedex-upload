@@ -13,20 +13,22 @@ class ThanksMail extends Mailable
     use SerializesModels;
 
     public $content;
+    public $title;
+    public $items;
 
-    public function __construct($content)
+    public function __construct($content,$title,$items )
     {
         $this->content = $content;
-        //このようにインスタンスに設定すれば、例えば以下のようにしてビューで値を取得することができます。
-        //{{ $content['name'] }}
+        $this->title = $title;
+        $this->items = $items;
     }
 
     public function build()
     {
         return $this->from('export@ccmedico.com')
-        ->subject('C.C.Medico Thank you for your order.')
+        ->subject($this->title)
         //->view('HTMLメール内容となるビューを指定')
-        ->text('emails.complete');//テキストメールのビューを指定
+        ->view('emails.thanksMail');//テキストメールのビューを指定
         //->with('ビューへ渡すパラメータ')
         //->attach('添付ファイル');
     }

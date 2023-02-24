@@ -22,8 +22,15 @@ use App\Model\Invoice_serial_number;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
+use App\Model\SailingOn;
+use App\Model\Expirie;
+use App\Model\Etd;
+
+use App\Model\Emailtext;
+
 //自作したMailable クラス
 use App\Mail\ThanksMail;
+use App\Mail\PaymentImageMail;
 use LDAP\Result;
 use Mail;
 
@@ -571,22 +578,6 @@ class OrderController extends Controller
         $order->packaging_list_pdf = "PL" . $order_number . ".pdf";
         $order->save();
 
-        //メール文章(不要なタブが入らないように端に書く)
-        $email_text = "";
-        //メール送信
-        $email = User::find($user_id)->email;
-        $content = $email_text;
-        $bcc = "info@lookingfor.jp";
-
-        $content = $content . "\n\n
-1 Shipping address" .
-            "2 Head office
-3 Payment method
-4 Items
-5 Order total";
-
-        //メール送信処理
-        Mail::to($email)->bcc($bcc)->send(new ThanksMail($content));
         return view('order_confirm', compact('quotation_no', 'payment_method', 'order_number', 'invoice_no'));
     }
 
@@ -654,12 +645,18 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
+            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+                //MacBook
+                $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
+                $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
+                copy($from, $to);   
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;
                 $to = '/home/r2325683/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
             }
+
 
             return view('order_upload', compact('order_number', 'payment_method', 'file_name', 'invoice_no', 'directory_path'));
         } else {
@@ -1011,25 +1008,42 @@ class OrderController extends Controller
         $order->save();
 
         //メール文章(不要なタブが入らないように端に書く)
+        /*
         $email_text = "";
         //メール送信
         $email = User::find($order->user_id)->email;
         $content = $email_text;
         $bcc = "info@lookingfor.jp";
-
-        $content = $content . "\n\n
-1 Shipping address" .
-
-            "2 Head office
-
-3 Payment method
-
-4 Items
-
-5 Order total";
-
-        //メール送信処理
+        $content = $content . "\n\n1 Shipping address" ."2 Head office3 Payment method4 Items 5 Order total";
         Mail::to($email)->bcc($bcc)->send(new ThanksMail($content));
+        */
+
+        //見積もり有効期限
+        $shipper=session()->get('shipper');
+        $expiry_days=session()->get('expiry_days');
+
+        //メール送信
+        $to =User::find($order->user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_1;
+
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_1,
+            'shipper'=>$shipper,
+            'consignee'=>$order_conform[0]['consignee'],
+            'port_of_loading'=>$order_conform[0]['port_of_loading'],
+            'final_destination'=>$order_conform[0]['final_destination'],
+            'sailing_on'=>$order_conform[0]['sailing_on'],
+            'Arriving on'=>'',
+            'quotaition_deadline'=>$expiry_days,
+            'quantity_total'=>$order_conform[0]['quantity_total'],
+            'ctn_total'=>$order_conform[0]['ctn_total'],
+            'amount_total'=>$order_conform[0]['total_amount'],
+        ];
+        $items=$order_detail_confirms;
+        
+        //メール
+	    Mail::to($to)->bcc($bcc)->send(new ThanksMail($content,$subject,$items));
 
 
         return view('order_payment', compact('order_number', 'invoice_no'));
@@ -1095,6 +1109,12 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
+            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+                //MacBook
+                $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
+                $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
+                copy($from, $to); 
+
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;
@@ -1112,7 +1132,19 @@ class OrderController extends Controller
     //注文完了(入金画像をアップロード終了)
     public function order_complete(Request $request)
     {
-        $order_no=request('order_no');
+        $order_no=request('order_number');
+        $order = Order_confirm::where('order_no', $order_no)->first();
+
+        //メール送信
+        $to =User::find($order->user_id)->email;
+        $bcc="info@lookingfor.jp";
+        $subject = Emailtext::Find(1)->subject_2;
+        $content =[
+            'contents'=>Emailtext::Find(1)->contents_2,
+        ];
+        //メール
+	    Mail::to($to)->bcc($bcc)->send(new PaymentImageMail($content,$subject));
+
         return view("order_complete", compact('order_no'));
     }
 
@@ -1177,6 +1209,11 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
+            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+                //MacBook
+                $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
+                $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
+                copy($from, $to); 
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;

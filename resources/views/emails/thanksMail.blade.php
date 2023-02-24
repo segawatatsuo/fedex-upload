@@ -19,8 +19,17 @@
         th,
         td .line {
             border: solid 1px #333;
-            /* 線の種類 太さ 色 */
         }
+        .table-gray{
+                background-color: #EEEEEE;
+            }
+
+            table .box {
+    border-collapse: collapse; /* 枠線(ボーダー)を重ねて表示 */
+  }
+  td .box{
+    border: 1px solid #000;
+  }
     </style>
 </head>
 
@@ -50,141 +59,161 @@
                                 </tr>
                             </table>
                             <!-- コンテンツエリア -->
-                            <table width="100%" border="0" cellpadding="10" cellspacing="0">
+
+
+
+
+
+
+                            <table border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
                                 <tr>
-                                    <th class="responsive-td" valign="top" align="center">
-                                        <font size="3" color="#000000"
-                                            style="font-size:16px;color:#000000;line-height:1.4;">Order Confirmation
-                                        </font>
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        Thank you for shopping with CCM EXPORT.<br>
-                                        You will receive a confirmation when your items<br>
-                                        have been shipped.<br>
-                                        Your order details are displayed below.<br>
-                                        If you would like to check the status of your order<br>
-                                        or make any changes, please visit the Account Page.
+                                    <td align="center" valign="top">
+                                        <table border="0" cellpadding="20" cellspacing="0" width="600" id="emailContainer">
+                                            <tr>
+                                                <td align="center" valign="top">
+                                                    {!! nl2br($content['contents']) !!}
+                                                </td>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
                             </table>
-
-                            <table width="100%" border="0" cellpadding="10" cellspacing="0">
-
+                    
+                            <table class="box" cellpadding="5" cellspacing="0" height="100%" width="100%" id="bodyTable">
                                 <tr>
-                                    <th colspan="2" align="left">
-                                        <font size="3" color="#000000"
-                                            style="font-size:16px;color:#000000;line-height:1.4;">shipping address
-                                        </font>
-                                    </th>
-                                </tr>
-
-                                <tr>
-                                    <td style="width: 20%">consignee</td>
-                                    <td style="width: 80%">{{ $content['consignee'] }}</td>
+                                    <th style="width:20%" class="table-gray">Shipper</th>
+                                    <td style="width:80%;" class="line">{{ $content['shipper'] }}</td>
                                 </tr>
                                 <tr>
-                                    <td>country</td>
-                                    <td>{{ $content['country'] }}</td>
+                                    <th class="table-gray">Consignee</th>
+                                    <td class="line">{{ $content['consignee'] }}</td>
                                 </tr>
                                 <tr>
-                                    <td>address_line1</td>
-                                    <td>{{ $content['address_line1'] }}</td>
+                                    <th class="table-gray">Port ofr Loading</th>
+                                    <td class="line">
+                                        {{ $content['port_of_loading'] }}
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>address_line2</td>
-                                    <td>{{ $content['address_line2'] }}</td>
+                                    <th class="table-gray">Final Destination</th>
+                                    <td class="line">{{-- $content['final_destination'] --}}</td>
                                 </tr>
                                 <tr>
-                                    <td>city</td>
-                                    <td>{{ $content['city'] }}</td>
+                                    <th class="table-gray">Sailing on (ETD)</th>
+                                    <td class="line">{{ $content['sailing_on'] }}</td>
                                 </tr>
                                 <tr>
-                                    <td>state</td>
-                                    <td>{{ $content['state'] }}</td>
+                                    <th class="table-gray">Arriving on (ETA)</th>
+                                    <td class="line">{{ $content['Arriving on'] }}</td>
                                 </tr>
+                                
                                 <tr>
-                                    <td>zip</td>
-                                    <td>{{ $content['zip'] }}</td>
+                                    <th class="table-gray">Quotaition Deadline</th>
+                                    <td class="line">{{-- $content['quotaition_deadline'] --}}</td>
                                 </tr>
-                                <tr>
-                                    <td>phone</td>
-                                    <td>{{ $content['phone'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>fax</td>
-                                    <td>{{ $content['fax'] }}</td>
-                                </tr>
+                            
                             </table>
-
-                            <table width="100%" border="0" cellpadding="10" cellspacing="0">
-
+                            <br>
+                    
+                            <table class="box" cellpadding="5" cellspacing="0" height="100%" width="100%" id="bodyTable">
+                                <!--見出し-->
                                 <tr>
-                                    <th colspan="2" align="left">
-                                        <font size="3" color="#000000"
-                                            style="font-size:16px;color:#000000;line-height:1.4;">Head office</font>
-                                    </th>
+                                    <th style="width:5%" class="table-gray"></th>
+                                    <th style="width:43%" class="table-gray">Description of goods</th>
+                                    <th style="width:10%;text-align:center;" class="table-gray">Ctn</th>
+                                    <th style="width:10%;text-align:center;" class="table-gray">Quantity</th>
+                                    <th colspan="2" style="width:22%;text-align:center;" class="table-gray">Unit Price (Ex-Work)</th>
+                                    <th colspan="2" style="width:10%;text-align:center;" class="table-gray">Amount</th>
                                 </tr>
-                                <tr>
-                                    <td style="width: 20%">address_line1</td>
-                                    <td style="width: 80%">{{ $content['bill_company_address_line1'] }}</td>
+                    
+                    
+                    
+                    
+                                <!--内容-->
+                                @php
+                                    $no = 1;
+                                @endphp
+                    
+                                @foreach ( $items as $item )
+                                <tr class="line">
+                                    <td>{{ $no }}</td>
+                                    <td class="line">{{ $item[1] }}</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item[3]) }}</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item[4]) }}</td>
+                                    <td class="line">USD</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item[2]) }}</td>
+                                    <td class="line">USD</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item[5]) }}</td>
                                 </tr>
-                                <tr>
-                                    <td>address_line2</td>
-                                    <td>{{ $content['bill_company_address_line2'] }}</td>
-                                </tr>
-
-                                <tr>
-                                    <td>city</td>
-                                    <td>{{ $content['bill_company_city'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>state</td>
-                                    <td> {{ $content['bill_company_state'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>country</td>
-                                    <td>{{ $content['bill_company_country'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>zip</td>
-                                    <td>{{ $content['bill_company_zip'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>phone</td>
-                                    <td>{{ $content['bill_company_phone'] }}</td>
-                                </tr>
-                                <tr>
-                                    <td>president</td>
-                                    <td>{{ $content['president'] }}</td>
-                                </tr>
-
-                            </table>
-
-                            <table border="1" style="border-collapse: collapse" cellpadding="5">
-                                <tr>
-                                    <td align="center">Description of goods </td>
-                                    <td align="center">Unit Price (ExWork)</td>
-                                    <td align="center">Ctn</td>
-                                    <td align="center">Quantity</td>
-                                    <td align="center">Amount(USD)</td>
-                                </tr>
-                                @foreach ($content['items'] as $a)
-                                <tr>
-                                    <td align="left">{{ $a[1] }}</td>
-                                    <td align="right">{{ $a[2] }}</td>
-                                    <td align="right">{{ $a[3] }}</td>
-                                    <td align="right">{{ $a[4] }}</td>
-                                    <td align="right">{{ $a[5] }}</td>
-                                </tr>
+                                @php
+                                    $no += 1;
+                                @endphp
                                 @endforeach
+                    
+                    
+                            
+                    
+                                <!-- TOTAL -->
+                                <tr>
+                                    <td></td>
+                                    <th>TOTAL</th>
+                                    <th style="text-align:right;">{{ number_format($content['ctn_total']) }}</th>
+                                    <th style="text-align:right;">{{ number_format($content['quantity_total']) }}</th>
+                                    <th colspan="2"></th>
+                                    <th>USD</th>
+                                    <th style="text-align:right;">{{ number_format($content['amount_total']) }}</th>
+                                </tr>
                             </table>
+                    
+                    
+                    <br>
+                    
+                            <div>After the payment at USD {{ $content['amount_total'] }} was confirmed, an order becomes effective.</div>
+                            
+                            <div>Bank information:</div>
+
+                            <table class="box" cellpadding="5">
+                                <tr>
+                                    <th align="left">Bank</th>
+                                    
+                                    <td class="line" colspan="2">{{ session('bank') }}</td>
+                                </tr>
+                                <tr>
+                                    <th  align="left">Branch</th>
+                                   
+                                    <td class="line" colspan="2">{{ session('branch') }}</td>
+                                </tr>
+                                <tr>
+                                    <th  align="left">SWIFT Code</th>
+                                    
+                                    <td class="line" colspan="2">{{ session('swift_code') }}</td>
+                                </tr>
+                                <tr>
+                                    <th  align="left">Account #</th>
+                                    
+                                    <td class="line" colspan="2">{{ session('account') }}</td>
+                                </tr>
+                                <tr>
+                                    <th  align="left">Name</th>
+                                    
+                                    <td class="line" colspan="2">{{ session('name') }}</td>
+                                </tr>
+                            </table>
+                            <br>
+                    
+                            <div>Shipment : By {{ session('type') }}</div>
+                            <div>Made in Japan</div>
+                            <div>C.C.Medico Co.,Ltd.</div>
+
+                            <div>
+                                Yoshiumi Hamada. President
+                            </div>
+                            <br>
 
 
-                            <p>carton total:{{ $content['ctn_total'] }}</p>
-                            <p>quantity total:{{ $content['quantity_total'] }}</p>
-                            <p>amount total(USD):{{ $content['amount_total'] }}</p>
+
+
+
 
 
 

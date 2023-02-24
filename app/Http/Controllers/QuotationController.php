@@ -325,6 +325,9 @@ class QuotationController extends Controller
         $db->ctn_total = $ctn_total;
         $db->amount_total = $amount_total;
 
+        session()->put('shipper',$preference_data->shipper);
+
+
         //初回の人はまだこの時点ではconsigneeデータがない
         if ($db->consignee) {
             $db->consignee = $consignee;

@@ -61,7 +61,6 @@ class UserinformationController extends Controller
         $main = [];
 
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
-
         $shipper = $quotations[0]->shipper;
         $consignee = $quotations[0]->consignee;
         $port_of_loading = $quotations[0]->port_of_loading;
@@ -894,7 +893,7 @@ class UserinformationController extends Controller
         
         //インボイスメール
 	    Mail::to($to)->bcc($bcc)->send(new InvoiceMail($content,$subject,$items));
-        
+
         return view('invoice', compact('uuid', 'user_id', 'main', 'user', 'items', 'total', 'type'));
     }
 }
