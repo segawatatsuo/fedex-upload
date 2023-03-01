@@ -105,7 +105,7 @@
                         <td>{{ $main['consignee'] }}</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Port ofr Loading</th>
+                        <th class="table-gray">Port of Loading</th>
                         <td>
                             {{ $main['port_of_loading'] }}
                         </td>
@@ -127,7 +127,7 @@
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
                         <td>
-                            {{ session()->get('expiry_days') }}days
+                            {{ session()->get('expiry_days') }}
                         </td>
                     </tr>
                 </table>

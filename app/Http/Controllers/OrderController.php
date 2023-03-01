@@ -671,6 +671,7 @@ class OrderController extends Controller
         $order_number = $request->order_number;
         $order_conform = Order_confirm::where('order_no', $order_number)->get();
         $order_detail_confirms = Order_detail_confirm::where('order_no', $order_number)->get();
+        //dd($order_detail_confirms);
 
         //orderテーブルに登録
         $order = new \App\Model\Order();
@@ -1027,6 +1028,8 @@ class OrderController extends Controller
         $bcc="info@lookingfor.jp";
         $subject = Emailtext::Find(1)->subject_1;
 
+        //dd($order_conform[0]['port_of_loading']);
+        $items=$order_detail_confirms;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_1,
             'shipper'=>$shipper,
@@ -1039,8 +1042,9 @@ class OrderController extends Controller
             'quantity_total'=>$order_conform[0]['quantity_total'],
             'ctn_total'=>$order_conform[0]['ctn_total'],
             'amount_total'=>$order_conform[0]['total_amount'],
+            'items'=>$items
         ];
-        $items=$order_detail_confirms;
+        
         
         //メール
 	    Mail::to($to)->bcc($bcc)->send(new ThanksMail($content,$subject,$items));

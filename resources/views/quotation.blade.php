@@ -68,7 +68,7 @@
                         <td>{{ session('user')['consignee'] }}</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Port ofr Loading</th>
+                        <th class="table-gray">Port of Loading</th>
                         <td>
                             {{ $preference_data->port_of_loading }}
                         </td>
@@ -88,7 +88,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition Deadline</th>
-                        <td>{{-- $preference_data->expiry --}}{{ session()->get('expiry_days') }}days</td>
+                        <td>{{ session()->get('expiry_days') }}</td>
                     </tr>
                 </table>
 

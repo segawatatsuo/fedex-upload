@@ -91,25 +91,25 @@
                                 <tr>
                                     <th class="table-gray">Port ofr Loading</th>
                                     <td class="line">
-                                        {{ $content['port_of_loading'] }}
+                                        {{ session('port_of_loading') }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <th class="table-gray">Final Destination</th>
-                                    <td class="line">{{-- $content['final_destination'] --}}</td>
+                                    <td class="line">{{ session('final_destination') }}</td>
                                 </tr>
                                 <tr>
                                     <th class="table-gray">Sailing on (ETD)</th>
-                                    <td class="line">{{ $content['sailing_on'] }}</td>
+                                    <td class="line">{{ session('sailing_on') }}</td>
                                 </tr>
                                 <tr>
                                     <th class="table-gray">Arriving on (ETA)</th>
-                                    <td class="line">{{ $content['Arriving on'] }}</td>
+                                    <td class="line">{{ session('Arriving on') }}</td>
                                 </tr>
                                 
                                 <tr>
                                     <th class="table-gray">Quotaition Deadline</th>
-                                    <td class="line">{{-- $content['quotaition_deadline'] --}}</td>
+                                    <td class="line">{{ session('expiry_days') }}</td>
                                 </tr>
                             
                             </table>
@@ -137,13 +137,13 @@
                                 @foreach ( $items as $item )
                                 <tr class="line">
                                     <td>{{ $no }}</td>
-                                    <td class="line">{{ $item[1] }}</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[3]) }}</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[4]) }}</td>
+                                    <td class="line">{{ $item['product_name'] }}</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item['ctn']) }}</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item['quantity']) }}</td>
                                     <td class="line">USD</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[2]) }}</td>
+                                    <td class="line" style="text-align:right;">{{ ($item['unit_price']) }}</td>
                                     <td class="line">USD</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[5]) }}</td>
+                                    <td class="line" style="text-align:right;">{{ number_format($item['amount']) }}</td>
                                 </tr>
                                 @php
                                     $no += 1;

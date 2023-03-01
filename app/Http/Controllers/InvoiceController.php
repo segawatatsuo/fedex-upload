@@ -106,6 +106,13 @@ class InvoiceController extends Controller
         $arriving_on = $quotations[0]->arriving_on;
         $expiry = $quotations[0]->expiry;
 
+        //セッション
+        session()->put(['port_of_loading' => $quotations[0]->port_of_loading]);
+        session()->put(['final_destination' => $quotations[0]->final_destination]);
+        session()->put(['sailing_on' => $quotations[0]->sailing_on]);
+        session()->put(['arriving_on' => $quotations[0]->arriving_on]);
+        session()->put(['expiry' => $quotations[0]->expiry]);
+
         //上記項目を配列$mainにまとめる
         $main = [
             'invoice_no' => $invoice_no,

@@ -89,7 +89,7 @@
                                     <td class="line">{{ $content['consignee'] }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="table-gray">Port ofr Loading</th>
+                                    <th class="table-gray">Port of Loading</th>
                                     <td class="line">
                                         {{ $content['port_of_loading'] }}
                                     </td>
@@ -109,7 +109,7 @@
                                 
                                 <tr>
                                     <th class="table-gray">Quotaition Deadline</th>
-                                    <td class="line">{{-- $content['quotaition_deadline'] --}}</td>
+                                    <td class="line">{{ session('expiry_days') }}</td>
                                 </tr>
                             
                             </table>
@@ -139,9 +139,9 @@
                                     <td>{{ $no }}</td>
                                     <td class="line">{{ $item[1] }}</td>
                                     <td class="line" style="text-align:right;">{{ number_format($item[3]) }}</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[4]) }}</td>
-                                    <td class="line">USD</td>
                                     <td class="line" style="text-align:right;">{{ number_format($item[2]) }}</td>
+                                    <td class="line">USD</td>
+                                    <td class="line" style="text-align:right;">{{ ($item[4]) }}</td>
                                     <td class="line">USD</td>
                                     <td class="line" style="text-align:right;">{{ number_format($item[5]) }}</td>
                                 </tr>

@@ -89,7 +89,7 @@
                                     <td class="line">{{ $content['consignee'] }}</td>
                                 </tr>
                                 <tr>
-                                    <th class="table-gray">Port ofr Loading</th>
+                                    <th class="table-gray">Port of Loading</th>
                                     <td class="line">
                                         {{ $content['port_of_loading'] }}
                                     </td>
@@ -139,7 +139,7 @@
                                     <td class="line" style="text-align:right;">{{ number_format($item[3]) }}</td>
                                     <td class="line" style="text-align:right;">{{ number_format($item[4]) }}</td>
                                     <td class="line">USD</td>
-                                    <td class="line" style="text-align:right;">{{ number_format($item[2]) }}</td>
+                                    <td class="line" style="text-align:right;">{{ ($item[2]) }}</td>
                                     <td class="line">USD</td>
                                     <td class="line" style="text-align:right;">{{ number_format($item[5]) }}</td>
                                 </tr>
