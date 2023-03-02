@@ -398,7 +398,8 @@ class QuotationController extends Controller
 
         //quoatationメール送信
         $to =User::find($user_id)->email;
-        $bcc="info@lookingfor.jp";
+        //$bcc="info@lookingfor.jp";
+        $bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_4;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_4,

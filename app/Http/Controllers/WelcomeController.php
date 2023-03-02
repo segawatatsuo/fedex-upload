@@ -12,7 +12,7 @@ use App\Model\Preference;
 use App\Model\Quotation;
 use App\Model\Quotation_detail;
 use App\Model\Payment_method;
-
+use App\Model\AdminMail;
 use Carbon\Carbon;
 
 use Illuminate\Support\Str;
@@ -23,7 +23,13 @@ class WelcomeController extends Controller
 {
     public function index()
     {
-        $type;
+        //AdminMail
+        $adminmails=AdminMail::where('id',1)->get();
+        $adminmail=$adminmails[0]['mail'];
+        session()->put('adminmail',$adminmail);
+        //dd(session('adminmail'));
+
+        //$type;
         //為替 Preferenceテーブルの1レコード目(tts,ttb)にあるので使う際に$exchange->tts
         $exchange = Preference::first();
 

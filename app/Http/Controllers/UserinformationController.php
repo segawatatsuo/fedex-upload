@@ -297,7 +297,8 @@ class UserinformationController extends Controller
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
-        $bcc="info@lookingfor.jp";
+        //$bcc="info@lookingfor.jp";
+        $bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_5;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_5,
@@ -487,7 +488,8 @@ class UserinformationController extends Controller
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
-        $bcc="info@lookingfor.jp";
+        //$bcc="info@lookingfor.jp";
+        $bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_5;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_5,
@@ -687,7 +689,8 @@ class UserinformationController extends Controller
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
-        $bcc="info@lookingfor.jp";
+        //$bcc="info@lookingfor.jp";
+        $bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_5;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_5,
@@ -875,7 +878,8 @@ class UserinformationController extends Controller
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
-        $bcc="info@lookingfor.jp";
+        //$bcc="info@lookingfor.jp";
+        $bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_5;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_5,
