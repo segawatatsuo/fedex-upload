@@ -75,8 +75,8 @@
         <div>
             <h1 style="text-align: center">Quotation</h1>
             <p style="text-align: center">No.{{ $quotation_no }}</p>
-            <p style="text-align: right">{{ date('M j , Y') }}</p>
             <p style="text-align: right">by {{ $type }}</p>
+            <p style="text-align: right">{{ date('M j , Y') }}</p>
         </div>
 
         <table class="sushiTable">

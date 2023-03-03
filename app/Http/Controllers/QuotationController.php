@@ -400,6 +400,7 @@ class QuotationController extends Controller
         $to =User::find($user_id)->email;
         //$bcc="info@lookingfor.jp";
         $bcc=session('adminmail');
+        //dd($bcc);
         $subject = Emailtext::Find(1)->subject_4;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_4,
@@ -426,6 +427,11 @@ class QuotationController extends Controller
     public function generate_quotation_pdf(Request $request)
     {
         $type = session()->get('type');
+        if($type=="air"){
+            $type="aircargo";
+        }elseif($type=="ship"){
+            $type="shipcontainer";
+        }
 
         $main = [];
         //送信formから
@@ -498,6 +504,11 @@ class QuotationController extends Controller
     public function generate_quotation_pdf2(Request $request)
     {
         $type = session()->get('type');
+        if($type=="air"){
+            $type="aircargo";
+        }elseif($type=="ship"){
+            $type="shipcontainer";
+        }
 
         //振込先情報をセッションに入れる
         $payee = Payment_method::where('selection', '選択')->get();
