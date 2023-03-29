@@ -54,8 +54,8 @@ class ViewController extends Controller
         $categorys=Product::where('hidden_item', '!=', '1')->where('category', 'Air Stocking')->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
 
         //Air Stocking中分類（PREMIUM-SILKとDIAMOND LEGS）
+        //$groups=Product::where('hidden_item', '!=', '1')->where('category', 'Air Stocking')->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
         $groups=Product::where('hidden_item', '!=', '1')->where('category', 'Air Stocking')->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
-
         //グループ別の商品配列
         $items=[];
         foreach ($groups as $g) {

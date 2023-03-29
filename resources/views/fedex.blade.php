@@ -30,6 +30,10 @@
         </div>
     @endif
 
+    <div class="container mt-4">
+        <h4>Order from 1 carton for each color, total 10 to 99 cartons</h4>
+    </div>
+
     {{ session('user[consignee]') }}
 
     <div class="container mt-4" id="ItemList">
@@ -58,26 +62,19 @@
                 </div>
                 <hr class="top">
 
-
-
                 <div class="row">
                     <div class="col-lg-12 mb-5">
-                        <!--<h4>AirStocking® Premier Silk 120g</h4>-->
-                        <!--<h4>{{-- $items[$x][0]['category'].''.$items[$x][0]['group'].''.$items[$x][0]['capacity'] --}}</h4>-->
                         <h4>{{ $items[$x][0]['category'] . ' ' . $items[$x][0]['group'] }}</h4>
                     </div>
                 </div>
 
-
-
                 <!-- 商品-->
                 <div class="row">
-
                     @foreach ($items[$x] as $item)
                         <div class="col-sm-15 col-6">
                             <div>
                                 <a href="{{ route('item', ['id' => $item['id']]) }}" target="_blank">
-                                    <img src="{{ asset('storage/img/' . $item['img1']) }}" class="img-fluid" alt="">
+                                <img src="{{ asset('storage/img/' . $item['img1']) }}" class="img-fluid" alt="">
                                 </a>
                             </div>
 

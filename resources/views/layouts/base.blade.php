@@ -20,6 +20,19 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/progressbar.css') }}" rel="stylesheet">
 
+    <link href="{{ asset('css/colorbox.css') }}" rel="stylesheet">
+    <script src="{{ asset('js/jquery.colorbox-min.js') }}"></script>
+<script>
+$(function() {
+  $(".inline").colorbox({
+    inline:true,
+    maxWidth:"90%",
+    maxHeight:"90%",
+    opacity: 0.7
+  });
+});
+</script>
+
     <title>C.C. Medico Co.,Ltd.</title>
 
     <script>
@@ -93,6 +106,24 @@
         </div>
     </div>
 
+    <!--
+    <a class="inline" href="#inline-content">
+        ページ内に書かれたhtmlを表示します
+    </a>
+    -->
+    <!--モーダルで表示させる要素-->
+    <div style="display: none;">
+        <section id="inline-content">
+          <h3>Please select a delivery method</h3>
+    
+          <a href="/fedex"><img src="{{ asset('storage/img/fedex.png') }}" class="img-fluid" alt=""></a>
+          <a href="/air"><img src="{{ asset('storage/img/air.png') }}" class="img-fluid" alt=""></a>
+          <a href="/ship"><img src="{{ asset('storage/img/ship.png') }}" class="img-fluid" alt=""></a>
+        </section>
+        </div>
+
+
+
 
     <div class="container mb-2 mt-2">
         <div class="row">
@@ -114,7 +145,8 @@
             </div>
             <!--発送アイコン-->
             <div class="col-md-4 d-flex align-items-center">
-                <a href="{{ route('home') }}">
+                <!--<a href="{{-- route('home') --}}">-->
+                <a href="#inline-content" class="inline" >
                     @if (session()->get('type') == 'fedex')
                         <img src="{{ asset('storage/img/cclogo.png') }}" class="img-fluid" alt="">
                     @elseif(session()->get('type') == 'air')

@@ -19,6 +19,8 @@ use Illuminate\Support\Str;
 
 use App\Model\Userinformation; //Userinformationモデル
 
+use App\Model\ImageList; //画像の登録データ
+
 class ProductController extends Controller
 {
     public function plan()
@@ -152,10 +154,13 @@ class ProductController extends Controller
             'address_line2' => $address_line2, 'city' => $city, 'state' => $state, 'country' => $country, 'country_codes' => $country_codes, 'phone' => $phone, 'fax' => $fax
         );
 
-
         //ユーザーをセッション「session('user')['項目']」に入れる
         $collection = collect($user);
         session()->put('user', $collection);
+
+        //ImageListテーブルの画像nameを引っ張ってくる
+        //$pictures = Product::with('ImageList')->where('id', 1)->first();
+        //dd($pictures->ImageList[0]->name);
 
         return view('fedex', compact('categorys', 'groups', 'items', 'exchange'));
     }

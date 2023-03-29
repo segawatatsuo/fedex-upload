@@ -86,4 +86,10 @@ class Product extends Model
     {
         return $this->belongsTo("App\Model\Order_detail", 'product_code');
     }
+
+    //商品画像を引っ張ってくる
+    public function imageList()
+    {
+        return $this->hasMany('App\Model\ImageList');
+    }
 }
