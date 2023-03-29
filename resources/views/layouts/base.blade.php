@@ -116,13 +116,11 @@ $(function() {
         <section id="inline-content">
           <h3>Please select a delivery method</h3>
     
-          <a href="/fedex"><img src="{{ asset('storage/img/fedex.png') }}" class="img-fluid" alt=""></a>
-          <a href="/air"><img src="{{ asset('storage/img/air.png') }}" class="img-fluid" alt=""></a>
-          <a href="/ship"><img src="{{ asset('storage/img/ship.png') }}" class="img-fluid" alt=""></a>
+          <a href="{{ route('fedex') }}"><img src="{{ asset('storage/img/fedex.png') }}" class="img-fluid" alt=""></a>
+          <a href="{{ route('air') }}"><img src="{{ asset('storage/img/air.png') }}" class="img-fluid" alt=""></a>
+          <a href="{{ route('ship') }}"><img src="{{ asset('storage/img/ship.png') }}" class="img-fluid" alt=""></a>
         </section>
         </div>
-
-
 
 
     <div class="container mb-2 mt-2">
