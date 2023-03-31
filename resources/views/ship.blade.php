@@ -31,7 +31,7 @@
     @endif
 
     <div class="container mt-4">
-        <h4>Order from 40 cartons for each color, total 500 cartons or more</h4>
+        <h4 style="color:red;">Order from {{ $Minimum_orders }} cartons for each color, total {{ $lower_limit }} cartons or more</h4>
     </div>
 
     {{ session('user[consignee]') }}

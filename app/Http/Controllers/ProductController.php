@@ -21,6 +21,8 @@ use App\Model\Userinformation; //Userinformationモデル
 
 use App\Model\ImageList; //画像の登録データ
 
+use App\Model\Limit;
+
 class ProductController extends Controller
 {
     public function plan()
@@ -158,11 +160,16 @@ class ProductController extends Controller
         $collection = collect($user);
         session()->put('user', $collection);
 
+        //limit(fedexページの発注数のメッセージに使用)
+        $Minimum_orders=Limit::where('Delivery_type','=','fedex')->first()->Minimum_orders;
+        $lower_limit=Limit::where('Delivery_type','=','fedex')->first()->lower_limit;
+        $upper_limit=Limit::where('Delivery_type','=','fedex')->first()->upper_limit;
+
         //ImageListテーブルの画像nameを引っ張ってくる
         //$pictures = Product::with('ImageList')->where('id', 1)->first();
         //dd($pictures->ImageList[0]->name);
 
-        return view('fedex', compact('categorys', 'groups', 'items', 'exchange'));
+        return view('fedex', compact('categorys', 'groups', 'items', 'exchange','Minimum_orders','lower_limit','upper_limit'));
     }
 
     public function air()
@@ -227,13 +234,22 @@ class ProductController extends Controller
             'address_line2' => $address_line2, 'city' => $city, 'state' => $state, 'country' => $country, 'country_codes' => $country_codes, 'phone' => $phone, 'fax' => $fax
         );
 
+        //limit(airページの発注数のメッセージに使用)
+        $Minimum_orders=Limit::where('Delivery_type','=','air1')->first()->Minimum_orders;
+        $lower_limit=Limit::where('Delivery_type','=','air1')->first()->lower_limit;
+        $upper_limit=Limit::where('Delivery_type','=','air2')->first()->upper_limit;
+
         //ユーザーをセッション「session('user')['項目']」に入れる
         $collection = collect($user);
         session()->put('user', $collection);
-        //return view('fedex', compact('premium_silks', 'diamond_legs', 'exchange'));
-        //\Session::flash('flash_message', 'More than [10] inputs per product<BR>Total [100] or more inputs per series');
-        //session()->flash('flash_message', 'メッセージ');
-        return view('air', compact('categorys', 'groups', 'items', 'exchange'));
+
+        //limit(fedexページの発注数のメッセージに使用)
+        $Minimum_orders=Limit::where('Delivery_type','=','air1')->first()->Minimum_orders;
+        $lower_limit=Limit::where('Delivery_type','=','air2')->first()->lower_limit;
+        $upper_limit=Limit::where('Delivery_type','=','air2')->first()->upper_limit;
+
+
+        return view('air', compact('categorys', 'groups', 'items', 'exchange','Minimum_orders','lower_limit','upper_limit'));
     }
 
     public function ship()
@@ -298,10 +314,21 @@ class ProductController extends Controller
             'address_line2' => $address_line2, 'city' => $city, 'state' => $state, 'country' => $country, 'country_codes' => $country_codes, 'phone' => $phone, 'fax' => $fax
         );
 
+        //limit(shipページの発注数のメッセージに使用)
+        $Minimum_orders=Limit::where('Delivery_type','=','ship')->first()->Minimum_orders;
+        $lower_limit=Limit::where('Delivery_type','=','ship')->first()->lower_limit;
+        $upper_limit=Limit::where('Delivery_type','=','ship')->first()->upper_limit;
+
         //ユーザーをセッション「session('user')['項目']」に入れる
         $collection = collect($user);
         session()->put('user', $collection);
-        //return view('fedex', compact('premium_silks', 'diamond_legs', 'exchange'));
-        return view('ship', compact('categorys', 'groups', 'items', 'exchange'));
+
+        //limit(fedexページの発注数のメッセージに使用)
+        $Minimum_orders=Limit::where('Delivery_type','=','ship')->first()->Minimum_orders;
+        $lower_limit=Limit::where('Delivery_type','=','ship')->first()->lower_limit;
+        $upper_limit=Limit::where('Delivery_type','=','ship')->first()->upper_limit;
+
+
+        return view('ship', compact('categorys', 'groups', 'items', 'exchange','Minimum_orders','lower_limit','upper_limit'));
     }
 }
