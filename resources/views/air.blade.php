@@ -32,7 +32,15 @@
     @endif
 
     <div class="container mt-4">
-        <h4 style="color:red;">Order from {{ $Minimum_orders }} carton for each color, total {{ $lower_limit }} to {{ $upper_limit }} cartons</h4>
+        <h4>
+            This order is an Air Dangerous Goods Cargo.</h4>
+            <h5>
+            <span style="color:red;">■ Normal wholesale price</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;MOQ {{ $Minimum_orders1 }}  cartons/color, total {{ $lower_limit1 }}-{{ $upper_limit1 }} cartons<br>
+                 <span style="color:red;">■ Special Wholesale Price</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;MOQ {{ $Minimum_orders2 }}  cartons/color, total {{ $lower_limit2 }}-{{ $upper_limit2 }} cartons
+            </h5>
+        
     </div>
 
     {{ session('user[consignee]') }}

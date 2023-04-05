@@ -235,21 +235,21 @@ class ProductController extends Controller
         );
 
         //limit(airページの発注数のメッセージに使用)
-        $Minimum_orders=Limit::where('Delivery_type','=','air1')->first()->Minimum_orders;
-        $lower_limit=Limit::where('Delivery_type','=','air1')->first()->lower_limit;
-        $upper_limit=Limit::where('Delivery_type','=','air2')->first()->upper_limit;
+        $Minimum_orders1=Limit::where('Delivery_type','=','air1')->first()->Minimum_orders;
+        $lower_limit1=Limit::where('Delivery_type','=','air1')->first()->lower_limit;
+        $upper_limit1=Limit::where('Delivery_type','=','air1')->first()->upper_limit;
+
+        $Minimum_orders2=Limit::where('Delivery_type','=','air2')->first()->Minimum_orders;
+        $lower_limit2=Limit::where('Delivery_type','=','air2')->first()->lower_limit;
+        $upper_limit2=Limit::where('Delivery_type','=','air2')->first()->upper_limit;
+
 
         //ユーザーをセッション「session('user')['項目']」に入れる
         $collection = collect($user);
         session()->put('user', $collection);
 
-        //limit(fedexページの発注数のメッセージに使用)
-        $Minimum_orders=Limit::where('Delivery_type','=','air1')->first()->Minimum_orders;
-        $lower_limit=Limit::where('Delivery_type','=','air2')->first()->lower_limit;
-        $upper_limit=Limit::where('Delivery_type','=','air2')->first()->upper_limit;
 
-
-        return view('air', compact('categorys', 'groups', 'items', 'exchange','Minimum_orders','lower_limit','upper_limit'));
+        return view('air', compact('categorys', 'groups', 'items', 'exchange','Minimum_orders1','lower_limit1','upper_limit1','Minimum_orders2','lower_limit2','upper_limit2'));
     }
 
     public function ship()
