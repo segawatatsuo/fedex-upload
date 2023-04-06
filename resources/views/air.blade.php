@@ -32,13 +32,12 @@
     @endif
 
     <div class="container mt-4">
-        <h4>
-            This order is an Air Dangerous Goods Cargo.</h4>
+        <h4>This order is an Air Dangerous Goods Cargo.</h4>
             <h5>
-            <span style="color:red;">■ Normal wholesale price</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;MOQ {{ $Minimum_orders1 }}  cartons/color, total {{ $lower_limit1 }}-{{ $upper_limit1 }} cartons<br>
-                 <span style="color:red;">■ Special Wholesale Price</span><br>
-            &nbsp;&nbsp;&nbsp;&nbsp;MOQ {{ $Minimum_orders2 }}  cartons/color, total {{ $lower_limit2 }}-{{ $upper_limit2 }} cartons
+            ■ Normal wholesale price<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">MOQ {{ $Minimum_orders1 }}  cartons/color, total {{ $lower_limit1 }}-{{ $upper_limit1 }} cartons</span><br>
+            ■ Special Wholesale Price<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">MOQ {{ $Minimum_orders2 }}  cartons/color, total {{ $lower_limit2 }}-{{ $upper_limit2 }} cartons</span>
             </h5>
         
     </div>
