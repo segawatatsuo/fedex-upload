@@ -397,7 +397,10 @@ class QuotationController extends Controller
 
 
         //quoatationメール送信
-        $to =User::find($user_id)->email;
+        //$to =User::find($user_id)->email;
+        //2023-5-12 ログイン時にセッション化したメールを使うように変更
+        $to=session()->get('email');
+
         //$bcc="info@lookingfor.jp";
         $bcc=session('adminmail');
         //dd($bcc);
