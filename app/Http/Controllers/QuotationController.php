@@ -403,7 +403,8 @@ class QuotationController extends Controller
 
         //$bcc="info@lookingfor.jp";
         $bcc=session('adminmail');
-        //dd($bcc);
+        $bcc='info@lookingfor.jp';
+
         $subject = Emailtext::Find(1)->subject_4;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_4,
@@ -418,7 +419,9 @@ class QuotationController extends Controller
             'ctn_total'=>$ctn_total,
             'amount_total'=>$amount_total,
         ];
-        
+        dd($to,$bcc,$subject,$content);
+
+
         //見積もりメール
 	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
 
