@@ -419,7 +419,7 @@ class QuotationController extends Controller
             'amount_total'=>$amount_total,
         ];
 
-        dd($to,$bcc,$subject,$content);
+        //dd($to,$bcc,$subject,$content);
 
 
         //見積もりメール
