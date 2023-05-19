@@ -1025,8 +1025,8 @@ class OrderController extends Controller
 
         //メール送信
         $to =User::find($order->user_id)->email;
-        //$bcc="info@lookingfor.jp";
-        $bcc=session('adminmail');
+        $bcc="info@lookingfor.jp";
+        //$bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_1;
 
         //dd($order_conform[0]['port_of_loading']);
@@ -1133,8 +1133,8 @@ class OrderController extends Controller
 
         //メール送信
         $to =User::find($order->user_id)->email;
-        //$bcc="info@lookingfor.jp";
-        $bcc=session('adminmail');
+        $bcc="info@lookingfor.jp";
+        //$bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_2;
         $content =[
             'contents'=>Emailtext::Find(1)->contents_2,
