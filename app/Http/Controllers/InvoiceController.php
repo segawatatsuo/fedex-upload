@@ -186,6 +186,9 @@ class InvoiceController extends Controller
         $to =User::find($user_id)->email;
         //$bcc="info@lookingfor.jp";
         $bcc=session('adminmail');
+        $bcc='info@lookingfor.jp';
+        dd($to,$bcc);
+
         
         $subject = Emailtext::Find(1)->subject_5;
         $content =[
