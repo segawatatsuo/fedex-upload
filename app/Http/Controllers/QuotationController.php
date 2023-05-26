@@ -215,7 +215,7 @@ class QuotationController extends Controller
             }
         }
 
-        function set_item($hinban, $ctn, $tanka, $hinmei)
+        function set_item($hinban, $ctn, $tanka, $hinmei,$unit)
         {
             $quantity_total = 0;
             $amount_total = 0;
@@ -224,11 +224,15 @@ class QuotationController extends Controller
             $amount = $quantity * $tanka; //金額＝数量＊単価
             $quantity_total += $quantity; //本数合計
             $amount_total += $amount; //金額合計
-            $data = [$hinban, $hinmei, $tanka, $ctn, $quantity, $amount];
+            $unit=$unit;//ユニット数
+            $data = [$hinban, $hinmei, $tanka, $ctn, $quantity, $amount,$unit];
             return $data;
         }
 
         $items = [];
+
+        //$GOODSは　array:20 ["PS01" => "10","PS02" => "",......]　どの商品番号が何カートンを入れた配列
+
         foreach ($GOODS as $key => $val) {
             if ($val != "") {
                 $hinban = $key; //品番PS01
@@ -238,10 +242,12 @@ class QuotationController extends Controller
                 $temp = Product::whereProduct_code($hinban)->first();//PS01の商品詳細
                 $hinmei = $temp->category . ' ' . $temp->group . ' ' . $temp->kind;
                 $tanka = which_tanka2($type, $group, $total, $fedex_low, $fedex_up, $air1_low, $air1_up, $air2_low, $air2_up, $ship_low, $ship_up);
-                $data = set_item($hinban, $ctn, $tanka, $hinmei);
+                $unit=$temp->units;
+                $data = set_item($hinban, $ctn, $tanka, $hinmei,$unit);
                 array_push($items, $data);
             }
         }
+        //dd($items);
 
         //全アイテムのカートン総数
         $ctn_total = 0;
@@ -341,17 +347,20 @@ class QuotationController extends Controller
 
         //quotations(見積もり)テーブルに保存
         $db->save();
-
+        //$data = set_item($hinban, $ctn, $tanka, $hinmei,$unit);
+        //dd($items);
         foreach ($items as $item) {
             //見積もり明細テーブルに登録
             $sub = new Quotation_detail();
             $sub->quotation_id = $user_id;
-            $sub->product_code = $item[0];
-            $sub->product_name = $item[1];
-            $sub->unit_price = $item[2];
-            $sub->ctn = $item[3];
-            $sub->quantity = $item[4];
-            $sub->amount = $item[5];
+
+            $sub->product_code = $item[0];//"QT02"
+            $sub->product_name = $item[1];//"Air Stocking PREMIUM-SILK QT Natural"
+            $sub->unit_price = $item[2];//10.0
+            $sub->ctn = $item[3];//10
+            $sub->quantity = $item[4];//480
+            $sub->amount = $item[5];//4800
+            $sub->unit=$item[6];
             $sub->quotation_no = $quotation_no;
             $sub->quotation_id = $db->id;
             $sub->save();
@@ -387,14 +396,8 @@ class QuotationController extends Controller
 
 
         $shipper=$preference_data->shipper;
-        //dd($consignee);
         $port_of_loading=$preference_data->port_of_loading;
         $final_destination=$state . ',' . $country;
-        //dd($sailing_on);
-        //Arriving on
-        //$expiry_days
-        //dd($items);
-
 
         //quoatationメール送信
         $to =User::find($user_id)->email;

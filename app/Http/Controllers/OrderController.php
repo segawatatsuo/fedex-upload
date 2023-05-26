@@ -320,7 +320,9 @@ class OrderController extends Controller
             $order_detail->category = $pd->category;
             $order_detail->item_group = $pd->group;
             $order_detail->fedex_goods_name = $pd->fedex_goods_name;
-            $order_detail->unit = $pd->unit;
+            //$order_detail->unit = $pd->unit;
+            $order_detail->unit = $pd->units;
+
             $order_detail->save();
         }
 
