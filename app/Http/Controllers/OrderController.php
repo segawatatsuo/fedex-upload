@@ -99,9 +99,10 @@ class OrderController extends Controller
             $quantity = $quotation->quantity;
             $ctn = $quotation->ctn;
             $quantity = $quotation->quantity;
+            $unit = $quotation->unit;
             $unit_price = $quotation->unit_price;
             $amount = $quotation->amount;
-            $data = [$product_code, $product_name, $quantity, $ctn, $unit_price, $amount];
+            $data = [$product_code, $product_name, $quantity, $ctn, $unit_price, $amount, $unit];
             array_push($items, $data);
         }
 
@@ -193,16 +194,19 @@ class OrderController extends Controller
             $quantity = $quotation->quantity;
             $unit_price = $quotation->unit_price;
             $amount = $quotation->amount;
+            $unit = $quotation->unit;
             $data = [
                 'product_code' => $product_code,
                 'product_name' => $product_name,
                 'quantity' => $quantity,
                 'ctn' => $ctn,
                 'unit_price' => $unit_price,
-                'amount' => $amount
+                'amount' => $amount,
+                'unit' => $unit
             ];
             array_push($items, $data);
         }
+
 
         $quantity_total = $quotations[0]->quantity_total;
         $ctn_total = $quotations[0]->ctn_total;
@@ -301,6 +305,9 @@ class OrderController extends Controller
             $order_detail->quantity = $item['quantity'];
             $order_detail->unit_price = $item['unit_price'];
             $order_detail->amount = $item['amount'];
+            $order_detail->unit = $item['unit'];
+            //dd($item['unit']);
+
 
             $pd = Product::where('product_code', $item['product_code'])->first();
             $order_detail->weight_net = $pd->carton_weight_net;
@@ -321,7 +328,15 @@ class OrderController extends Controller
             $order_detail->item_group = $pd->group;
             $order_detail->fedex_goods_name = $pd->fedex_goods_name;
             //$order_detail->unit = $pd->unit;
-            $order_detail->unit = $pd->units;
+            //$order_detail->unit = $pd->units;
+            $order_detail->fedex_commercial_invoice_unit_value = $pd->fedex_commercial_invoice_unit_value;
+
+            //2023 5-26
+
+            //total_weight(箱数＊カートン数)
+            $order_detail->total_weight=$pd->carton_weight_gross*$item['ctn'];
+            //value_for_customs(1000円*本数)
+            $order_detail->value_for_customs=$pd->fedex_commercial_invoice_unit_value* $item['quantity'];
 
             $order_detail->save();
         }
@@ -741,6 +756,9 @@ class OrderController extends Controller
             $order_detail->unit_price = $item['unit_price'];
             $order_detail->amount = $item['amount'];
 
+            $order_detail->unit = $item['unit'];
+            //dd($item['unit']);
+
             $pd = Product::where('product_code', $item['product_code'])->first();
             $order_detail->weight_net = $pd->carton_weight_net;
             $order_detail->weight_gross = $pd->carton_weight_gross;
@@ -759,7 +777,8 @@ class OrderController extends Controller
             $order_detail->category = $pd->category;
             $order_detail->item_group = $pd->group;
             $order_detail->fedex_goods_name = $pd->fedex_goods_name;
-            $order_detail->unit = $pd->unit;
+            $order_detail->fedex_commercial_invoice_unit_value = $pd->fedex_commercial_invoice_unit_value;
+            //$order_detail->unit = $pd->unit;
             $order_detail->save();
         }
 
