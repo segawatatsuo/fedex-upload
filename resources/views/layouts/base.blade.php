@@ -22,18 +22,18 @@
 
     <link href="{{ asset('css/colorbox.css') }}" rel="stylesheet">
     <script src="{{ asset('js/jquery.colorbox-min.js') }}"></script>
-<script>
-$(function() {
-  $(".inline").colorbox({
-    inline:true,
-    maxWidth:"90%",
-    maxHeight:"90%",
-    opacity: 0.7
-  });
-});
-</script>
+    <script>
+        $(function() {
+            $(".inline").colorbox({
+                inline: true,
+                maxWidth: "90%",
+                maxHeight: "90%",
+                opacity: 0.7
+            });
+        });
+    </script>
 
-    <title>C.C. Medico Co.,Ltd.</title>
+    <title>Medico Co.,Ltd.</title>
 
     <script>
         $(function() {
@@ -45,6 +45,12 @@ $(function() {
             });
         });
     </script>
+    <style>
+        a.white  {
+            color: white;
+            text-decoration: none;
+        }
+    </style>
 
 </head>
 
@@ -62,7 +68,8 @@ $(function() {
                 </div>
 
                 <div class="col-md-4 text-center" style="color: #fff; background-color: transparent;font-size:24px">
-                    CCMEDICO EXPORT</div>
+                    <a class="white" href="{{ route('home') }}"> CCMEDICO EXPORT</a>
+                </div>
 
                 <div class="col-md-4 d-flex">
                     <div class="col-md-6">
@@ -79,7 +86,7 @@ $(function() {
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                
+
                                 <a class="dropdown-item droptext" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -114,13 +121,16 @@ $(function() {
     <!--モーダルで表示させる要素-->
     <div style="display: none;">
         <section id="inline-content">
-          <h3>Please select a delivery method</h3>
-    
-          <a href="{{ route('fedex') }}"><img src="{{ asset('storage/img/fedex.png') }}" class="img-fluid" alt=""></a>
-          <a href="{{ route('air') }}"><img src="{{ asset('storage/img/air.png') }}" class="img-fluid" alt=""></a>
-          <a href="{{ route('ship') }}"><img src="{{ asset('storage/img/ship.png') }}" class="img-fluid" alt=""></a>
+            <h3>Please select a delivery method</h3>
+
+            <a href="{{ route('fedex') }}"><img src="{{ asset('storage/img/fedex.png') }}" class="img-fluid"
+                    alt=""></a>
+            <a href="{{ route('air') }}"><img src="{{ asset('storage/img/air.png') }}" class="img-fluid"
+                    alt=""></a>
+            <a href="{{ route('ship') }}"><img src="{{ asset('storage/img/ship.png') }}" class="img-fluid"
+                    alt=""></a>
         </section>
-        </div>
+    </div>
 
 
     <div class="container mb-2 mt-2">
@@ -144,15 +154,13 @@ $(function() {
             <!--発送アイコン-->
             <div class="col-md-4 d-flex align-items-center">
                 <!--<a href="{{-- route('home') --}}">-->
-                <a href="#inline-content" class="inline" >
+                <a href="#inline-content" class="inline">
                     @if (session()->get('type') == 'fedex')
                         <img src="{{ asset('storage/img/cclogo.png') }}" class="img-fluid" alt="">
                     @elseif(session()->get('type') == 'air')
-                        <img src="{{ asset('storage/img/AIr_banner.png') }}" class="img-fluid"
-                            alt="">
+                        <img src="{{ asset('storage/img/AIr_banner.png') }}" class="img-fluid" alt="">
                     @elseif(session()->get('type') == 'ship')
-                        <img src="{{ asset('storage/img/Ship_banner.png') }}" class="img-fluid"
-                            alt="">
+                        <img src="{{ asset('storage/img/Ship_banner.png') }}" class="img-fluid" alt="">
                     @endif
                 </a>
             </div>
