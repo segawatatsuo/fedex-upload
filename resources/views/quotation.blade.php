@@ -46,11 +46,11 @@
                         <div class="col-4">
 
                             <div class="text-right pb-2">
-                                <button formaction="{{ 'generate_quotation_pdf' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">PRINTOUT</button>
+                                <button formaction="{{ 'generate_quotation_pdf' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">Download</button>
                             </div>
 
                             <div class="text-right pb-2">
-                                <button formaction="{{ 'invoice_confirm' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">INVOICE</button>
+                                <button formaction="{{ 'invoice_confirm' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">Invoice</button>
                             </div>
 
                         </div>
@@ -79,15 +79,15 @@
                                 placeholder="Please Enter The Final Destination"></td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Sailing on (ETD)</th>
+                        <th class="table-gray">Shipping</th>
                         <td>{{ session()->get('sailing_on') }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
-                        <td></td>
+                        <td>Typical 7-10 days once order in confirmed</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Quotaition Deadline</th>
+                        <th class="table-gray">Quotaition expires</th>
                         <td>{{ session()->get('expiry_days') }}</td>
                     </tr>
                 </table>
@@ -113,7 +113,7 @@
                             
                             <td style="text-align:right;">{{ number_format($union[3]) }}</td>
                             <td style="text-align:right;">{{ number_format($union[4]) }}</td>
-                            <td>USD</td>
+                            <td style="text-align:right;">USD</td>
                             <td style="text-align:right;">{{ number_format($union[2],2) }}</td>
                             <td>USD</td>
 
@@ -130,13 +130,12 @@
                         <th style="text-align:right;">{{ number_format($ctn_total) }}</th>
                         <th style="text-align:right;">{{ number_format($quantity_total) }}</th>
                         <th colspan="2"></th>
-                        <th>USD</th>
+                        <th style="text-align:right;">USD</th>
                         <th style="text-align:right;">{{ number_format($amount_total,2) }}</th>
                     </tr>
                 </table>
 
-                <div>After the payment at USD {{ number_format($amount_total,2) }} was confirmed, an order becomes
-                    effective.</div>
+                <div>After successful payment of USD {{ number_format($amount_total,2) }} ,this order will be confirmed.</div>
 
                 <div class="h5 mt-4">Bank information:</div>
                 <table>

@@ -32,12 +32,10 @@ class QuotationController extends Controller
         if (session('article') == "") {
             session()->put(['article' => 'Air Stocking']);
         }
-        //カテゴリーのユニークだけ(ここではAIRSTOCKINGだけだが、今後ネールなどが入ってくる)
-        //session('article')は'Air Stocking'など
+        //カテゴリーのユニークだけ(ここではAIRSTOCKINGだけだが、今後ネールなどが入ってくる) session('article')は'Air Stocking'など
         $categorys = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
 
-        //Air Stocking中分類
-        //session('article')は'Air Stocking'など
+        //Air Stocking中分類 session('article')は'Air Stocking'など
         $groups = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
 
         //グループ別の商品配列
@@ -306,6 +304,7 @@ class QuotationController extends Controller
 
         //見積書番号作成
         $serial_number = new Quitation_serial_number();
+
         $latestOrder = Quitation_serial_number::orderBy('created_at', 'DESC')->first();
         if ($latestOrder === null) {
             $qt_number = '0001';
@@ -315,6 +314,7 @@ class QuotationController extends Controller
 
         $quotation_no = 'quitation_' . $qt_number;
         $db->quotation_no = $quotation_no;
+
         $serial_number->pdf_file_name = $quotation_no . '.pdf';
         $serial_number->user_id = $user_id;
         $serial_number->save();
@@ -345,10 +345,15 @@ class QuotationController extends Controller
         //配送方法
         $db->delivery_method = $type;
 
+        //$serial_number
+        $kizon = Quotation::where('quotation_no',$serial_number)->get();
         //quotations(見積もり)テーブルに保存
+        if( $kizon == "" )
+        {
+            //$db->save();
+        }
         $db->save();
-        //$data = set_item($hinban, $ctn, $tanka, $hinmei,$unit);
-        //dd($items);
+
         foreach ($items as $item) {
             //見積もり明細テーブルに登録
             $sub = new Quotation_detail();
@@ -364,6 +369,9 @@ class QuotationController extends Controller
             $sub->quotation_no = $quotation_no;
             $sub->quotation_id = $db->id;
             $sub->save();
+
+            // 二重送信防止
+            //$request->session()->regenerateToken();
         }
         //Userinformationsテーブルからマスターのidと同じuser_idを探し住所等を取り出す
         $Userinformations = User::find($user_id)->Userinformations;

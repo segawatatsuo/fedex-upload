@@ -18,7 +18,7 @@
         <div class="container mb-4 mt-4">
             <div class="row">
                 <div class="col-md-12 text-center">
-                    <h3>Account Services</h3>
+                    <h3>My page</h3>
                 </div>
             </div>
         </div>
@@ -39,13 +39,13 @@
 
                 <div class="card" style="width: 18rem;margin-bottom:40px">
                         <button formaction="{{ 'account/address' }}" type="submit" class="btn btn-success"
-                        style="width:100%;height:60px;font-size:20px">Address Book</button>
+                        style="width:100%;height:60px;font-size:20px">Account detail</button>
                 </div>
 
 
                 <div class="card" style="width: 18rem;margin-bottom:40px">
                         <button formaction="{{ 'account/quotation' }}" type="submit" class="btn btn-success"
-                        style="width:100%;height:60px;font-size:20px">Quatation</button>
+                        style="width:100%;height:60px;font-size:20px">Quotation</button>
                 </div>
 
                 <div class="card mt-4" style="width: 18rem;">

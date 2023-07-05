@@ -187,9 +187,9 @@
                             
                             <td style="text-align:right;">{{ number_format($union[3]) }}</td>
                             <td style="text-align:right;">{{ number_format($union[2]) }}</td>
-                            <td>USD</td>
+                            <td style="text-align:right;">USD</td>
                             <td style="text-align:right;">{{ number_format($union[4],2) }}</td>
-                            <td>USD</td>
+                            <td style="text-align:right;">USD</td>
                             <!--
                         <td style="text-align:right;">{{ number_format($union[2] * $union[3] * 24) }}</td>
                         -->
@@ -206,13 +206,12 @@
                         <th style="text-align:right;">{{ number_format($total['ctn_total']) }}</th>
                         <th style="text-align:right;">{{ number_format($total['quantity_total']) }}</th>
                         <th colspan="2"></th>
-                        <th>USD</th>
+                        <th style="text-align:right;">USD</th>
                         <th style="text-align:right;">{{ number_format($total['amount_total'],2) }}</th>
                     </tr>
                 </table>
 
-                <div>After the payment at USD {{ number_format($total['amount_total'],2) }} was confirmed, an order
-                    becomes effective.</div>
+                <div>After successful payment of USD {{ number_format($total['amount_total'],2) }} ,this order will be confirmed.</div>
 
                 <table class="table">
                     <tr>

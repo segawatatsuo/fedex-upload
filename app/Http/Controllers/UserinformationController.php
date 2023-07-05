@@ -107,6 +107,7 @@ class UserinformationController extends Controller
         $user_id = Auth::id();
         $Userinformations = Userinformation::where('user_id', '=', $user_id)->get();
 
+
         //初めての場合
         if ($Userinformations->first()->bill_company_address_line1 == null) {
             //フォームから最終目的地を受け取り登録してから移動
@@ -326,26 +327,13 @@ class UserinformationController extends Controller
 
         } else {
 
-            /*
-            $fd=$request->final_destination;
-            if (empty($fd) or $fd==null) {
-                $err="Please ";
-                return redirect()->route('quotation')->with('flash_message', $err)->withInput();
-            }
-            */
 
             $user_id = Auth::id();
             $main = [];
             $type = $request->type;
 
-            //送信formから
             $quotation_no = $request->get('quotation_no');
             $final_destination = $request->get('final_destination');
-
-            //$i = new QuotationController(); // Quotationクラスのインスタンスを生成
-            //$i->generate_quotation_pdf($request);
-
-            //Preferenceから
             $preference_data = Preference::first();
 
             ///////////////////////////////
@@ -387,6 +375,7 @@ class UserinformationController extends Controller
             ;
             $output = $invoice_no . '.pdf';
             $print_no = $invoice_no;
+
             ///////////////////////////////
 
             //uuid
@@ -395,7 +384,7 @@ class UserinformationController extends Controller
             $day = date("F j Y");
 
             //Quotationから見積り内容の行を取ってくる※
-            $quotations = \App\Model\Quotation::where('quotation_no', $quotation_no)->get();
+            $quotations = Quotation::where('quotation_no', $quotation_no)->get();
 
             //Quotationsにフォームから来たfinal_destinationを上書き保存（これでQuotationsの入力は完了）
             //初めての人は前のコントローラーで保存しているのでフォームからはこない（$final_destinationがnullの場合もある）
@@ -447,6 +436,7 @@ class UserinformationController extends Controller
                 $data = [$product_code, $product_name, $quantity, $ctn, $unit_price, $amount];
                 array_push($items, $data);
             }
+
 
             $quantity_total = $quotations[0]->quantity_total;
             $ctn_total = $quotations[0]->ctn_total;

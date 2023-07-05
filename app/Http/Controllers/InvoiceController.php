@@ -27,15 +27,13 @@ use App\Model\Emailtext;
 
 class InvoiceController extends Controller
 {
-    //
     public function invoice(Request $request)
     {
         $user_id = Auth::id();
         $main = [];
-        //送信formから
+
         $quotation_no = $request->get('quotation_no');
         $final_destination = $request->get('final_destination');
-        //Preferenceから
         $preference_data = Preference::first();
 
         ///////////////////////////////
@@ -178,6 +176,9 @@ class InvoiceController extends Controller
         $invoice->day = $day;
         $invoice->save();
 
+        // 二重送信防止
+        $request->session()->regenerateToken();
+
         //見積もり有効期限
         $expiry_days = Expirie::find(1)->number_of_days;
         session()->put('expiry_days',$expiry_days);
@@ -187,7 +188,6 @@ class InvoiceController extends Controller
         //$bcc="info@lookingfor.jp";
         $bcc=session('adminmail');
         $bcc='info@lookingfor.jp';
-        dd($to,$bcc);
 
         
         $subject = Emailtext::Find(1)->subject_5;

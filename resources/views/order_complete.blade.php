@@ -35,7 +35,7 @@
                         UPLOAD of the remittance form has been completed.
                         Thank you very much.<br>
                         We will confirm your remittance.<br>
-                        Our bank confirmation usually takes from 3 days to 1 week for both "Payonia" and "Bank Wire".<br>
+                        Our bank confirmation usually takes from 3 days to 1 week for both "Payoneer" and "Bank Wire".<br>
                         After the remittance is confirmed, the production date and the estimated shipping date will be determined.
                         </h5>
                     </div>
@@ -43,8 +43,7 @@
                 <form method="get" enctype="multipart/form-data">
                     @csrf
                     <div style="text-align: center;padding-top:20px">
-                        <button formaction="home" type="submit" class="btn btn-danger btn-lg" style="width:230px">Going back
-                            to main menu</button>
+                        <button formaction="home" type="submit" class="btn btn-danger btn-lg" style="width:230px">Main page</button>
                     </div>
                 </form>
                 <br>

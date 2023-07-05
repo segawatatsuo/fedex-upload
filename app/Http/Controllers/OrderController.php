@@ -283,6 +283,9 @@ class OrderController extends Controller
 
         $order->save();
 
+        // 二重送信防止
+        $request->session()->regenerateToken();   
+
 
         if (Order::orderBy('created_at', 'DESC')->first()) {
             $latestOrder = Order::orderBy('created_at', 'DESC')->first();
@@ -339,6 +342,8 @@ class OrderController extends Controller
             $order_detail->value_for_customs=$pd->fedex_commercial_invoice_unit_value* $item['quantity'];
 
             $order_detail->save();
+            // 二重送信防止
+            $request->session()->regenerateToken();
         }
 
         //payment_methodが未選択ならアラートを出してリダイレクト（引数に画面表示に必要な要素をcompactで渡す)
