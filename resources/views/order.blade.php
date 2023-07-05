@@ -153,15 +153,15 @@
                         <td>{{ $main['final_destination'] }}</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Sailing on (ETD)</th>
+                        <th class="table-gray">Shipping</th>
                         <td>{{ session()->get('sailing_on') }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
-                        <td></td>
+                        <td>Typical 7-10 days once order in confirmed</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Quotaition Deadline</th>
+                        <th class="table-gray">Quotaition expires</th>
                         <td>{{ session()->get('expiry_days') }}</td>
                     </tr>
                 </table>
