@@ -28,6 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        dd();
         //Home(index)はログイン後の表示なのでユーザー情報を持っている
         $user_id = Auth::id();
         $user_name=User::find($user_id)->name;
@@ -38,6 +39,7 @@ class HomeController extends Controller
 
         //顧客であるフラフを立てる（管理画面用)
         $user=User::find($user_id);
+ 
         $user->group="user";
         $user->save();
 

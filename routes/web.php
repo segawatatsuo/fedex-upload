@@ -25,10 +25,11 @@ Route::get('/view', 'ViewController@index')->name('view.index');
 Auth::routes(['verify' => true]);
 
 //登録完了前のトップ画面
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('verified');
 
 //登録完了後のトップ画面(登録ありがとうメッセージ)
 Route::get('/top', 'HomeController@top')->name('top');
+
 
 //カテゴリ別アイテム一覧 メール認証後でないと見られないように
 //vendor/laravel/framework/src/Illuminate/Routing/Router.phpにrootは以下のように設定されている

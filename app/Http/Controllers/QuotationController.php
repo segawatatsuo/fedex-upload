@@ -289,6 +289,18 @@ class QuotationController extends Controller
         $sailing_on = $month . ',' . $year;
         session()->put('sailing_on',$sailing_on);
 
+
+        $date=new Carbon('today');
+        //7日後
+        $date=$date->addDay(7);
+
+        $year = $date->format('Y');
+        $month = $date->format('M');
+        $day = $date->format('d');
+        $quotation_valid = $month . ' '. $day .' ,' . $year;
+        session()->put('quotation_valid',$quotation_valid);
+
+
         //ユニークキー（見積番号）を作成
         $uuid = strtoupper(uniqid());
 
@@ -508,9 +520,11 @@ class QuotationController extends Controller
         //レターヘッド画像 C:\xampp\htdocs\fedex\storage\app\public\head.png
         $image_path2 = storage_path('app/public/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path2));
+        
         $output = $quotation_no . '.pdf';
         //quotation_print.blade.phpを読み込む
         $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'type'))->setPaper('a4')->setWarnings(false);
+        
         Storage::disk('public')->put('pdf/' . $output, $pdf->output());
         
         return $pdf->download($output);
@@ -581,6 +595,7 @@ class QuotationController extends Controller
         //レターヘッド画像
         $image_path = storage_path('img/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path));
+
 
         $output = $quotation_no . '.pdf';
 

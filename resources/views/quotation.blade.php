@@ -84,7 +84,18 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
+                        
+
+                        @if(session()->get('type')=="fedex")
                         <td>Typical 7-10 days once order in confirmed</td>
+                        @elseif(session()->get('type')=="air")
+                        <td>Typical 7-14 days by Air Cargo</td>
+                        @elseif(session()->get('type')=="ship")
+                        <td>Typical 1-2 months for Ship</td>
+                        @endif
+
+
+
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition expires</th>
