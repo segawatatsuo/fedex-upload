@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        dd();
+
         //Home(index)はログイン後の表示なのでユーザー情報を持っている
         $user_id = Auth::id();
         $user_name=User::find($user_id)->name;

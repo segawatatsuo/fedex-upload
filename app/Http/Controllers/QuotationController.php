@@ -290,6 +290,7 @@ class QuotationController extends Controller
         session()->put('sailing_on',$sailing_on);
 
 
+        
         $date=new Carbon('today');
         //7日後
         $date=$date->addDay(7);
