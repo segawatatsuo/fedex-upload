@@ -44,7 +44,7 @@
                     <div class="card-body">
                       <h4 class="card-title">FedEx</h4>
                       <p class="card-text">
-                        <b style="color: #F20000">Free shipping campaign until the end of August!</b><br>
+                        <!--<b style="color: #F20000">Free shipping campaign until the end of August!</b><br>-->
                         MOQ:10cartons(240pcs)/ SPQ/Color:1carton/ SNP:24p or 48p/ STOCK:IN STOCK/ DEADLINE:7days/ PAYMENT
                         TERMS:Advanced Payment/ INCOTERMS:CIF/ PAYMENT METHOD:Payoneer or Bank/ TYPE OF PAYMENT:Credit Card
                         or T/T /

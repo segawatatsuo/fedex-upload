@@ -32,4 +32,10 @@ class Quotation extends Model
     {
         return $this->hasMany('App\Model\Quotation_detail');
     }
+
+    //invoicesテーブルとリレーション
+    public function invoices()
+    {
+        return $this->hasMany('App\Model\Invoice');
+    }
 }

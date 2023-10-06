@@ -30,7 +30,7 @@
 
     
 
-    <title>C.C. Medico Co.,Ltd.</title>
+    <title>Medico Co.,Ltd.</title>
 
     <script>
         $(function() {
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="col-md-4 text-center" style="color: #fff; background-color: transparent;font-size:24px">
-                    CCMEDICO EXPORT</div>
+                    <a href="https://www.ccmedico.com/export" style="text-decoration:none;color:white">CCMEDICO EXPORT</a></div>
 
                 <div class="col-md-4">
                     <div class="col-md-12 text-right">
