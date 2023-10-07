@@ -148,6 +148,7 @@
 
                 <div>After successful payment of USD {{ number_format($amount_total,2) }} ,this order will be confirmed.</div>
 
+                {{-- 
                 <div class="h5 mt-4">Bank information:</div>
                 <table>
                     <tr>
@@ -197,6 +198,7 @@
                 <div>
                     Yoshiumi Hamada. President
                 </div>
+                 --}}
                 <input type="hidden" name="quotation_no" value="{{ $quotation_no }}">
                 
         </form>
