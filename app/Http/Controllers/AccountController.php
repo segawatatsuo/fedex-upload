@@ -12,6 +12,7 @@ use App\Model\Quotation;
 use App\Model\userinformations;
 use App\Model\Order;
 use App\Model\Order_detail;
+use App\Model\Order_confirm;
 use App\Model\Invoice;
 use Carbon\Carbon;
 use App\Model\Quitation_serial_number;
@@ -23,8 +24,9 @@ class AccountController extends Controller
 {
     public function index()
     {
-        
-        return view('account/index');
+        //$data = Quotation::with(['invoices','invoices.order_confirms'])->where('quotation_no','quitation_0120')->get();
+        $data = Quotation::with(['invoices','invoices.order_confirms'])->orderBy('created_at','desc')->paginate(10);
+        return view('account/index',compact('data'));
     }
 
     public function order()

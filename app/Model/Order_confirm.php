@@ -37,4 +37,16 @@ class Order_confirm extends Model
     {
         return $this->hasMany("App\Model\Order_detail_confirm");
     }
+
+    
+    //主キーquotation_no、インクリメントしない、文字型
+    protected $primaryKey = 'quotation_no';
+    public $incrementing = false;
+    protected $keyType = 'string';
+
+    //invoicesテーブルとリレーション
+    public function invoices()
+    {
+        return $this->hasOne('App\Model\Invoice', 'quotation_no');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
+
 class Quotation extends Model
 {
     protected $fillable = [
@@ -36,6 +37,12 @@ class Quotation extends Model
     //invoicesテーブルとリレーション
     public function invoices()
     {
-        return $this->hasMany('App\Model\Invoice');
+        return $this->belongsTo('App\Model\Invoice','quotation_no');
+    }
+
+    //order_confirmsテーブルとリレーション
+    public function order_confirms()
+    {
+        return $this->belongsTo('App\Model\Order_confirm','quotation_no');
     }
 }

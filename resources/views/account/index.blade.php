@@ -32,15 +32,33 @@
 
     <div class="container mt-4">
 
- <div>
-    <table class="table">
-        <tr>
-            <td>date</td>
-        </tr>
-    </table>
+        <div>
+            <table class="table">
+                @foreach ($data as $hoge)
+                    <tr>
+
+                        <td style="width: 15%">{{ $hoge->created_at }}</td>
+                        <td style="width: 15%">{{ $hoge->quotation_no }}</td>
+                        <td style="width: 15%">
+                            @if (isset($hoge->invoices->invoice_no))
+                                {{ $hoge->invoices->invoice_no }}
+                            @endif
+                        </td>
+                        <td style="width: 15%">
+                            @if (isset($hoge->invoices->order_confirms->order_no))
+                                {{ $hoge->invoices->order_confirms->order_no }}
+                            @endif
+                        </td>
+                        <td style="width: 15%"></td>
+                        <td style="width: 15%"></td>
+                        <td style="width: 10%"></td>
+
+                    </tr>
+                @endforeach
+            </table>
 
 
-</div>   
+        </div>
 
 
 
@@ -49,7 +67,7 @@
     {{ session('user[consignee]') }}
 
     <div class="container mt-4" id="ItemList">
-
+        {{ $data->links() }}
     </div>
 
 @stop
