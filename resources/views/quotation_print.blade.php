@@ -229,7 +229,7 @@
                     Yoshiumi Hamada. President
                 </div>
             -->
-            <div>This quotation is valid until [ {{ session()->get('quotation_valid') }}  ]</div>
+            <div>This quotation is valid until [ {{ session()->get('expiryaddday') }}  ]</div>
 
             </main>
 

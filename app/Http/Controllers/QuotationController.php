@@ -277,6 +277,7 @@ class QuotationController extends Controller
         }elseif($type=="ship"){
             $addday=Etd::find(1)->ship;
         }
+        
 
         //Sailing on(出航予定月)
         //$addday=SailingOn::find(1)->number_of_days;
@@ -310,8 +311,18 @@ class QuotationController extends Controller
         $user_id = Auth::id();
 
         //見積もり有効期限
-        $expiry_days = Expirie::find(1)->number_of_days;
-        session()->put('expiry_days',$expiry_days);
+        $expiry_days = Expirie::find(1)->number_of_days;//15daysなどが入る
+
+        //15daysの実際の年月日を出す
+        $num = preg_replace('/[^0-9]/', '', $expiry_days);
+        $expirytoday=new Carbon('today');
+        $expiryaddday=$expirytoday->addDay($num);
+        $expiryaddday = $expiryaddday->toDateString();
+        $expiryaddday = date('M j Y', strtotime($expiryaddday));//Apr 26 2021などを作成
+
+        $expiry_days2 = $expiry_days." (".$expiryaddday.")";
+        session()->put('expiry_days',$expiry_days2);//15days
+        session()->put('expiryaddday',$expiryaddday);//Apr 26 2021
 
         //quotations(見積もり)テーブルにデータを作成する
         $db = new Quotation();
@@ -342,6 +353,7 @@ class QuotationController extends Controller
         $db->port_of_loading = $preference_data->port_of_loading;
         $db->sailing_on = $sailing_on;
         $db->expiry = $expiry_days;
+        $db->expiryaddday = $expiryaddday;
 
         $db->quantity_total = $quantity_total;
         $db->ctn_total = $ctn_total;
@@ -453,7 +465,7 @@ class QuotationController extends Controller
         //見積もりメール
 	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
 
-        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
+        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days2'));
     }
 
     //マイページから再度表示へ
