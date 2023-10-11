@@ -1,12 +1,23 @@
-﻿@extends('../layouts.login')
+﻿@extends('../layouts.acount')
 
 
 @section('content')
 
     <div class="container-fluid" style="padding:0;">
+
+    <div class="container mt-1 mb-1">
+        <span class="font-weight-bold">{{ $consignee->consignee }}</span><br>
+        {{ $consignee->address_line1 }},
+        {{ $consignee->address_line2 }},
+        {{ $consignee->city }},
+        {{ $consignee->state }}<br>
+        {{ $consignee->country_codes }}
+    </div>
+
+
         <div class="d-flex align-items-center justify-content-center h3"
             style="height:50px;background: #131921;color: azure;">
-            ORDER PLAN
+            ORDER PLAN LIST
         </div>
     </div>
     <div class="container-fluid" style="background-color: rgb(54, 54, 54);">
@@ -38,7 +49,12 @@
                     <tr>
 
                         <td style="width: 15%">{{ $hoge->created_at }}</td>
-                        <td style="width: 15%">{{ $hoge->quotation_no }}</td>
+                        <td style="width: 15%">
+
+                            <a href="{{ route( 'quotation_repeat', ['quotation_no'=>$hoge->quotation_no] ) }}">
+                            {{ $hoge->quotation_no }}
+                            </a>
+                        </td>
                         <td style="width: 15%">
                             @if (isset($hoge->invoices->invoice_no))
                                 {{ $hoge->invoices->invoice_no }}

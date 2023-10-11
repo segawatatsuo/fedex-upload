@@ -49,7 +49,7 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            Person in charge
+                            <h4 style="margin-bottom: 0">Person in charge</h4>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -88,7 +88,7 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            Consignee
+                            <h4 style="margin-bottom: 0">Warehouse</h4>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -165,7 +165,7 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            Importer (Head Office)
+                            <h4 style="margin-bottom: 0">Importer (Head Office)</h4>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->

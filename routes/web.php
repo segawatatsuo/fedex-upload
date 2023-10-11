@@ -48,6 +48,9 @@ Route::middleware(['verified'])->group(function () {
     Route::post('quotation', 'QuotationController@quotation')->name('quotation');
     Route::get('quotation', 'QuotationController@quotation')->name('quotation');
 
+    //マイページから再度表示
+    Route::get('quotation_repeat', 'QuotationController@quotation_repeat')->name('quotation_repeat');
+
     Route::post('invoice', 'InvoiceController@invoice')->name('invoice');
 
     Route::post('order', 'OrderController@order')->name('order');

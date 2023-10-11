@@ -9,7 +9,7 @@ use App\Model\User;
 use App\Model\Product;
 use App\Model\Preference;
 use App\Model\Quotation;
-use App\Model\userinformations;
+use App\Model\Userinformation;
 use App\Model\Order;
 use App\Model\Order_detail;
 use App\Model\Order_confirm;
@@ -20,13 +20,16 @@ use App\Model\Invoice_serial_number;
 use App\Model\Image;
 use App\Model\Expirie;
 
+
+
 class AccountController extends Controller
 {
     public function index()
     {
         //$data = Quotation::with(['invoices','invoices.order_confirms'])->where('quotation_no','quitation_0120')->get();
         $data = Quotation::with(['invoices','invoices.order_confirms'])->orderBy('created_at','desc')->paginate(10);
-        return view('account/index',compact('data'));
+        $consignee = Userinformation::where('user_id',Auth::id())->first();
+        return view('account/index',compact('data','consignee'));
     }
 
     public function order()

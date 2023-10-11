@@ -24,6 +24,7 @@ use App\Model\Etd;
 use App\Mail\QuotationMail;
 use Mail;
 use App\Model\Emailtext;
+use App\Model\Order;
 
 class QuotationController extends Controller
 {
@@ -335,9 +336,11 @@ class QuotationController extends Controller
         $db->date_of_issue = Carbon::now();
         $db->shipper = $preference_data->shipper;
         $db->consignee_no = $user_id;
+        //$db->consignee = $consignee;
+
+
         $db->port_of_loading = $preference_data->port_of_loading;
         $db->sailing_on = $sailing_on;
-        //arriving_on
         $db->expiry = $expiry_days;
 
         $db->quantity_total = $quantity_total;
@@ -357,6 +360,7 @@ class QuotationController extends Controller
 
         //配送方法
         $db->delivery_method = $type;
+ 
 
         //$serial_number
         $kizon = Quotation::where('quotation_no',$serial_number)->get();
@@ -452,6 +456,37 @@ class QuotationController extends Controller
         return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days'));
     }
 
+    //マイページから再度表示へ
+    public function quotation_repeat(Request $request){
+        $quotation_no = $request->quotation_no;
+        $data=Quotation::where('quotation_no',$quotation_no)->first();
+        //dd($data);
+        $preference_data = Preference::first();
+        $shipper	= $data->shipper;
+        $consignee_no = $data-> consignee_no;//null
+        $port_of_loading=$data ->port_of_loading;
+        $final_destination = $data->final_destination;//null
+        $sailing_on = $data->sailing_on;
+        $arriving_on = $data->arriving_on;//null
+        $expires = $data->expires;//null
+
+        $details = Quotation_detail::where('quotation_no',$quotation_no)->get();
+
+        /*
+        uuid
+        preference_data
+        items
+        ctn_total
+        quantity_total
+        amount_total
+        sailing_on
+        user
+        quotation_no
+        type
+        expiry_days
+        */
+
+    }
 
     //見積書PDFの出力(FORMからhidenでuuidを受け取る)
     public function generate_quotation_pdf(Request $request)
