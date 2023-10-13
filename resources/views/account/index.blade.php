@@ -5,14 +5,29 @@
 
     <div class="container-fluid" style="padding:0;">
 
-    <div class="container mt-1 mb-1">
-        <span class="font-weight-bold">{{ $consignee->consignee }}</span><br>
-        {{ $consignee->address_line1 }},
-        {{ $consignee->address_line2 }},
-        {{ $consignee->city }},
-        {{ $consignee->state }}<br>
-        {{ $consignee->country_codes }}
-    </div>
+        <div class="container mt-1 mb-1">
+            <div class="row">
+            <div class="col-4">
+                <span class="font-weight-bold">Consignee(Warehouse): {{ $consignee->consignee }}</span><br>
+                {{ $consignee->address_line1 }},
+                {{ $consignee->address_line2 }},
+                {{ $consignee->city }},
+                {{ $consignee->state }}
+                {{ $consignee->country_codes }}<br>
+                phone:{{ $consignee->phone }}
+            </div>
+            <div class="col-4">
+                <span class="font-weight-bold">Importer (Head Office): {{ $consignee->importer_name }}</span><br>
+                {{ $consignee->bill_company_address_line1 }},
+                {{ $consignee->bill_company_address_line2 }},
+                {{ $consignee->bill_company_city }},
+                {{ $consignee->bill_company_state }}
+                {{ $consignee->bill_company_country }}<br>
+                phone:{{ $consignee->bill_company_phone }}
+
+            </div>
+        </div>
+        </div>
 
 
         <div class="d-flex align-items-center justify-content-center h3"
@@ -51,8 +66,8 @@
                         <td style="width: 15%">{{ $hoge->created_at }}</td>
                         <td style="width: 15%">
 
-                            <a href="{{ route( 'quotation_repeat', ['quotation_no'=>$hoge->quotation_no] ) }}">
-                            {{ $hoge->quotation_no }}
+                            <a href="{{ route('quotation_repeat', ['quotation_no' => $hoge->quotation_no]) }}">
+                                {{ $hoge->quotation_no }}
                             </a>
                         </td>
                         <td style="width: 15%">

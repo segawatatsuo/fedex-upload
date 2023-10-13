@@ -88,7 +88,7 @@
                     <!-- general form elements -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h4 style="margin-bottom: 0">Warehouse</h4>
+                            <h4 style="margin-bottom: 0">Consignee(Warehouse)</h4>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
