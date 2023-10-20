@@ -67,19 +67,6 @@ class QuotationController extends Controller
         //HTMLフォーム送信のnameがitemのものだけ取得
         $type = session()->get('type');
 
-        
-        if($type=="fedex"){
-            $arriving_on = "Typical 7-10 days once order in confirmed";
-        }
-        elseif($type=="air"){
-            $arriving_on = "Typical 7-14 days by Air Cargo";
-        }
-        elseif($type=="ship"){
-            $arriving_on = "Typical 1-2 months for Ship";
-        }
-
-
-
         //数量の制限値
         $fedex = Limit::where('Delivery_type', '=', 'fedex')->first(); //10～100
         $air1 = Limit::where('Delivery_type', '=', 'air1')->first(); //101～200
@@ -302,7 +289,7 @@ class QuotationController extends Controller
         $year = $date->format('Y');
         $month = $date->format('M');
         $sailing_on = $month . ',' . $year;
-        //session()->put('sailing_on',$sailing_on);
+        session()->put('sailing_on',$sailing_on);
 
 
         
@@ -357,31 +344,22 @@ class QuotationController extends Controller
         $serial_number->user_id = $user_id;
         $serial_number->save();
 
-        $shipper = $preference_data->shipper;
-
         $db->date_of_issue = Carbon::now();
-        $db->shipper = $shipper;
+        $db->shipper = $preference_data->shipper;
         $db->consignee_no = $user_id;
-        //SELECT * FROM `userinformations` WHERE `user_id` = 16
-        $Userinformations = User::find($user_id)->Userinformations;
-        $consignee = $Userinformations->consignee;
-        $db->consignee = $consignee;
+        //$db->consignee = $consignee;
 
 
         $db->port_of_loading = $preference_data->port_of_loading;
         $db->sailing_on = $sailing_on;
         $db->expiry = $expiry_days;
         $db->expiryaddday = $expiryaddday;
-        $db->shipping = $expiryaddday;
-        $db->arriving_on = $arriving_on;
-        $db->expiry_days2 = $expiry_days2;
-        $db->type = $type;
 
         $db->quantity_total = $quantity_total;
         $db->ctn_total = $ctn_total;
         $db->amount_total = $amount_total;
 
-        //session()->put('shipper',$preference_data->shipper);
+        session()->put('shipper',$preference_data->shipper);
 
 
         //初回の人はまだこの時点ではconsigneeデータがない
@@ -483,10 +461,11 @@ class QuotationController extends Controller
 
         //dd($to,$bcc,$subject,$content);
 
+
         //見積もりメール
 	    Mail::to($to)->bcc($bcc)->send(new QuotationMail($content,$subject,$items));
 
-        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days2','shipper','consignee','port_of_loading','arriving_on'));
+        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days2'));
     }
 
     //マイページから再度表示へ
@@ -496,7 +475,6 @@ class QuotationController extends Controller
         $preference_data = Preference::first();
         $shipper	= $data->shipper;
         $consignee_no = $data-> consignee_no;//$user_idのこと
-        $consignee = $data->consignee;
         $port_of_loading=$data ->port_of_loading;
         $final_destination = $data->final_destination;//null
         $sailing_on = $data->sailing_on;
@@ -504,30 +482,32 @@ class QuotationController extends Controller
         $expires = $data->expires;//null
 
         $details = Quotation_detail::where('quotation_no',$quotation_no)->get();
-        $items = [];
-        foreach($details as $detail){
-            $hinban = $detail->product_code;
-            $hinmei = $detail->product_name;
-            $tanka = $detail->unit_price;
-            $tanka = (float)$tanka;
-            $ctn = $detail->ctn;
-            $ctn = (float)$ctn;
-            $unit = $detail->unit;
-            $unit = (int)$unit;
-            $amaunt = $detail->amaunt;
-            $dataset = array($hinban, $hinmei,$tanka, $ctn,$unit,$amaunt);
-            array_push($items, $dataset);
-        }
         $uuid="";
-        $ctn_total = $data->ctn_total;
-        $quantity_total = $data->quantity_total;
-        $amount_total = $data->amount_total;
-        $user = Auth::id();
-        $type = $data->type;
-        $expiry_days2 = $data->expiry_days2;
-        $user = "";
+        $items=$details;
+        $ctn_total="";
+        $quantity_total="";
+        $amount_total="";
+        $user=Auth::id();
+        $type="fedex";
+        $expiry_days2="";
+        session('user')['consignee']="";
         
-        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days2','shipper','consignee','port_of_loading','arriving_on'));
+
+        return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'quotation_no', 'type','expiry_days2'));
+
+        /*
+        uuid
+        preference_data
+        items
+        ctn_total
+        quantity_total
+        amount_total
+        sailing_on
+        user
+        quotation_no
+        type
+        expiry_days
+        */
 
     }
 

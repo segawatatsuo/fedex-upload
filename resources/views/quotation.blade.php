@@ -61,16 +61,16 @@
                 <table class="table table-bordered" style="font-size: 16px;">
                     <tr>
                         <th style="width:20%" class="table-gray">Shipper</th>
-                        <td style="width:80%;">{{ $preference_data->shipper }}</td>
+                        <td style="width:80%;">{{ $shipper }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Consignee</th>
-                        <td>{{ session('user')['consignee'] }}</td>
+                        <td>{{ $consignee }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Port of Loading</th>
                         <td>
-                            {{ $preference_data->port_of_loading }}
+                            {{ $port_of_loading }}
                         </td>
                     </tr>
                     <tr>
@@ -80,26 +80,18 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Shipping</th>
-                        <td>{{ session()->get('sailing_on') }}</td>
+                        <td>{{ $sailing_on }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
-                        
-
-                        @if(session()->get('type')=="fedex")
-                        <td>Typical 7-10 days once order in confirmed</td>
-                        @elseif(session()->get('type')=="air")
-                        <td>Typical 7-14 days by Air Cargo</td>
-                        @elseif(session()->get('type')=="ship")
-                        <td>Typical 1-2 months for Ship</td>
-                        @endif
+                        <td>{{ $arriving_on }}</td>
 
 
 
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition expires</th>
-                        <td>{{ session()->get('expiry_days') }}</td>
+                        <td>{{ $expiry_days2 }}</td>
                     </tr>
                 </table>
 
