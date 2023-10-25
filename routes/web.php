@@ -50,6 +50,9 @@ Route::middleware(['verified'])->group(function () {
 
     //マイページから再度表示
     Route::get('quotation_repeat', 'QuotationController@quotation_repeat')->name('quotation_repeat');
+    Route::get('invoice_repeat', 'InvoiceController@invoice_repeat')->name('invoice_repeat');
+
+
 
     Route::post('invoice', 'InvoiceController@invoice')->name('invoice');
 

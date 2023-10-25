@@ -72,7 +72,9 @@
                         </td>
                         <td style="width: 15%">
                             @if (isset($hoge->invoices->invoice_no))
+                            <a href="{{ route('invoice_repeat', ['invoice_no' => $hoge->invoices->invoice_no]) }}">
                                 {{ $hoge->invoices->invoice_no }}
+                            </a>
                             @endif
                         </td>
                         <td style="width: 15%">
