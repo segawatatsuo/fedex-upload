@@ -79,7 +79,7 @@
                                 placeholder="Please Enter The Final Destination"></td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Shipping</th>
+                        <th class="table-gray">Shipping on (ETD)</th>
                         <td>{{ $sailing_on }}</td>
                     </tr>
                     <tr>

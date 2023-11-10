@@ -294,7 +294,19 @@ class UserinformationController extends Controller
 
         //見積もり有効期限
         $expiry_days = Expirie::find(1)->number_of_days;
-        session()->put('expiry_days',$expiry_days);
+        //session()->put('expiry_days',$expiry_days);
+        //15daysの実際の年月日を出す
+        $num = preg_replace('/[^0-9]/', '', $expiry_days);
+        $expirytoday=new Carbon('today');
+        $expiryaddday=$expirytoday->addDay($num);
+        $expiryaddday = $expiryaddday->toDateString();
+        $expiryaddday = date('M j Y', strtotime($expiryaddday));//Apr 26 2021などを作成
+
+        $expiry_days2 = $expiry_days." (".$expiryaddday.")";
+        session()->put('expiry_days',$expiry_days2);//15days
+        session()->put('expiryaddday',$expiryaddday);//Apr 26 2021
+
+
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
@@ -385,7 +397,7 @@ class UserinformationController extends Controller
 
             //Quotationから見積り内容の行を取ってくる※
             $quotations = Quotation::where('quotation_no', $quotation_no)->get();
-
+            //dd($quotations);
             //Quotationsにフォームから来たfinal_destinationを上書き保存（これでQuotationsの入力は完了）
             //初めての人は前のコントローラーで保存しているのでフォームからはこない（$final_destinationがnullの場合もある）
             if ($final_destination != null) {
@@ -403,7 +415,7 @@ class UserinformationController extends Controller
             $final_destination = $quotations[0]->final_destination;
             $sailing_on = $quotations[0]->sailing_on;
             $arriving_on = $quotations[0]->arriving_on;
-            $expiry = $quotations[0]->expiry;
+            $expiry = $quotations[0]->expiry_days2;
 
             //上記項目を配列$mainにまとめる
             $main = [
@@ -475,7 +487,8 @@ class UserinformationController extends Controller
 
 
         //見積もり有効期限
-        $expiry_days = Expirie::find(1)->number_of_days;
+        //$expiry_days = Expirie::find(1)->number_of_days;
+        $expiry_days = $quotations[0]->expiry_days2;
         session()->put('expiry_days',$expiry_days);
 
 
@@ -494,7 +507,7 @@ class UserinformationController extends Controller
             'port_of_loading'=>$port_of_loading,
             'final_destination'=>$final_destination,
             'sailing_on'=>$sailing_on,
-            'Arriving on'=>'',
+            'Arriving on'=>$arriving_on,
             'quotaition_deadline'=>$expiry_days,
             'quantity_total'=>$quantity_total,
             'ctn_total'=>$ctn_total,

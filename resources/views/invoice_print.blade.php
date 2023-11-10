@@ -55,8 +55,10 @@
             margin: 0px;
         }
         .header{
-            width: 100vw;
-            height: 100vh;
+            /*width: 100vw;
+            height: 100vh;*/
+            width: 850px;
+            height: 80px;
             background-image:url("data:image/png;base64,{{ $image_data2 }}");
             background-repeat: no-repeat;
             background-size:contain;
@@ -64,6 +66,7 @@
         /*余白*/
         .contents{
             padding-top: 90px;
+            padding-top: 0px;
             padding-left: 50px;
             padding-right: 50px;
             padding-bottom: 20px;
@@ -74,8 +77,8 @@
     <title>C.C. Medico Co.,Ltd.</title>
 </head>
 
-<body class="header">
-
+<body>
+<div class="header"></div>
 
     <div class="contents">
     <main>
@@ -113,11 +116,11 @@
 
             <tr>
                 <th style="text-align:left; width: 30%;">Shipper</th>
-                <td>{{ $main['shipper'] }}<< /td>
+                <td>{{ $main['shipper'] }}</td>
             </tr>
             <tr>
                 <th style="text-align:left;">Consignee</th>
-                <td>{{ $main['consignee'] }}<< /td>
+                <td>{{ $main['consignee'] }}</td>
             </tr>
             <tr>
                 <th style="text-align:left;">Port ofr Loading</th>
@@ -130,8 +133,8 @@
                 <td>{{ $main['final_destination'] }}</td>
             </tr>
             <tr>
-                <th style="text-align:left;">Sailing on (ETD)</th>
-                <td>{{ session()->get('sailing_on') }}</td>
+                <th style="text-align:left;">Shipping on (ETD)</th>
+                <td>{{-- session()->get('sailing_on') --}}{{ $main['sailing_on'] }}</td>
             </tr>
             <tr>
                 <th style="text-align:left;">Arriving on (ETA)</th>
@@ -139,7 +142,7 @@
             </tr>
             <tr>
                 <th style="text-align:left;">Quotaition Deadline</th>
-                <td>{{ session()->get('expiry_days') }}days</td>
+                <td>{{-- session()->get('expiry_days') --}}{{ $main['expiry'] }}</td>
             </tr>
         </table>
         <br>

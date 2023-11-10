@@ -53,7 +53,7 @@
                                 <tr>
                                     <td class="responsive-td" valign="top" align="left"
                                         style="background-color:#000000;">
-                                        <img src="https://www.ccmedico.com/fedex/storage/ccm.jpg" alt="ccmedico logo"
+                                        <img src="https://www.ccmedico.com/export/storage/ccm.jpg" alt="ccmedico logo"
                                             width="120" height="38" style="max-width:100%;color:#ffffff;">
                                     </td>
                                 </tr>
@@ -99,7 +99,7 @@
                                     <td class="line">{{-- $content['final_destination'] --}}</td>
                                 </tr>
                                 <tr>
-                                    <th class="table-gray">Sailing on (ETD)</th>
+                                    <th class="table-gray">Shipping on (ETD)</th>
                                     <td class="line">{{ $content['sailing_on'] }}</td>
                                 </tr>
                                 <tr>

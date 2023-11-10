@@ -143,8 +143,8 @@
                 <td>{{ $main['arriving_on'] }}</td>
             </tr>
             <tr>
-                <th style="text-align:left;">Quotaition Deadline</th>
-                <td>{{ $main['expiry'] }}days</td>
+                <th style="text-align:left;">Invoice Deadline</th>
+                <td>{{ $main['expiry'] }}</td>
             </tr>
         </table>
         <br>

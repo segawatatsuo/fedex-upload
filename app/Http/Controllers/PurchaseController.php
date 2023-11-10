@@ -61,7 +61,7 @@ class PurchaseController extends Controller
         //dd($quotations);
 
         $arriving_on = $quotations[0]->arriving_on;
-        $expiry = $quotations[0]->expiry;
+        $expiry = $quotations[0]->expiry_days2;
 
         //本社
         $bill_company_address_line1=$Userinformations->bill_company_address_line1;

@@ -181,6 +181,18 @@ class InvoiceController extends Controller
         //見積もり有効期限
         $expiry_days = Expirie::find(1)->number_of_days;
         session()->put('expiry_days', $expiry_days);
+        //15daysの実際の年月日を出す
+        $num = preg_replace('/[^0-9]/', '', $expiry_days);
+        $expirytoday=new Carbon('today');
+        $expiryaddday=$expirytoday->addDay($num);
+        $expiryaddday = $expiryaddday->toDateString();
+        $expiryaddday = date('M j Y', strtotime($expiryaddday));//Apr 26 2021などを作成
+
+        $expiry_days2 = $expiry_days." (".$expiryaddday.")";
+        session()->put('expiry_days',$expiry_days2);//15days
+        session()->put('expiryaddday',$expiryaddday);//Apr 26 2021
+
+
 
         //Invoiceメール送信
         $to = User::find($user_id)->email;
@@ -357,7 +369,7 @@ class InvoiceController extends Controller
 
         $sailing_on = $quotations[0]->sailing_on;
         $arriving_on = $quotations[0]->arriving_on;
-        $expiry = $quotations[0]->expiry;
+        $expiry = $quotations[0]->expiry_days2;
 
         $main = [
             'invoice_no' => $invoice_no,
@@ -449,7 +461,7 @@ class InvoiceController extends Controller
         $final_destination = $qt[0]['final_destination'];
         $sailing_on = $qt[0]['sailing_on'];
         $arriving_on = $qt[0]['arriving_on'];
-        $expiry = $qt[0]['expiry'];
+        $expiry = $qt[0]['expiry_days2'];
         //pdf作成日
         $day = Carbon::createFromFormat('Y-m-d H:i:s', $quotations[0]->created_at)->format('Y-m-d');
         $user_id = Auth::id();

@@ -61,7 +61,7 @@ class OrderController extends Controller
         $final_destination = $quotations[0]->final_destination;
         $sailing_on = $quotations[0]->sailing_on;
         $arriving_on = $quotations[0]->arriving_on;
-        $expiry = $quotations[0]->expiry;
+        $expiry = $quotations[0]->expiry_days2;
         $delivery_method = $quotations[0]->delivery_method;
 
         $iv = Invoice::where('quotation_no', $quotation_no)->first();

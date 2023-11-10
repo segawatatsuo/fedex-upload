@@ -143,7 +143,7 @@
                         <td>{{ $main['consignee'] }}</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Port ofr Loading</th>
+                        <th class="table-gray">Port of Loading</th>
                         <td>
                             {{ $main['port_of_loading'] }}
                         </td>
@@ -153,16 +153,16 @@
                         <td>{{ $main['final_destination'] }}</td>
                     </tr>
                     <tr>
-                        <th class="table-gray">Shipping</th>
-                        <td>{{ session()->get('sailing_on') }}</td>
+                        <th class="table-gray">Shipping on (ETD)</th>
+                        <td>{{-- session()->get('sailing_on') --}}{{ $main['sailing_on'] }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Arriving on (ETA)</th>
-                        <td>Typical 7-10 days once order in confirmed</td>
+                        <td>{{ $main['arriving_on'] }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Quotaition expires</th>
-                        <td>{{ session()->get('expiry_days') }}</td>
+                        <td>{{-- session()->get('expiry_days') --}}{{ $main['expiry'] }}</td>
                     </tr>
                 </table>
 

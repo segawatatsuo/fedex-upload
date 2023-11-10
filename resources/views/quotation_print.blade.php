@@ -51,48 +51,38 @@
         }
 
         /*headerを入れるので余白をゼロに*/
-        @page {
+        @page { 
             margin: 0px;
         }
-
-        .header {
-            width: 100vw;
-            height: 100vh;
-            background-image: url("data:image/png;base64,{{ $image_data2 }}");
+        .header{
+            /*width: 100vw;
+            height: 100vh;*/
+            width: 850px;
+            height: 80px;
+            background-image:url("data:image/png;base64,{{ $image_data2 }}");
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size:contain;
         }
-
         /*余白*/
-        .contents {
+        .contents{
             padding-top: 90px;
+            padding-top: 0px;
             padding-left: 50px;
             padding-right: 50px;
             padding-bottom: 20px;
         }
 
 
-
-
-        .page {
-            page-break-after: always;
-            page-break-inside: avoid;
-        }
-
-        .page:last-child {
-            page-break-after: auto;
-        }
     </style>
     <title>C.C. Medico Co.,Ltd.</title>
 </head>
 
-<body class="header">
-
-    <div class="contents">
-        
-        <div class="page">
-
-            <main>
+<body>
+    <div class="header"></div>
+    
+        <div class="contents">
+            
+        <main>
                 <div>
                     <h1 style="text-align: center">Quotation</h1>
                     <p style="text-align: center">No.{{ $quotation_no }}</p>
@@ -103,14 +93,14 @@
                 <table class="sushiTable">
                     <tr>
                         <th style="text-align:left; width: 30%;">Shipper</th>
-                        <td>{{ $main[2] }}<< /td>
+                        <td>{{ $main[2] }}</td>
                     </tr>
                     <tr>
                         <th style="text-align:left;">Consignee</th>
-                        <td>{{ $main[3] }}<< /td>
+                        <td>{{ $main[3] }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align:left;">Port ofr Loading</th>
+                        <th style="text-align:left;">Port of Loading</th>
                         <td>
                             {{ $main[4] }}
                         </td>
@@ -120,8 +110,8 @@
                         <td>{{ $main[5] }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align:left;">Sailing on (ETD)</th>
-                        <td>{{ session()->get('sailing_on') }}</td>
+                        <th style="text-align:left;">Shipping on (ETD)</th>
+                        <td>{{-- session()->get('sailing_on') --}}{{ $main[6] }}</td>
                     </tr>
                     <tr>
                         <th style="text-align:left;">Arriving on (ETA)</th>
@@ -129,7 +119,7 @@
                     </tr>
                     <tr>
                         <th style="text-align:left;">Quotaition Deadline</th>
-                        <td>{{ session()->get('expiry_days') }}</td>
+                        <td>{{-- session()->get('expiry_days') --}}{{ $main[8] }}</td>
                     </tr>
                 </table>
                 <br>

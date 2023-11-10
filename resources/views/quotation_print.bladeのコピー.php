@@ -103,14 +103,14 @@
                 <table class="sushiTable">
                     <tr>
                         <th style="text-align:left; width: 30%;">Shipper</th>
-                        <td>{{ $main[2] }}<< /td>
+                        <td>{{ $main[2] }}</td>
                     </tr>
                     <tr>
                         <th style="text-align:left;">Consignee</th>
-                        <td>{{ $main[3] }}<< /td>
+                        <td>{{ $main[3] }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align:left;">Port ofr Loading</th>
+                        <th style="text-align:left;">Port of Loading</th>
                         <td>
                             {{ $main[4] }}
                         </td>
@@ -120,8 +120,8 @@
                         <td>{{ $main[5] }}</td>
                     </tr>
                     <tr>
-                        <th style="text-align:left;">Sailing on (ETD)</th>
-                        <td>{{ session()->get('sailing_on') }}</td>
+                        <th style="text-align:left;">Shipping on (ETD)</th>
+                        <td>{{-- session()->get('sailing_on') --}}{{ $main[6] }}</td>
                     </tr>
                     <tr>
                         <th style="text-align:left;">Arriving on (ETA)</th>
@@ -129,7 +129,7 @@
                     </tr>
                     <tr>
                         <th style="text-align:left;">Quotaition Deadline</th>
-                        <td>{{ session()->get('expiry_days') }}</td>
+                        <td>{{-- session()->get('expiry_days') --}}{{ $main[8] }}</td>
                     </tr>
                 </table>
                 <br>
@@ -229,7 +229,7 @@
                     Yoshiumi Hamada. President
                 </div>
             -->
-            <div>This quotation is valid until [ {{ session()->get('quotation_valid') }}  ]</div>
+            <div>This quotation is valid until [ {{ session()->get('expiryaddday') }}  ]</div>
 
             </main>
 

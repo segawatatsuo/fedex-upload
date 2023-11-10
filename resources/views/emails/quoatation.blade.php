@@ -53,7 +53,7 @@
                                 <tr>
                                     <td class="responsive-td" valign="top" align="left"
                                         style="background-color:#000000;">
-                                        <img src="https://www.ccmedico.com/fedex/storage/ccm.jpg" alt="ccmedico logo"
+                                        <img src="https://www.ccmedico.com/export/storage/ccm.jpg" alt="ccmedico logo"
                                             width="120" height="38" style="max-width:100%;color:#ffffff;">
                                     </td>
                                 </tr>
@@ -82,11 +82,15 @@
                             <table class="box" cellpadding="5" cellspacing="0" height="100%" width="100%" id="bodyTable">
                                 <tr>
                                     <th style="width:20%" class="table-gray">Shipper</th>
-                                    <td style="width:80%;" class="line">{{ $content['shipper'] }}</td>
+                                    <td style="width:80%;" class="line">
+                                        {{ $content['shipper'] }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="table-gray">Consignee</th>
-                                    <td class="line">{{ $content['consignee'] }}</td>
+                                    <td class="line">
+                                        {{ $content['consignee'] }}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th class="table-gray">Port of Loading</th>
@@ -99,7 +103,7 @@
                                     <td class="line">{{-- $content['final_destination'] --}}</td>
                                 </tr>
                                 <tr>
-                                    <th class="table-gray">Sailing on (ETD)</th>
+                                    <th class="table-gray">Shipping on (ETD)</th>
                                     <td class="line">{{ $content['sailing_on'] }}</td>
                                 </tr>
                                 <tr>
@@ -168,35 +172,37 @@
                     
                             <div>After the payment at USD {{ $content['amount_total'] }} was confirmed, an order becomes effective.</div>
                             
+                            <!--
                             <div>Bank information:</div>
 
                             <table class="box" cellpadding="5">
                                 <tr>
                                     <th align="left">Bank</th>
                                     
-                                    <td class="line" colspan="2">{{ session('bank') }}</td>
+                                    <td class="line" colspan="2">{{-- session('bank') --}}</td>
                                 </tr>
                                 <tr>
                                     <th  align="left">Branch</th>
                                    
-                                    <td class="line" colspan="2">{{ session('branch') }}</td>
+                                    <td class="line" colspan="2">{{-- session('branch') --}}</td>
                                 </tr>
                                 <tr>
                                     <th  align="left">SWIFT Code</th>
                                     
-                                    <td class="line" colspan="2">{{ session('swift_code') }}</td>
+                                    <td class="line" colspan="2">{{-- session('swift_code') --}}</td>
                                 </tr>
                                 <tr>
                                     <th  align="left">Account #</th>
                                     
-                                    <td class="line" colspan="2">{{ session('account') }}</td>
+                                    <td class="line" colspan="2">{{-- session('account') --}}</td>
                                 </tr>
                                 <tr>
                                     <th  align="left">Name</th>
                                     
-                                    <td class="line" colspan="2">{{ session('name') }}</td>
+                                    <td class="line" colspan="2">{{-- session('name') --}}</td>
                                 </tr>
                             </table>
+                        -->
                             <br>
                     
                             <div>Shipment : By {{ session('type') }}</div>
