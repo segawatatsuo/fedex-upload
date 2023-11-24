@@ -96,13 +96,28 @@
 
                             <div class="row">
                                 <div class="caption1 col-6">CARTON</div>
-
+                                <div class="col-6 text-danger" style="text-align: right">[ {{ $item['stock'] }} ]</div>
                             </div>
 
+                            <!--
+                            <input type="text" id="{{-- $item['product_code'] --}}" class="txtCal"
+                                name="{{-- $item['product_code'] --}}"
+                                value="{{-- old($item['product_code']) --}}" placeholder="Enter the number">
+                            -->
 
-                            <input type="text" id="{{ $item['product_code'] }}" class="txtCal"
+                            <!--バリデーション  validate[funcCall[hogehoge]] -->
+                            <input type="text" id="{{ $item['product_code'] }}" class="txtCal red-tip"
                                 name="{{ $item['product_code'] }}"
-                                value="{{ old($item['product_code']) }}" placeholder="Enter the number">
+                                value="{{ old($item['product_code']) }}" placeholder="Enter the number" data-toggle="tooltip" 
+                                @if( $item['stock'] >0 and $item['stock'] < $Minimum_orders ) 
+                                title="{{ $item['stock'] }}ケース以下もしくは {{ $Minimum_orders }} ケース以上" 
+                                @elseif($item['stock'] == 0)
+                                title="{{ $Minimum_orders }} ケースから" 
+                                @elseif($item['stock'] > $Minimum_orders)
+                                title="1ケースから" 
+                                @endif >
+
+
 
 
                             <div class="caption1">PCS</div>

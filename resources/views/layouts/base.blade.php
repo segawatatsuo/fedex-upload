@@ -17,6 +17,17 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
     </script>
 
+
+
+
+    <!-- Optional JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+    </script>
+
+
+
+
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/progressbar.css') }}" rel="stylesheet">
 
@@ -33,6 +44,43 @@
         });
     </script>
 
+
+
+    <style type="text/css">
+        .tooltip-inner {
+            max-width: 300px;
+            background: hsl(0, 100%, 50%);
+        }
+
+        .bs-tooltip-auto[x-placement^=top] .arrow::before,
+        .bs-tooltip-top .arrow::before {
+            border-top-color: hsl(0, 100%, 50%);
+        }
+
+        .bs-tooltip-auto[x-placement^=right] .arrow::before,
+        .bs-tooltip-right .arrow::before {
+            border-right-color: hsl(0, 100%, 50%);
+        }
+
+        .bs-tooltip-auto[x-placement^=bottom] .arrow::before,
+        .bs-tooltip-bottom .arrow::before {
+            border-bottom-color: hsl(0, 100%, 50%);
+        }
+
+        .bs-tooltip-auto[x-placement^=left] .arrow::before,
+        .bs-tooltip-left .arrow::before {
+            border-left-color: hsl(0, 100%, 50%);
+        }
+    </style>
+
+
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+
     <title>Medico Co.,Ltd.</title>
 
     <script>
@@ -46,9 +94,20 @@
         });
     </script>
     <style>
-        a.white  {
+        a.white {
             color: white;
             text-decoration: none;
+        }
+    </style>
+    <style>
+        .red-tip+.tooltip .tooltip-inner {
+            background-color: #FFFFFF;
+            border: 2px solid #E20F09;
+            color: black;
+        }
+
+        .red-tip+.tooltip.top .tooltip-arrow {
+            border-top-color: #E20F09;
         }
     </style>
 

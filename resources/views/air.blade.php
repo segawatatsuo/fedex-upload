@@ -46,7 +46,7 @@
 
     <div class="container mt-4" id="ItemList">
 
-        <form action="{{ route('quotation', ['type' => 'air']) }}" method="post">
+        <form action="{{ route('quotation', ['type' => 'air']) }}" method="post" id="form">
             @csrf
             <!-- 計算表示 -->
             <div class="row mb-2 d-flex align-items-center">
@@ -78,7 +78,6 @@
                 </div>
 
 
-
                 <!-- 商品-->
                 <div class="row">
 
@@ -96,13 +95,20 @@
 
                             <div class="row">
                                 <div class="caption1 col-6">CARTON</div>
-
+                                <div class="col-6 text-danger" style="text-align: right">[ {{ $item['stock'] }} ]</div>
                             </div>
 
-
-                            <input type="text" id="{{ $item['product_code'] }}" class="txtCal"
+                            <!--バリデーション  validate[funcCall[hogehoge]] -->
+                            <input type="text" id="{{ $item['product_code'] }}" class="txtCal red-tip"
                                 name="{{ $item['product_code'] }}"
-                                value="{{ old($item['product_code']) }}" placeholder="Enter the number">
+                                value="{{ old($item['product_code']) }}" placeholder="Enter the number" data-toggle="tooltip" 
+                                @if( $item['stock'] >0 and $item['stock'] < $Minimum_orders1 ) 
+                                title="{{ $item['stock'] }}ケース以下もしくは{{ $Minimum_orders1 }} ケース以上" 
+                                @elseif($item['stock'] == 0)
+                                title="20ケースから" 
+                                @elseif( $item['stock'] > $Minimum_orders1 )
+                                title="1ケースから" 
+                                @endif >
 
 
                             <div class="caption1">PCS</div>
@@ -154,3 +160,6 @@
 
 
 @stop
+
+
+
