@@ -118,11 +118,11 @@
                 -->
                         <!--
                 <div class="text-right pb-2">
-                    <button formaction="{{ 'generate_invoice_pdf' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">PRINTOUT</button>
+                    <button formaction="{{-- 'generate_invoice_pdf' --}}" type="submit" class="btn btn-warning btn-lg" style="width:200px">PRINTOUT</button>
                 </div>
 
                 <div class="text-right pb-2">
-                    <button formaction="{{ 'order' }}" type="submit" class="btn btn-warning btn-lg" style="width:200px">ORDER</button>
+                    <button formaction="{{-- 'order' --}}" type="submit" class="btn btn-warning btn-lg" style="width:200px">ORDER</button>
                 </div>
             -->
 
@@ -232,27 +232,27 @@
                     <tr>
                         <th>Bank</th>
                         <td> </td>
-                        <td>{{ session('bank') }}</td>
+                        <td>{{-- session('bank') --}}</td>
                     </tr>
                     <tr>
                         <th>Branch</th>
                         <td> </td>
-                        <td>{{ session('branch') }}</td>
+                        <td>{{-- session('branch') --}}</td>
                     </tr>
                     <tr>
                         <th>SWIFT Code</th>
                         <td> </td>
-                        <td>{{ session('swift_code') }}</td>
+                        <td>{{-- session('swift_code') --}}</td>
                     </tr>
                     <tr>
                         <th>Account #</th>
                         <td> </td>
-                        <td>{{ session('account') }}</td>
+                        <td>{{-- session('account') --}}</td>
                     </tr>
                     <tr>
                         <th>Name</th>
                         <td> </td>
-                        <td>{{ session('name') }}</td>
+                        <td>{{-- session('name') --}}</td>
                     </tr>
                 </table>
 

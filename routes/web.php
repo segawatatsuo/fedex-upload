@@ -52,6 +52,12 @@ Route::middleware(['verified'])->group(function () {
     Route::get('quotation_repeat', 'QuotationController@quotation_repeat')->name('quotation_repeat');
     Route::get('invoice_repeat', 'InvoiceController@invoice_repeat')->name('invoice_repeat');
 
+    Route::get('order_repeat', 'OrderController@order_repeat')->name('order_repeat');
+    Route::get('order_confirm_repeat', 'OrderController@order_confirm_repeat')->name('order_confirm_repeat');
+
+    
+
+
 
 
     Route::post('invoice', 'InvoiceController@invoice')->name('invoice');

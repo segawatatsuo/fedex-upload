@@ -79,10 +79,12 @@
                         </td>
                         <td style="width: 15%">
                             @if (isset($hoge->invoices->order_confirms->order_no))
+                            <a href="{{ route('order_repeat', ['order_no' => $hoge->invoices->order_confirms->order_no]) }}">
                                 {{ $hoge->invoices->order_confirms->order_no }}
+                            </a>
                             @endif
                         </td>
-                        <td style="width: 15%"></td>
+                        <td style="width: 15%">order conform</td>
                         <td style="width: 15%"></td>
                         <td style="width: 10%"></td>
 

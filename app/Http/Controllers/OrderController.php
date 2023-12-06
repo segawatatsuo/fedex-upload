@@ -136,6 +136,92 @@ class OrderController extends Controller
         return view('order', compact('main', 'items', 'total', 'user', 'type'));
     }
 
+
+
+    public function order_repeat(Request $request)
+    {
+        $order_no = $request->order_no;
+        $order = Order_confirm::where('order_no', $order_no)->first();
+        $quotation_no = $order->quotation_no;
+        $quotations = Quotation::where('quotation_no', $quotation_no)->get();
+        $quotation_details = Quotation_detail::where('quotation_no', $quotation_no)->get();
+        //dd($quotation_details);
+        $invoice_no = $order->invoice_no;
+        $main['preference_data'] = Preference::first();
+        $preference_data = Preference::first();
+        $shipper = $quotations[0]->shipper;
+        $consignee_no = $quotations[0]->consignee_no;
+        $consignee = Userinformation::where('user_id', $consignee_no)->first()->consignee;
+        $port_of_loading = $quotations[0]->port_of_loading;
+        $final_destination = $quotations[0]->final_destination;
+        $sailing_on = $quotations[0]->sailing_on;
+        $arriving_on = $quotations[0]->arriving_on;
+        $expiry = $quotations[0]->expiry_days2;
+        $delivery_method = $quotations[0]->delivery_method;
+        $iv = Invoice::where('quotation_no', $quotation_no)->first();
+
+        $invoice_no = $iv['invoice_no'];
+
+        $uuid = $quotation_no;
+        $day = $iv->day;
+
+        //上記項目を配列$mainにまとめる
+        $main = [
+            'invoice_no' => $invoice_no,
+            'uuid' => $uuid,
+            'quotation_no' => $quotation_no,
+            'preference_data' => $preference_data,
+            'shipper' => $shipper,
+            'consignee' => $consignee,
+            'port_of_loading' => $port_of_loading,
+            'final_destination' => $final_destination,
+            'sailing_on' => $sailing_on,
+            'arriving_on' => $arriving_on,
+            'expiry' => $expiry,
+            'day' => $day,
+            'delivery_method' => $delivery_method
+        ];
+
+
+        $user['address_line1'] = $order->address_line1;
+        $user['address_line2'] = $order->address_line2;
+        $user['city'] = $order->city;
+        $user['state'] = $order->state;
+        $user['country'] = $order->country;
+        $user['zip'] = $order->zip;
+        $user['phone'] = $order->phone;
+        $user['fax'] = $order->fax;
+        $request->session()->put('type', $order->payment_method);
+        $type = $order->payment_method;
+
+        $data = [];
+        $items = [];
+        foreach ($quotation_details as $quotation) {
+            $product_code = $quotation->product_code;
+            $product_name = $quotation->product_name;
+            $quantity = $quotation->quantity;
+            $ctn = $quotation->ctn;
+            $quantity = $quotation->quantity;
+            $unit_price = $quotation->unit_price;
+            $amount = $quotation->amount;
+            $data = [$product_code, $product_name, $quantity, $ctn, $unit_price, $amount];
+            array_push($items, $data);
+        }
+
+        $quantity_total = $quotations[0]->quantity_total;
+        $ctn_total = $quotations[0]->ctn_total;
+        $amount_total = $quotations[0]->amount_total;
+        //合計関係を$totalにまとめる
+        $total = [
+            'quantity_total' => $quantity_total,
+            'ctn_total' => $ctn_total,
+            'amount_total' => $amount_total
+        ];
+        return view('order', compact('main', 'items', 'total', 'user', 'type'));
+    }
+
+
+
     //注文書のアップロードフォーム画面
     public function order_confirm(Request $request)
     {
@@ -239,12 +325,13 @@ class OrderController extends Controller
         $order = new Order_confirm();
         $order->user_id = Auth()->id();
         $latestOrder = Order::orderBy('created_at', 'DESC')->first();
+        $latestOrder = Order_confirm::orderBy('created_at', 'DESC')->first();
         if ($latestOrder === null) {
             $order_number = '000001';
         } else {
             $order_number = str_pad($latestOrder->id + 1, 6, "0", STR_PAD_LEFT);
         }
-
+        //dd($latestOrder->id);
 
         //order_confirmテーブルに登録
         $order = new \App\Model\Order_confirm();
@@ -284,7 +371,7 @@ class OrderController extends Controller
         $order->save();
 
         // 二重送信防止
-        $request->session()->regenerateToken();   
+        $request->session()->regenerateToken();
 
 
         if (Order::orderBy('created_at', 'DESC')->first()) {
@@ -337,9 +424,9 @@ class OrderController extends Controller
             //2023 5-26
 
             //total_weight(箱数＊カートン数)
-            $order_detail->total_weight=$pd->carton_weight_gross*$item['ctn'];
+            $order_detail->total_weight = $pd->carton_weight_gross * $item['ctn'];
             //value_for_customs(1000円*本数)
-            $order_detail->value_for_customs=$pd->fedex_commercial_invoice_unit_value* $item['quantity'];
+            $order_detail->value_for_customs = $pd->fedex_commercial_invoice_unit_value * $item['quantity'];
 
             $order_detail->save();
             // 二重送信防止
@@ -603,6 +690,12 @@ class OrderController extends Controller
         return view('order_confirm', compact('quotation_no', 'payment_method', 'order_number', 'invoice_no'));
     }
 
+
+    public function order_confirm_repeat(Request $request)
+    {
+        dd("order_confirm_repeat");
+    }
+
     //注文書画像の確認画面
     public function order_upload(Request $request)
     {
@@ -667,11 +760,11 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
-            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+            } elseif (strpos(__DIR__, '/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false) {
                 //MacBook
                 $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
                 $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
-                copy($from, $to);   
+                copy($from, $to);
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;
@@ -1046,33 +1139,33 @@ class OrderController extends Controller
         */
 
         //見積もり有効期限
-        $shipper=session()->get('shipper');
-        $expiry_days=session()->get('expiry_days');
+        $shipper = session()->get('shipper');
+        $expiry_days = session()->get('expiry_days');
 
         //メール送信
-        $to =User::find($order->user_id)->email;
-        $bcc="info@lookingfor.jp";
+        $to = User::find($order->user_id)->email;
+        $bcc = "info@lookingfor.jp";
         //$bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_1;
 
         //dd($order_conform[0]['port_of_loading']);
-        $items=$order_detail_confirms;
-        $content =[
-            'contents'=>Emailtext::Find(1)->contents_1,
-            'shipper'=>$shipper,
-            'consignee'=>$order_conform[0]['consignee'],
-            'port_of_loading'=>$order_conform[0]['port_of_loading'],
-            'final_destination'=>$order_conform[0]['final_destination'],
-            'sailing_on'=>$order_conform[0]['sailing_on'],
-            'Arriving on'=>'',
-            'quotaition_deadline'=>$expiry_days,
-            'quantity_total'=>$order_conform[0]['quantity_total'],
-            'ctn_total'=>$order_conform[0]['ctn_total'],
-            'amount_total'=>$order_conform[0]['total_amount'],
-            'items'=>$items
+        $items = $order_detail_confirms;
+        $content = [
+            'contents' => Emailtext::Find(1)->contents_1,
+            'shipper' => $shipper,
+            'consignee' => $order_conform[0]['consignee'],
+            'port_of_loading' => $order_conform[0]['port_of_loading'],
+            'final_destination' => $order_conform[0]['final_destination'],
+            'sailing_on' => $order_conform[0]['sailing_on'],
+            'Arriving on' => '',
+            'quotaition_deadline' => $expiry_days,
+            'quantity_total' => $order_conform[0]['quantity_total'],
+            'ctn_total' => $order_conform[0]['ctn_total'],
+            'amount_total' => $order_conform[0]['total_amount'],
+            'items' => $items
         ];
         //メール
-	    Mail::to($to)->bcc($bcc)->send(new ThanksMail($content,$subject,$items));
+        Mail::to($to)->bcc($bcc)->send(new ThanksMail($content, $subject, $items));
         return view('order_payment', compact('order_number', 'invoice_no'));
     }
 
@@ -1131,12 +1224,11 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
-            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+            } elseif (strpos(__DIR__, '/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false) {
                 //MacBook
                 $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
                 $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
-                copy($from, $to); 
-
+                copy($from, $to);
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;
@@ -1154,19 +1246,19 @@ class OrderController extends Controller
     //注文完了(入金画像をアップロード終了)
     public function order_complete(Request $request)
     {
-        $order_no=request('order_number');
+        $order_no = request('order_number');
         $order = Order_confirm::where('order_no', $order_no)->first();
 
         //メール送信
-        $to =User::find($order->user_id)->email;
-        $bcc="info@lookingfor.jp";
+        $to = User::find($order->user_id)->email;
+        $bcc = "info@lookingfor.jp";
         //$bcc=session('adminmail');
         $subject = Emailtext::Find(1)->subject_2;
-        $content =[
-            'contents'=>Emailtext::Find(1)->contents_2,
+        $content = [
+            'contents' => Emailtext::Find(1)->contents_2,
         ];
         //メール
-	    Mail::to($to)->bcc($bcc)->send(new PaymentImageMail($content,$subject));
+        Mail::to($to)->bcc($bcc)->send(new PaymentImageMail($content, $subject));
 
         return view("order_complete", compact('order_no'));
     }
@@ -1177,7 +1269,7 @@ class OrderController extends Controller
     //マイページから送金書をアップするための画面へ
     public function payment_uploader(Request $request)
     {
-        $order_no=request('order_no');
+        $order_no = request('order_no');
         return view("account/payment_uploader", compact('order_no'));
     }
 
@@ -1185,7 +1277,7 @@ class OrderController extends Controller
     //マイページから送金書をアップ実行
     public function payment_up(Request $request)
     {
-        $order_no=$request->order_no;
+        $order_no = $request->order_no;
 
         //画像がセットされていれば
         $img = $request->file('img_path');
@@ -1232,11 +1324,11 @@ class OrderController extends Controller
                 $from = '/home/macintosh/www/fedex/public/storage/order/' . $file_name;
                 $to = '/home/macintosh/www/ccmapp/public/storage/order/' . $file_name;
                 copy($from, $to);
-            }elseif(strpos(__DIR__,'/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false){
+            } elseif (strpos(__DIR__, '/Users/segawa/www/html/fedex-ccm/app/Http/Controllers') !== false) {
                 //MacBook
                 $from = '/Users/segawa/www/html/fedex-ccm/public/storage/order/' . $file_name;
                 $to = '/Users/segawa/www/html/ccmapp/public/storage/order/' . $file_name;
-                copy($from, $to); 
+                copy($from, $to);
             } else {
                 //お名前用
                 $from = '/home/r2325683/fedex/public/storage/order/' . $file_name;

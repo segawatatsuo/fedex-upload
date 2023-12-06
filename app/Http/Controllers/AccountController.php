@@ -26,7 +26,6 @@ class AccountController extends Controller
 {
     public function index()
     {
-        //$data = Quotation::with(['invoices','invoices.order_confirms'])->where('quotation_no','quitation_0120')->get();
         $data = Quotation::with(['invoices','invoices.order_confirms'])->orderBy('created_at','desc')->paginate(10);
         $consignee = Userinformation::where('user_id',Auth::id())->first();
         return view('account/index',compact('data','consignee'));
