@@ -83,8 +83,10 @@
                                 {{ $hoge->invoices->order_confirms->order_no }}
                             </a>
                             @endif
+                            <br>order
+                            <br>payment
                         </td>
-                        <td style="width: 15%">order conform</td>
+                        <td style="width: 15%">別ページ</td>
                         <td style="width: 15%"></td>
                         <td style="width: 10%"></td>
 
