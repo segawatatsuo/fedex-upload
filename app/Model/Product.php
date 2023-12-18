@@ -92,4 +92,90 @@ class Product extends Model
     {
         return $this->hasMany('App\Model\ImageList');
     }
+
+    public function get_categorys()
+    {
+        //カテゴリーのユニークだけ(ここではAIRSTOCKINGだけだが、今後ネールなどが入ってくる) session('article')は'Air Stocking'など
+        //戻り値は "category" => "Air Stocking"
+        $categorys = $this::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
+        return $categorys;
+    }
+
+    public function get_groups()
+    {
+        //Air Stocking中分類 session('article')は'Air Stocking'など
+        //戻り値は配列 "group" => "PREMIUM-SILK","group" => "PREMIUM-SILK QT","group" => "DIAMOND LEGS","group" => "DIAMOND LEGS DQ"
+        //$groups = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);        
+        $groups = $this::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
+        return $groups;
+    }
+
+    public function get_items($groups)
+    {
+        //グループ別の商品配列
+        $items = [];
+        //戻り値例　$items[0][0]['product_name']は　"AIRSTOCKING PREMIER SILK 120G LIGHT NATURAL"
+        foreach ($groups as $g) {
+            $b = $this::where('hidden_item', '!=', '1')->where('group', $g->group)->orderBy('sort_order', 'asc')->get();
+            array_push($items, $b);
+        }
+        return $items;
+    }
+
+    public function unique_groups($items)
+    {
+        $groups = [];
+        foreach ($items as $item) {
+            foreach ($item as $val) {
+                array_push($groups, $val->group);
+                $groups = array_unique($groups);
+            }
+        }
+        return $groups;
+        /* $groups
+        array:4 [▼
+        0 => "PREMIUM-SILK"
+        1 => "PREMIUM-SILK QT"
+        2 => "DIAMOND LEGS"
+        3 => "DIAMOND LEGS DQ"
+        ]
+        */
+    }
+
+    public function get_code($items)
+    {
+        //　$codes　配列に全部の商品コード(PS01,PS02...)を取り出す
+        $codes = [];
+        foreach ($items as $item) {
+            foreach ($item as $val) {
+                $hoge = [$val->product_code => $val->group];
+                $codes = array_merge($codes, $hoge);
+            }
+            return $codes;
+        }
+        /* $codes 結果
+               array:20 [▼
+               "PS01" => "PREMIUM-SILK"
+               "PS02" => "PREMIUM-SILK"
+               "PS03" => "PREMIUM-SILK"
+               "PS04" => "PREMIUM-SILK"
+               "PS05" => "PREMIUM-SILK"
+               "QT01" => "PREMIUM-SILK QT"
+               "QT02" => "PREMIUM-SILK QT"
+               "QT03" => "PREMIUM-SILK QT"
+               "QT04" => "PREMIUM-SILK QT"
+               "QT05" => "PREMIUM-SILK QT"
+               "DL01" => "DIAMOND LEGS"
+               "DL02" => "DIAMOND LEGS"
+               "DL03" => "DIAMOND LEGS"
+               "DL04" => "DIAMOND LEGS"
+               "DL05" => "DIAMOND LEGS"
+               "DQ01" => "DIAMOND LEGS DQ"
+               "DQ02" => "DIAMOND LEGS DQ"
+               "DQ03" => "DIAMOND LEGS DQ"
+               "DQ04" => "DIAMOND LEGS DQ"
+               "DQ05" => "DIAMOND LEGS DQ"
+               ]
+               */
+    }
 }

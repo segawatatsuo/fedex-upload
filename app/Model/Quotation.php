@@ -45,4 +45,6 @@ class Quotation extends Model
     {
         return $this->belongsTo('App\Model\Order_confirm','quotation_no');
     }
+
+
 }

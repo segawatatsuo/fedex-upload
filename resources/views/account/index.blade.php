@@ -15,6 +15,7 @@
                 {{ $consignee->state }}
                 {{ $consignee->country_codes }}<br>
                 phone:{{ $consignee->phone }}
+                <button type="button" class="btn btn-link">modification</button>
             </div>
             <div class="col-4">
                 <span class="font-weight-bold">Importer (Head Office): {{ $consignee->importer_name }}</span><br>
@@ -24,7 +25,7 @@
                 {{ $consignee->bill_company_state }}
                 {{ $consignee->bill_company_country }}<br>
                 phone:{{ $consignee->bill_company_phone }}
-
+                <button type="button" class="btn btn-link">modification</button>
             </div>
         </div>
         </div>
@@ -39,12 +40,12 @@
         <div class="container">
             <div class="progressbar">
                 <div class="item active">PLAN</div>
-                <div class="item">Quotation</div>
-                <div class="item">INVOICE</div>
-                <div class="item">ORDER</div>
-                <div class="item">FACTORY</div>
-                <div class="item">SHIP</div>
-                <div class="item">ARRIVAL</div>
+                <div class="item active">Quotation</div>
+                <div class="item active">INVOICE</div>
+                <div class="item active">ORDER</div>
+                <div class="item active">FACTORY</div>
+                <div class="item active">SHIP</div>
+                <div class="item active">ARRIVAL</div>
             </div>
         </div>
     </div>
@@ -86,9 +87,9 @@
                             <br>order
                             <br>payment
                         </td>
-                        <td style="width: 15%">別ページ</td>
-                        <td style="width: 15%"></td>
-                        <td style="width: 10%"></td>
+                        <td style="width: 15%">残金確認<br>進行状況<br>packinglist</td>
+                        <td style="width: 15%">船荷証券</td>
+                        <td style="width: 10%">輸出許可証</td>
 
                     </tr>
                 @endforeach

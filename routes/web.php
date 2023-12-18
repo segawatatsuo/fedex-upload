@@ -16,6 +16,9 @@ Route::get('/', function () {
 });
 */
 
+//use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/', 'WelcomeController@index')->name('welcome.index');
 
 //サンプルトップ
@@ -84,6 +87,9 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('item', 'ItemController@index')->name('item');
 
+
+
+
     //MyPage
     Route::get('account', 'AccountController@index')->name('account.index');
 
@@ -123,6 +129,9 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('account/img_store', 'AccountController@img_store')->name('account.img_store');
     Route::post('account/img_store', 'AccountController@img_store')->name('account.img_store');
+
+    Route::get('account/consignee','AccountController@consignee')->name('account.consignee');
+
 });
 
 //住所未登録ユーザーの場合に入力フォームへ移動

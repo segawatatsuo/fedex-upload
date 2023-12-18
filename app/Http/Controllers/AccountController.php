@@ -24,6 +24,13 @@ use App\Model\Expirie;
 
 class AccountController extends Controller
 {
+    public function consignee()
+    {
+        $id = Auth::id();
+        $main = User::with('Userinformations')->where('id', $id)->first();
+        return view('account.consignee',compact('main'));
+    }
+
     public function index()
     {
         $data = Quotation::with(['invoices','invoices.order_confirms'])->orderBy('created_at','desc')->paginate(10);
@@ -200,4 +207,6 @@ class AccountController extends Controller
         //　リダイレクト
         return redirect()->route('account.index');
     }
+
+
 }
