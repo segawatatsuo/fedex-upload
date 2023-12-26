@@ -25,7 +25,7 @@
                 {{ $consignee->bill_company_state }}
                 {{ $consignee->bill_company_country }}<br>
                 phone:{{ $consignee->bill_company_phone }}
-                <a href="/account/importer">modification</a>
+                <a href="{{ route('account.importer') }}">modification</a>
             </div>
         </div>
         </div>
