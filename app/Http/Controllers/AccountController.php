@@ -27,15 +27,28 @@ class AccountController extends Controller
     public function consignee()
     {
         $id = Auth::id();
-        $main = User::with('Userinformations')->where('id', $id)->first();
-        return view('account.consignee',compact('main'));
+        $users = User::with('Userinformations')->where('id', $id)->first();
+        return view('account.consignee',compact('users'));
     }
+
+    public function importer()
+    {
+        $id = Auth::id();
+        $main = User::with('Userinformations')->where('id', $id)->first();
+        $main = $main->Userinformations;
+        return view('account.importer',compact('main'));
+    }
+
 
     public function index()
     {
         $data = Quotation::with(['invoices','invoices.order_confirms'])->orderBy('created_at','desc')->paginate(10);
         $consignee = Userinformation::where('user_id',Auth::id())->first();
-        return view('account/index',compact('data','consignee'));
+
+        $id = Auth::id();
+        $users = User::with('Userinformations')->where('id', $id)->first();
+
+        return view('account/index',compact('data','consignee','users'));
     }
 
     public function order()
@@ -46,6 +59,7 @@ class AccountController extends Controller
         $orders=$od->where('user_id', $id)->orderByDesc('created_at')->paginate(10);
         return view('account/order', compact('orders'));
     }
+
     public function order_each($id)
     {
         //$img = Image::where('id',$id)->get();

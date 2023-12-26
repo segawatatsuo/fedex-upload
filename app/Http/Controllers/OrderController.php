@@ -53,6 +53,9 @@ class OrderController extends Controller
         $preference_data = Preference::first();
         //Quotationから見積り内容の行を取ってくる※
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
+
+
+        //ここでエラー
         //複数行ある可能性があるので配列の1行目[0]から
         $shipper = $quotations[0]->shipper;
         $consignee_no = $quotations[0]->consignee_no;

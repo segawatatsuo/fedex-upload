@@ -131,6 +131,7 @@ Route::middleware(['verified'])->group(function () {
     Route::post('account/img_store', 'AccountController@img_store')->name('account.img_store');
 
     Route::get('account/consignee','AccountController@consignee')->name('account.consignee');
+    Route::get('account/importer','AccountController@importer')->name('account.importer');
 
 });
 
