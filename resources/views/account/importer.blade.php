@@ -1,6 +1,6 @@
 {{--@extends('layouts.app')--}}
-@extends('layouts.login')
 
+@extends('../layouts.acount2')
 
 
 @section('content')
@@ -271,12 +271,17 @@
 
 
                             <!--登録ボタン -->
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ 'Update' }}
-                                    </button>
+                            <div class="col-12 mb-5 mt-5">
+                                <div class="text-center">
+
+                                    <button formaction="{{ 'update' }}" type="submit" class="btn btn-lg a-button-input ">update</button>
+                                    <button type="button" class="btn btn-lg a-button-input btn150" onClick="history.back();">Back</button>
                                 </div>
+                            </div>
+
+
+
+
                             </div>
 
 
