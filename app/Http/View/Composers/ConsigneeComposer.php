@@ -21,7 +21,7 @@ class ConsigneeComposer
 
             $consn = Consignee::where('user_id', $user_id)->where('default_destination', '1')->first();
             $pic = Pic::where('user_id', $user_id)->where('default_destination', '1')->first();
-            dd($consn);
+            dd($user_id);
 
             if (isset($consn->consignee)) {
                 $consignee_name = $consn->consignee;
