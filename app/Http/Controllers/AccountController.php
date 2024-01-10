@@ -297,4 +297,52 @@ class AccountController extends Controller
         return redirect()->route('account.index');
     }
 
+
+    public function importer_update(Request $request){
+        /*
+        $request->validate([
+            'name' => 'required',
+            'address_line1' => 'required',
+            'address_line2' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'zip' => 'required',
+            'phone' => 'required',
+        ]);
+        */
+
+        $id = Auth::id();
+        $main = User::with('Userinformations')->where('id', $id)->first();
+        $main = $main->Userinformations;
+
+        /*
+        $id = $request->id;
+        $user = User::find($id);
+        $user_id= $user->id;
+        */
+
+        $main->importer_name = $request->importer_name;
+        $main->bill_company_address_line1 = $request->bill_company_address_line1;
+        $main->bill_company_address_line2 = $request->bill_company_address_line1;
+        $main->bill_company_city = $request->bill_company_city;
+        $main->bill_company_state = $request->bill_company_state;
+        $main->bill_company_country = $request->bill_company_country;
+        $main->bill_company_zip = $request->bill_company_zip;
+        $main->bill_company_phone = $request->bill_company_phone;
+        $main->president = $request->president;
+        $main->initial = $request->initial;
+        $main->industry = $request->industry;
+        $main->business_items = $request->business_items;
+        $main->customer_name = $request->customer_name;
+        $main->website = $request->website;
+        $main->fedex = $request->fedex;
+        $main->sns = $request->sns;
+
+        $main->save();
+
+
+
+        return view('account.importer',compact('main'));
+    }
 }

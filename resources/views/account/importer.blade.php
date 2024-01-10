@@ -6,9 +6,6 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <h4 class="text-center">Importer address</h4>
-            </div>
 
             <div class="col-md-8">
                 <div class="card">
@@ -20,7 +17,7 @@
                             <h2 class="text-center">Importer (Head Office)</h2>
                         </div>
 
-                        <form method="POST" action="invoice_entry_and_go">
+                        <form method="POST" action="importer_update">
                             @csrf
                             <div class="form-group row">
                                 <label for="bill_company_address_line1"
@@ -178,7 +175,7 @@
                                 <div class="col-md-6">
                                     <input id="president" type="text"
                                         class="form-control @error('president') is-invalid @enderror" name="president"
-                                        value="{{ $main['person'] }}" required autocomplete=""
+                                        value="{{ $main['president'] }}" required autocomplete=""
                                         placeholder="">
 
                                     @error('president')
@@ -196,7 +193,7 @@
                                     class="col-md-4 col-form-label text-md-right">{{ 'Company Initials ※' }}</label>
 
                                 <div class="col-md-6">
-                                    <input id="president_gender" type="text"
+                                    <input id="initial" type="text"
                                         class="form-control @error('initial') is-invalid @enderror" name="initial"
                                         value="{{ $main['initial'] }}" required
                                         placeholder="Please enter in 2 letters">
@@ -277,7 +274,7 @@
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
                                     <button type="submit" class="btn btn-primary">
-                                        {{ 'Register' }}
+                                        {{ 'Update' }}
                                     </button>
                                 </div>
                             </div>

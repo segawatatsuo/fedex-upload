@@ -137,6 +137,8 @@ Route::middleware(['verified'])->group(function () {
     Route::get('account/change','AccountController@change')->name('account.change');
     Route::post('account/change_update','AccountController@change_update')->name('account.change_update');
 
+    Route::post('account/importer_update','AccountController@importer_update')->name('account.importer_update');
+
 });
 
 //住所未登録ユーザーの場合に入力フォームへ移動
