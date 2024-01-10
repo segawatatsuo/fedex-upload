@@ -122,7 +122,7 @@
             </tr>
             <tr>
                 <th style="text-align:left;">Consignee</th>
-                <td>{{ $main['consignee'] }}<< /td>
+                <td>{{ $consignee_name }}<< /td>
             </tr>
             <tr>
                 <th style="text-align:left;">Port ofr Loading</th>

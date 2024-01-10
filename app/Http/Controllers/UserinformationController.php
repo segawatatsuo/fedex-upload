@@ -24,6 +24,8 @@ use App\Mail\QuotationMail;
 use App\Mail\InvoiceMail;
 use Mail;
 use App\Model\Emailtext;
+use App\Model\Consignee;
+use App\Model\HeadOffice;
 
 //use App\Http\Controllers\QuotationController;
 
@@ -33,16 +35,11 @@ class UserinformationController extends Controller
     //初めての人の住所登録
     public function entry(Request $request)
     {
-        /*
-        $request->validate(
-            ['country_codes' => 'required|size:2',],
-            ['country_codes.required' => '2 letters',]
-        );
-        */
-        $type = $request->type;
 
+        $type = $request->type;
         $user_id = $request->user_id;
         $quotation_no = $request->quotation_no;
+
         $user = new Userinformation();
         $user->user_id = $request->user_id;
         $user->consignee = $request->consignee;
@@ -54,15 +51,33 @@ class UserinformationController extends Controller
         $user->zip = $request->zip;
         $user->phone = $request->phone;
         $user->person = $request->person;
-
         $user->save();
+
+        //consigneeテーブルにも保存　2024-1-5
+        $consignee = new Consignee();
+        $consignee->user_id = $request->user_id;
+        $consignee->consignee = $request->consignee;
+        $consignee->address_line1 = $request->address_line1;
+        $consignee->address_line2 = $request->address_line2;
+        $consignee->city = $request->city;
+        $consignee->state = $request->state;
+        $consignee->country_codes = $request->country_codes;
+        $consignee->post_code = $request->zip;
+        $consignee->phone = $request->phone;
+        $consignee->name = $request->person;
+        $consignee->default_destination = "1";//既定に設定
+        $consignee->pic_id = session('pic_id');
+        $consignee->save();
+
 
         $uuid = $quotation_no;
         $main = [];
 
         $quotations = Quotation::where('quotation_no', $quotation_no)->get();
         $shipper = $quotations[0]->shipper;
-        $consignee = $quotations[0]->consignee;
+        //$consignee = $quotations[0]->consignee;
+        $consignee = $request->consignee;
+
         $port_of_loading = $quotations[0]->port_of_loading;
         $final_destination = $quotations[0]->final_destination;
         $sailing_on = $quotations[0]->sailing_on;
@@ -93,8 +108,21 @@ class UserinformationController extends Controller
         $amount_total = $quotations[0]->amount_total;
         $total = [$quantity_total, $ctn_total, $amount_total];
 
-        //return view('quotation', compact('uuid', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user'));
-        return view('quotation', compact('quotation_no', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'type'));
+        //見積もり有効期限
+        $expiry_days = Expirie::find(1)->number_of_days; //15daysなどが入る
+
+        //15daysの実際の年月日を出す
+        $num = preg_replace('/[^0-9]/', '', $expiry_days);
+        $expirytoday = new Carbon('today');
+        $expiryaddday = $expirytoday->addDay($num);
+        $expiryaddday = $expiryaddday->toDateString();
+        $expiryaddday = date('M j Y', strtotime($expiryaddday)); //Apr 26 2021などを作成
+
+        $expiry_days2 = $expiry_days . " (" . $expiryaddday . ")";
+        session()->put('expiry_days', $expiry_days2); //15days
+        session()->put('expiryaddday', $expiryaddday); //Apr 26 2021
+
+       return view('quotation', compact('quotation_no', 'preference_data', 'items', 'ctn_total', 'quantity_total', 'amount_total', 'sailing_on', 'user', 'type','shipper','consignee','port_of_loading','arriving_on','expiry_days2'));
     }
 
 
@@ -310,7 +338,6 @@ class UserinformationController extends Controller
 
         //Invoiceメール送信
         $to =User::find($user_id)->email;
-        
         $bcc=session('adminmail');
         $bcc="info@lookingfor.jp";
         //dd($to,$bcc);
@@ -520,7 +547,7 @@ class UserinformationController extends Controller
         }
     }
 
-
+    //初めての人がHeadOfficeを入力後、Invoiceに移動する
     public function invoice_entry_and_go(Request $request)
     {
         $user_id = Auth::id();
@@ -528,7 +555,6 @@ class UserinformationController extends Controller
         $type = $request->type;
 
         $ui = Userinformation::where('user_id', $user_id)->first();
-
         $ui->importer_name = $request->importer_name;
         $ui->bill_company_address_line1 = $request->bill_company_address_line1;
         $ui->bill_company_address_line2 = $request->bill_company_address_line2;
@@ -539,7 +565,6 @@ class UserinformationController extends Controller
         $ui->bill_company_phone = $request->bill_company_phone;
         $ui->president = $request->president;
         $ui->initial = $request->initial;
-
         $ui->industry = $request->industry;
         $ui->business_items = $request->business_items;
         $ui->customer_name = $request->customer_name;
@@ -548,6 +573,26 @@ class UserinformationController extends Controller
         $ui->website = $request->website;
         $ui->save();
 
+        //2024 1-6 headoffice
+        $head_office = new HeadOffice();
+        $head_office->company_name = $request->importer_name;
+        $head_office->address_line1 = $request->bill_company_address_line1;
+        $head_office->address_line2 = $request->bill_company_address_line2;
+        $head_office->city = $request->bill_company_city;
+        $head_office->state = $request->bill_company_state;
+        $head_office->country = $request->bill_company_country;
+        $head_office->zip = $request->bill_company_zip;
+        $head_office->phone = $request->bill_company_phone;
+        $head_office->president = $request->president;
+        $head_office->initial = $request->initial;
+        $head_office->industry = $request->industry;
+        $head_office->business_items = $request->business_items;
+        $head_office->customer_name = $request->customer_name;
+        $head_office->fedex = $request->fedex;
+        $head_office->sns = $request->sns;
+        $head_office->website = $request->website;
+        $head_office->user_id = $user_id;
+        $head_office->save();
 
         //送信formから
         $quotation_no = $request->get('quotation_no');

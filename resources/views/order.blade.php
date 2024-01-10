@@ -62,18 +62,18 @@
                             <!--顧客住所 -->
                             <td class="text-left">
                                 <div class="font-weight-bold">
-                                    <h5>{{ $main['consignee'] }}</h5>
+                                    <h5>{{ $consignee_name }}</h5>
                                 </div>
 
-                                {{ $user['address_line1'] }},
-                                {{ $user['address_line2'] }},
-                                {{ $user['city'] }},
-                                {{ $user['state'] }},
-                                {{ $user['country'] }}
-                                {{ $user['zip'] }}
+                                {{ $consignee_address_line1 }},
+                                {{ $consignee_address_line2 }},
+                                {{ $consignee_city }},
+                                {{ $consignee_state }},
+                                {{ $consignee_country }}
+                                {{ $consignee_zip }}
                                 <br>
 
-                                Tel:{{ $user['phone'] }} FAX:{{ $user['fax'] }}
+                                Tel:{{ $consignee_phone }}
 
                             </td>
 
@@ -140,7 +140,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Consignee</th>
-                        <td>{{ $main['consignee'] }}</td>
+                        <td>{{ $consignee_name }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Port of Loading</th>

@@ -65,7 +65,7 @@
                     </tr>
                     <tr>
                         <th class="table-gray">Consignee</th>
-                        <td>{{ $consignee }}</td>
+                        <td>{{ $consignee_name }}</td>
                     </tr>
                     <tr>
                         <th class="table-gray">Port of Loading</th>

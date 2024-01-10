@@ -204,11 +204,20 @@
             </div>
             <!--荷受人-->
             <div class="col-md-6">
-                <span class="font-weight-bold">Consignee</span>: {{ session('user')['consignee'] }}<br>
-                {{ session('user')['address_line1'] }}, {{ session('user')['address_line2'] }},
-                {{ session('user')['city'] }}
-                {{ session('user')['state'] }}<br> tel: {{ session('user')['phone'] }} fax:
-                {{ session('user')['fax'] }}
+                <!--
+                <span class="font-weight-bold">Consignee</span>: {{-- session('user')['consignee'] --}}<br>
+                {{-- session('user')['address_line1'] --}}, {{-- session('user')['address_line2'] --}},
+                {{-- session('user')['city'] --}}
+                {{-- session('user')['state'] --}}<br> tel: {{-- session('user')['phone'] --}} fax:
+                {{-- session('user')['fax'] --}}
+                -->
+
+                <span class="font-weight-bold">Consignee</span>: {{ $consignee_name }}<br>
+                {{ $consignee_address_line1 }}, {{ $consignee_address_line2 }},
+                {{ $consignee_city }}
+                {{ $consignee_state }}<br> tel: {{ $consignee_phone }} fax:
+                {{-- session('user')['fax'] --}}
+
             </div>
             <!--発送アイコン-->
             <div class="col-md-4 d-flex align-items-center">

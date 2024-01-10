@@ -31,16 +31,16 @@ class HomeController extends Controller
 
         //Home(index)はログイン後の表示なのでユーザー情報を持っている
         $user_id = Auth::id();
-        $user_name=User::find($user_id)->name;
-        $ui=Userinformation::where('user_id', $user_id)->get();
-        $country_codes=$ui[0]['country_codes'];
-        //session('user')['country_codes']=$country_codes;
-        session()->put('country_codes', $country_codes);
-
+        $user_name = User::find($user_id)->name;
+        $ui = Userinformation::where('user_id', $user_id)->get();
+        if (count($ui)>0) {
+            $country_codes = $ui[0]['country_codes'];
+            session()->put('country_codes', $country_codes);
+        }
         //顧客であるフラフを立てる（管理画面用)
-        $user=User::find($user_id);
- 
-        $user->group="user";
+        $user = User::find($user_id);
+
+        $user->group = "user";
         $user->save();
 
         return view('home', compact('user_name'));

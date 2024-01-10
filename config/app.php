@@ -177,6 +177,8 @@ return [
 
         Barryvdh\DomPDF\ServiceProvider::class, //この行を追加
 
+        App\Providers\ConsigneeServiceProvider::class,//この行を追加
+
     ],
 
     /*

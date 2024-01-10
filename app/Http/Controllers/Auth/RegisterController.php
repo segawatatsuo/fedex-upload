@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+use App\Model\Pic;//Person in charge
+
 class RegisterController extends Controller
 {
     /*
@@ -70,13 +72,37 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        //元々はreturn User::create([ だったのを戻り値モデルを変数に入れた
+         $userdatamodel=User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'country' => $data['country'],
             'company_name' => $data['company_name'],
         ]);
+
+        //追加 Person in chargeに上記の新規データを登録するようにした 2024-1-5
+        $user = new User();
+        $last = $user->latest('id')->first();
+        $user_id = $last->id;//最後に作成されたuserのレコードID
+
+        Pic::create([
+            'default_destination' => '1',
+            'user_id' => $user_id,
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'country' => $data['country'],
+            'company_name' => $data['company_name'],
+        ]);
+
+        $pic = new Pic();
+        $pic_id = $pic->latest('id')->first();
+        $pic_id = $pic_id->id;
+        //PicのレコードIDをセッションで使う
+        session(['pic_id' => $pic_id]);
+
+        //user登録されたモデルを返す
+        return $userdatamodel;
     }
 
 

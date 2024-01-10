@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\AdminMail;
+use App\Consignee;
 use Illuminate\Http\Request;
 
-class AdminMailController extends Controller
+class ConsigneeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class AdminMailController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Consignee  $consignee
      * @return \Illuminate\Http\Response
      */
-    public function show(AdminMail $adminMail)
+    public function show(Consignee $consignee)
     {
         //
     }
@@ -52,22 +52,22 @@ class AdminMailController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Consignee  $consignee
      * @return \Illuminate\Http\Response
      */
-    public function edit(AdminMail $adminMail)
+    public function edit(Consignee $consignee)
     {
- 
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Consignee  $consignee
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AdminMail $adminMail)
+    public function update(Request $request, Consignee $consignee)
     {
         //
     }
@@ -75,10 +75,10 @@ class AdminMailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Consignee  $consignee
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdminMail $adminMail)
+    public function destroy(Consignee $consignee)
     {
         //
     }

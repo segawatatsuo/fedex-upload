@@ -16,7 +16,7 @@
                             <label for="name" class="col-md-4 col-form-label text-md-right">{{ 'Name' }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Name">
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="">
 
                                 @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -30,7 +30,7 @@
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ 'E-Mail Address' }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="E-Mail Address">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="">
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -70,7 +70,7 @@
                             <label for="country" class="col-md-4 col-form-label text-md-right">{{ 'Country' }}</label>
 
                             <div class="col-md-6">
-                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') }}" required autocomplete="country" placeholder="Country">
+                                <input id="country" type="text" class="form-control @error('country') is-invalid @enderror" name="country" value="{{ old('country') }}" required autocomplete="country" placeholder="">
 
                                 @error('country')
                                     <span class="invalid-feedback" role="alert">
@@ -86,9 +86,9 @@
                             <label for="company_name" class="col-md-4 col-form-label text-md-right">{{ 'Company Name' }}</label>
 
                             <div class="col-md-6">
-                                <input id="company_name" type="text" class="form-control @error('company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" autocomplete="company_name" placeholder="Company Name">
+                                <input id="company_name" type="text" class="form-control @error('Company_name') is-invalid @enderror" name="company_name" value="{{ old('company_name') }}" autocomplete="company_name" placeholder="">
 
-                                @error('company_name')
+                                @error('Company_name')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

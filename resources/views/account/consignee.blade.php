@@ -1,5 +1,5 @@
 {{-- @extends('../layouts.app') --}}
-@extends('../layouts.login')
+@extends('../layouts.acount2')
 @section('content')
 
     <!--バリデーションエラー -->
@@ -13,19 +13,6 @@
         </div>
     @endif
 
-    <!--
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-md-4">
-            </div>
-            <div class="col-md-8 text-right">
-                <span><a href="{{ route('account.index') }}">Account Services</a> / Address Book</span>
-            </div>
-        </div>
-    </div>
-
-    <hr>
--->
 
 
 
@@ -33,142 +20,45 @@
         @csrf
 
         <div class="container">
-
-            <!--
-            <div class="container mb-4 mt-4">
+            <div class="container-fluid">
                 <div class="row">
-                    <div class="col-md-12 text-center">
-                        <h3>ADRESS</h3>
-                        <input type="submit" value=" update " class="btn btn-success">
+                    <div class="col-md-12">
+
+                        <div class="card card-primary  mx-auto" style="width: 50%">
+                            <div class="card-header">
+                                <h4 style="margin-bottom: 0">default address</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <span class="font-weight-bold">Person in charge</span><br>
+                                    {{ $person_in_charge_name }}<br>
+                                    {{ $person_in_charge_email }}<br>
+                                    {{ $person_in_charge_country }}<br>
+                                    {{ $person_in_charge_company_name }}<br>
+                                    <br>
+
+                                    <span class="font-weight-bold">Consignee(Warehouse)</span><br>
+                                    {{ $consignee_name }}<br>
+                                    {{ $consignee_address_line1 }}<br>
+                                    {{ $consignee_address_line2 }}<br>
+                                    {{ $consignee_city }}<br>
+                                    {{ $consignee_state }}<br>
+                                    {{ $consignee_country }}<br>
+                                    {{ $consignee_zip }}<br>
+                                    {{ $consignee_person }}
+                                    <div class="text-right"><a href="{{ route("account.edit") }}">edit</a>  <a href="{{ route("account.add") }}">add</a>   <a href="{{ route("account.change") }}">change</a></div>
+                                </div>
+                            </div>
+                        </div>
+                   
+                        <div class="col-12 mb-5 mt-5">
+                            <div class="text-center">
+                                <button type="button" class="btn btn-lg a-button-input" onClick="history.back();">Back</button>
+                            </div>
+                        </div>
+                    </form>
                     </div>
                 </div>
             </div>
-        -->
-
-            <div class="container-fluid">
-                <div class="row">
-                    <!-- left column -->
-                    <div class="col-md-6">
-
-                        <!-- general form elements -->
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4 style="margin-bottom: 0">Person in charge</h4>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-
-                            <div class="card-body">
-
-                                <div class="form-group">
-                                    <label for="Customer">名前</label>
-                                    <input type="text" value="{{ $users->name }}" class="form-control" id="name"
-                                        name="name">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">メール</label>
-                                    <input type="text" value="{{ $users->email }}" class="form-control" id="email"
-                                        name="email">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">国(Country)</label>
-                                    <input type="text" value="{{ $users->country }}" class="form-control" id="country"
-                                        name="country">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">会社名</label>
-                                    <input type="text" value="{{ $users->company_name }}" class="form-control"
-                                        id="company_name" name="company_name">
-                                </div>
-
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                    </div>
-
-                        <br>
-                        <!-- general form elements -->
-                        <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h4 style="margin-bottom: 0">Consignee(Warehouse)</h4>
-                            </div>
-                            <!-- /.card-header -->
-                            <!-- form start -->
-
-                            <div class="card-body">
-
-                                <div class="form-group">
-                                    <label for="Customer">荷受人(Consignee)</label>
-                                    <input type="text" value="{{ $users->Userinformations['consignee'] }}"
-                                        class="form-control" id="consignee" name="consignee">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">住所欄1(Address Line1)</label>
-                                    <input type="text" value="{{ $users->Userinformations['address_line1'] }}"
-                                        class="form-control" id="address_line1" name="address_line1">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">住所欄2(Address Line2)</label>
-                                    <input type="text" value="{{ $users->Userinformations['address_line2'] }}"
-                                        class="form-control" id="address_line2" name="address_line2">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">市町村(City)</label>
-                                    <input type="text" value="{{ $users->Userinformations['city'] }}"
-                                        class="form-control" id="city" name="city">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">都道府県(State)</label>
-                                    <input type="text" value="{{ $users->Userinformations['state'] }}"
-                                        class="form-control" id="state" name="state">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">国コード</label>
-                                    <input type="text" value="{{ $users->Userinformations['country_codes'] }}"
-                                        class="form-control" id="country" name="country_codes">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">郵便番号(ZIP)</label>
-                                    <input type="text" value="{{ $users->Userinformations['zip'] }}"
-                                        class="form-control" id="zip" name="zip">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">電話番号(Phone)</label>
-                                    <input type="text" value="{{ $users->Userinformations['phone'] }}"
-                                        class="form-control" id="phone" name="phone">
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="Customer">担当者名(Person)</label>
-                                    <input type="text" value="{{ $users->Userinformations['person'] }}"
-                                        class="form-control" id="person" name="person">
-                                </div>
-
-                            </div>
-                            <!-- /.card-body -->
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- Right column -->
-
-    </form>
-    </div>
-    <br><br><br>
-
-
+        </div>
 @stop

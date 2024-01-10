@@ -8,12 +8,12 @@
         <div class="container mt-1 mb-1">
             <div class="row">
             <div class="col-4">
-                <span class="font-weight-bold">Consignee(Warehouse): {{ $consignee->consignee }}</span><br>
-                {{ $consignee->address_line1 }},
-                {{ $consignee->address_line2 }},
-                {{ $consignee->city }},
-                {{ $consignee->state }}
-                {{ $consignee->country_codes }}<br>
+                <span class="font-weight-bold">Consignee(Warehouse): {{ $consignee_name }}</span><br>
+                {{ $consignee_address_line1 }},
+                {{ $consignee_address_line2 }},
+                {{ $consignee_city }},
+                {{ $consignee_state }}
+                {{ $consignee_country }}<br>
                 phone:{{ $consignee->phone }}
                 <a href="{{ route('account.consignee') }}">modification</a>
             </div>

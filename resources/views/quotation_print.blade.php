@@ -97,7 +97,7 @@
                     </tr>
                     <tr>
                         <th style="text-align:left;">Consignee</th>
-                        <td>{{ $main[3] }}</td>
+                        <td>{{ $consignee_name }}</td>
                     </tr>
                     <tr>
                         <th style="text-align:left;">Port of Loading</th>

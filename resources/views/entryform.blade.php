@@ -24,7 +24,7 @@
                             @csrf
                             <div class="form-group row">
                                 <label for="consignee"
-                                    class="col-md-4 col-form-label text-md-right">{{ 'Consignee' }}</label>
+                                    class="col-md-4 col-form-label text-md-right">{{ 'consignee' }}</label>
 
                                 <div class="col-md-6">
                                     <input id="consignee" type="text"

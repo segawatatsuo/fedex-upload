@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Model\AdminMail;
+use App\Pic;
 use Illuminate\Http\Request;
 
-class AdminMailController extends Controller
+class PicController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class AdminMailController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Pic  $pic
      * @return \Illuminate\Http\Response
      */
-    public function show(AdminMail $adminMail)
+    public function show(Pic $pic)
     {
         //
     }
@@ -52,22 +52,22 @@ class AdminMailController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Pic  $pic
      * @return \Illuminate\Http\Response
      */
-    public function edit(AdminMail $adminMail)
+    public function edit(Pic $pic)
     {
- 
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Pic  $pic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AdminMail $adminMail)
+    public function update(Request $request, Pic $pic)
     {
         //
     }
@@ -75,10 +75,10 @@ class AdminMailController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Model\AdminMail  $adminMail
+     * @param  \App\Pic  $pic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AdminMail $adminMail)
+    public function destroy(Pic $pic)
     {
         //
     }

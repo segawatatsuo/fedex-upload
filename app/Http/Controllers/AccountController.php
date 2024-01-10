@@ -19,6 +19,8 @@ use App\Model\Quitation_serial_number;
 use App\Model\Invoice_serial_number;
 use App\Model\Image;
 use App\Model\Expirie;
+use App\Model\Consignee;
+use App\Model\Pic;
 
 
 
@@ -26,7 +28,7 @@ class AccountController extends Controller
 {
     public function consignee()
     {
-        $id = Auth::id();
+        $id = Auth::id(); //usersテーブルの16
         $users = User::with('Userinformations')->where('id', $id)->first();
         return view('account.consignee',compact('users'));
     }
@@ -89,10 +91,11 @@ class AccountController extends Controller
 
     public function edit()
     {
+
         $id = Auth::id();
         $user = User::with('Userinformations')->where('id', $id)->first();
-
         return view('account/edit', compact('user'));
+
     }
 
     public function quotation()
@@ -133,67 +136,43 @@ class AccountController extends Controller
 
     public function update(Request $request)
     {
+
         $request->validate([
             'name' => 'required',
-            'email' => 'required',
-            'country' => 'required',
-            'company_name' => 'required',
             'address_line1' => 'required',
             'address_line2' => 'required',
             'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
             'zip' => 'required',
             'phone' => 'required',
-            'bill_company_address_line1' => 'required',
-            'bill_company_address_line2' => 'required',
-            'bill_company_city' => 'required',
-            'bill_company_state' => 'required',
-            'bill_company_country' => 'required',
-            'bill_company_zip' => 'required',
-            'bill_company_phone' => 'required',
-            'president' => 'required'
         ]);
 
         $id = $request->id;
-        $users = User::find($id);
+        $user = User::find($id);
+        $user_id= $user->id;
+
+        $consignee = Consignee::where('user_id',$user_id)->where('default_destination','1')->first();
+        $pic =Pic::where('user_id',$user_id)->where('default_destination','1')->first();
+
+        $consignee->consignee = $request->input('name');
+        $consignee->address_line1 = $request->input('address_line1');
+        $consignee->address_line2 = $request->input('address_line2');
+        $consignee->city = $request->input('city');
+        $consignee->state = $request->input('state');
+        $consignee->country_codes = $request->input('country');
+        $consignee->post_code = $request->input('zip');
+        $consignee->phone = $request->input('phone');
+        $consignee->save();
+
+        $pic->name = $request->input('person_name');
+        $pic->email = $request->input('email');
+        $pic->company_name = $request->input('company_name');
+        $pic->country = $request->input('person_in_charge_country');
+        $pic->save();
 
 
-        $users->name = $request->input('name');
-        $users->email = $request->input('email');
-        $users->company_name = $request->input('company_name');
-        $users->userinformations->country_codes = $request->input('country_codes');
-
-        $users->userinformations->consignee = $request->input('consignee');
-        $users->userinformations->address_line1 = $request->input('address_line1');
-        $users->userinformations->address_line2 = $request->input('address_line2');
-        $users->userinformations->city = $request->input('city');
-        $users->userinformations->state = $request->input('state');
-        $users->country = $request->input('country');
-        $users->userinformations->state = $request->input('state');
-        $users->userinformations->zip = $request->input('zip');
-        $users->userinformations->phone = $request->input('phone');
-        $users->userinformations->person = $request->input('person');
-        $users->userinformations->bill_company_address_line1 = $request->input('bill_company_address_line1');
-        $users->userinformations->bill_company_address_line2 = $request->input('bill_company_address_line2');
-        $users->userinformations->bill_company_city = $request->input('bill_company_city');
-        $users->userinformations->bill_company_state = $request->input('bill_company_state');
-        $users->userinformations->bill_company_country = $request->input('bill_company_country');
-        $users->userinformations->bill_company_zip = $request->input('bill_company_zip');
-        $users->userinformations->bill_company_phone = $request->input('bill_company_phone');
-        $users->userinformations->president = $request->input('president');
-        $users->userinformations->industry = $request->input('industry');
-        $users->userinformations->business_items = $request->input('business_items');
-        $users->userinformations->customer_name = $request->input('customer_name');
-        $users->userinformations->fedex = $request->input('fedex');
-        $users->userinformations->sns = $request->input('sns');
-        $users->userinformations->trading_term = $request->input('trading_term');
-        $users->userinformations->trading_history = $request->input('trading_history');
-        $users->userinformations->trading_rank = $request->input('trading_rank');
-        $users->userinformations->initial = $request->input('initial');
-        $users->userinformations->website = $request->input('website');
-
-        $users->save();
-        $users->userinformations->save();
-        return redirect(route('account.address'))->with('flash_message', '更新しました');
+        return redirect(route('account.consignee'))->with('flash_message', 'Has been updated');
     }
 
     public function img_store(Request $request)
@@ -222,5 +201,100 @@ class AccountController extends Controller
         return redirect()->route('account.index');
     }
 
+    public function add(Request $request){
+
+        $id = Auth::id();
+        $user = User::with('Userinformations')->where('id', $id)->first();
+        return view('account/add', compact('user'));
+    }
+
+    public function add_store(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'address_line1' => 'required',
+            'address_line2' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required',
+            'zip' => 'required',
+            'phone' => 'required',
+        ]);
+
+        $id = $request->id;
+        $user = User::find($id);
+        $user_id= $user->id;
+        $check = $request->default;//Set as default registration destination onかnull
+
+        //既存の1を消去
+        if($check){
+            $con = Consignee::where('user_id',$user_id)->where('default_destination','1')->first();
+            $con->default_destination = "";
+            $con->save();
+            $pc = Pic::where('user_id',$user_id)->where('default_destination','1')->first();
+            $pc->default_destination = "";
+            $pc->save();
+        }
+
+        $consignee = new Consignee();
+        $pic = new Pic();
+
+        $consignee->consignee = $request->input('name');
+        $consignee->address_line1 = $request->input('address_line1');
+        $consignee->address_line2 = $request->input('address_line2');
+        $consignee->city = $request->input('city');
+        $consignee->state = $request->input('state');
+        $consignee->country_codes = $request->input('country');
+        $consignee->post_code = $request->input('zip');
+        $consignee->phone = $request->input('phone');
+        $consignee->user_id = $user_id;
+        if($check){
+            $consignee->default_destination = "1";
+        }
+        $consignee->save();
+
+        $pic->name = $request->input('person_name');
+        $pic->email = $request->input('email');
+        $pic->company_name = $request->input('company_name');
+        $pic->country = $request->input('person_in_charge_country');
+        $pic->user_id = $user_id;
+        if($check){
+            $pic->default_destination = "1";
+        }
+        $pic->save();
+
+        return redirect()->route('account.index');
+    }
+
+    public function change(Request $request){
+
+        $id = Auth::id();
+        $consignees=Consignee::where('user_id',$id)->get();
+        return view('account/change', compact('consignees'));
+    }
+    public function change_update(Request $request){
+
+        //該当者の1を全部消す
+
+        $user_id= Auth::id();
+        $con = Consignee::where('user_id',$user_id)->where('default_destination','1')->first();
+        $con->default_destination = "";
+        $con->save();
+        $pc = Pic::where('user_id',$user_id)->where('default_destination','1')->first();
+        $pc->default_destination = "";
+        $pc->save();
+
+        $id = $request->consignee;//新しくチェックされたconsigneesのid
+        $con = Consignee::where('id',$id)->first();
+        $pic_id = $con->pic_id;
+        $consignee = Consignee::where('pic_id',$pic_id)->first();
+        $consignee->default_destination = "1";
+        $consignee->save();
+
+        $pc = Pic::where('id',$pic_id)->first();
+        $pc->default_destination = "1";
+        $pc->save();
+
+        return redirect()->route('account.index');
+    }
 
 }

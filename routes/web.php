@@ -132,6 +132,10 @@ Route::middleware(['verified'])->group(function () {
 
     Route::get('account/consignee','AccountController@consignee')->name('account.consignee');
     Route::get('account/importer','AccountController@importer')->name('account.importer');
+    Route::get('account/add','AccountController@add')->name('account.add');
+    Route::post('account/add_store','AccountController@add_store')->name('account.add_store');
+    Route::get('account/change','AccountController@change')->name('account.change');
+    Route::post('account/change_update','AccountController@change_update')->name('account.change_update');
 
 });
 

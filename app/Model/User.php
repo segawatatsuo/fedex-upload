@@ -43,4 +43,14 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasOne('App\Model\Userinformation');
     }
+
+    public function consignees() //関数名は複数形がベスト
+    {
+        return $this->hasMany('App\Model\Consignee');
+    }
+    public function pics() //関数名は複数形がベスト
+    {
+        return $this->hasMany('App\Model\Pic');
+    }
+
 }

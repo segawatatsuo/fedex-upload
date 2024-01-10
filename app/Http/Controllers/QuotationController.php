@@ -578,12 +578,17 @@ class QuotationController extends Controller
 
         $shipper = $preference_data->shipper;
 
+
         $db->date_of_issue = Carbon::now();
         $db->shipper = $shipper;
         $db->consignee_no = $user_id;
         //SELECT * FROM `userinformations` WHERE `user_id` = 16
         $Userinformations = User::find($user_id)->Userinformations;
-        $consignee = $Userinformations->consignee;
+        if($Userinformations){
+            $consignee = $Userinformations->consignee;
+        }else{
+            $consignee = "";
+        }
         $db->consignee = $consignee;
 
 
