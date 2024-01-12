@@ -35,29 +35,20 @@ class QuotationController extends Controller
         }
         //カテゴリーのユニークだけ(ここではAIRSTOCKINGだけだが、今後ネールなどが入ってくる) session('article')は'Air Stocking'など
         //戻り値は "category" => "Air Stocking"
-        //$categorys = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
-        $product = new Product();
-        $categorys = $product->get_categorys();
-
+        $categorys = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('category')->orderBy('sort_order', 'asc')->get(['category']);
 
         //Air Stocking中分類 session('article')は'Air Stocking'など
         //戻り値は配列 "group" => "PREMIUM-SILK","group" => "PREMIUM-SILK QT","group" => "DIAMOND LEGS","group" => "DIAMOND LEGS DQ"
-        //$groups = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
-        $groups = $product->get_groups();
-
+        $groups = Product::where('hidden_item', '!=', '1')->where('category', session('article'))->groupBy('group')->orderBy('sort_order', 'asc')->get(['group']);
 
         //グループ別の商品配列
-        //戻り値例　$items[0][0]['product_name']は　"AIRSTOCKING PREMIER SILK 120G LIGHT NATURAL"
-        /*
         $items = [];
-       foreach ($groups as $g) {
+        //戻り値例　$items[0][0]['product_name']は　"AIRSTOCKING PREMIER SILK 120G LIGHT NATURAL"
+        foreach ($groups as $g) {
             $b = Product::where('hidden_item', '!=', '1')->where('group', $g->group)->orderBy('sort_order', 'asc')->get();
             array_push($items, $b);
         }
-        */
-        $items = $product->get_items($groups);
 
-        /*
         $groups = [];
         foreach ($items as $item) {
             foreach ($item as $val) {
@@ -65,8 +56,6 @@ class QuotationController extends Controller
                 $groups = array_unique($groups);
             }
         }
-        */
-        $groups = $product->unique_groups($items);
         /* $groups
         array:4 [▼
         0 => "PREMIUM-SILK"
@@ -75,9 +64,8 @@ class QuotationController extends Controller
         3 => "DIAMOND LEGS DQ"
         ]
         */
-        $codes = $product->get_code($items);
+
         //　$codes　配列に全部の商品コード(PS01,PS02...)を取り出す
-        /*
         $codes = [];
         foreach ($items as $item) {
             foreach ($item as $val) {
@@ -85,7 +73,6 @@ class QuotationController extends Controller
                 $codes = array_merge($codes, $hoge);
             }
         }
-        */
         /* $codes 結果
         array:20 [▼
         "PS01" => "PREMIUM-SILK"
@@ -578,17 +565,12 @@ class QuotationController extends Controller
 
         $shipper = $preference_data->shipper;
 
-
         $db->date_of_issue = Carbon::now();
         $db->shipper = $shipper;
         $db->consignee_no = $user_id;
         //SELECT * FROM `userinformations` WHERE `user_id` = 16
         $Userinformations = User::find($user_id)->Userinformations;
-        if($Userinformations){
-            $consignee = $Userinformations->consignee;
-        }else{
-            $consignee = "";
-        }
+        $consignee = $Userinformations->consignee;
         $db->consignee = $consignee;
 
 
