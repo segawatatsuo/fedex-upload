@@ -84,8 +84,22 @@
                                 {{ $hoge->invoices->order_confirms->order_no }}
                             </a>
                             @endif
-                            <br>order
-                            <br>payment
+
+                            <br>
+
+                            @if(isset($hoge->invoices->order_confirms->payment_method))
+                            <a href="{{ route('order_confirm', ['quotation_no' => $hoge->invoices->order_confirms->quotation_no,'payment_method' => $hoge->invoices->order_confirms->payment_method]) }}">
+                                order
+                            </a>
+                            @endif
+                            <br>
+                            
+                            @if (isset($hoge->invoices->order_confirms->order_no))
+                            <a href="{{ route('order_payment', ['order_number' => $hoge->invoices->order_confirms->order_no]) }}">
+                                payment
+                            </a>
+                            @endif
+
                         </td>
                         <td style="width: 15%">Blance<br>Progress<br>packinglist</td>
                         <td style="width: 15%">Packinglist<br>Air Waybill<br>Bill of Loading</td>

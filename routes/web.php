@@ -71,10 +71,13 @@ Route::middleware(['verified'])->group(function () {
     Route::post('order_confirm', 'OrderController@order_confirm')->name('order_confirm');
     Route::get('order_confirm', 'OrderController@order_confirm')->name('order_confirm');
 
+    Route::post('order_confirm_repeat', 'OrderController@order_confirm_repeat')->name('order_confirm_repeat');
+
     Route::post('order_upload', 'OrderController@order_upload')->name('order_upload');
     Route::get('order_upload', 'OrderController@order_upload')->name('order_upload');
 
     Route::post('order_payment', 'OrderController@order_payment')->name('order_payment');
+    Route::get('order_payment', 'OrderController@order_payment')->name('order_payment');
 
     Route::post('payment_upload', 'OrderController@payment_upload')->name('payment_upload');
     Route::get('payment_upload', 'OrderController@payment_upload')->name('payment_upload');

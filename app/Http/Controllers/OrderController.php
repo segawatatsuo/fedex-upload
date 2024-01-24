@@ -56,6 +56,7 @@ class OrderController extends Controller
 
 
         //ここでエラー
+
         //複数行ある可能性があるので配列の1行目[0]から
         $shipper = $quotations[0]->shipper;
         $consignee_no = $quotations[0]->consignee_no;
@@ -66,6 +67,8 @@ class OrderController extends Controller
         $arriving_on = $quotations[0]->arriving_on;
         $expiry = $quotations[0]->expiry_days2;
         $delivery_method = $quotations[0]->delivery_method;
+
+
 
         $iv = Invoice::where('quotation_no', $quotation_no)->first();
 
@@ -235,6 +238,7 @@ class OrderController extends Controller
         $payment_method = $request->payment_method;
         //送信formから
         $quotation_no = $request->get('quotation_no');
+
         $final_destination = $request->get('final_destination');
         //Preferenceから
         $preference_data = Preference::first();
@@ -376,14 +380,12 @@ class OrderController extends Controller
         // 二重送信防止
         $request->session()->regenerateToken();
 
-
         if (Order::orderBy('created_at', 'DESC')->first()) {
             $latestOrder = Order::orderBy('created_at', 'DESC')->first();
             $latestOrder_id = $latestOrder->id;
         } else {
             $latestOrder_id = 0;
         }
-
 
 
         foreach ($items as $item) {
