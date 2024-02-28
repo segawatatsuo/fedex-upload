@@ -82,6 +82,11 @@
                             <a href="{{ route('invoice_repeat', ['invoice_no' => $hoge->invoices->invoice_no]) }}">
                                 {{ $hoge->invoices->invoice_no }}
                             </a>
+
+                            <a href="{{ route('generate_invoice_pdf2',['quotation_no' => $hoge->quotation_no]) }}">
+                                {{ $hoge->invoices->invoice_no }}
+                            </a>
+
                             @endif
                         </td>
                         <td style="width: 15%">

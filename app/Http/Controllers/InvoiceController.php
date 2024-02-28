@@ -452,6 +452,7 @@ class InvoiceController extends Controller
         $main = [];
         //送信formから
         $quotation_no = $request->get('quotation_no');
+
         //Quotationから見積り内容をget
         $quotations = Invoice::where('quotation_no', $quotation_no)->get();
         $quotations_sub = Quotation_detail::where('quotation_no', $quotation_no)->get();
@@ -526,10 +527,12 @@ class InvoiceController extends Controller
         //$image_path = storage_path('app/public/hamada.png');
         //$image_path = 'https://ccmedico.com/fedex/storage/premium-silk/hamada.png';
         $image_path = 'https://ccmedico.com/fedex/storage/hamada.png';
+        $image_path = storage_path('app/public/hamada.png');
         $image_data = base64_encode(file_get_contents($image_path));
 
         //レターヘッド画像
         $image_path = storage_path('img/head.png');
+        $image_path = storage_path('app/public/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path));
 
         $output = $invoice_no . '.pdf';
