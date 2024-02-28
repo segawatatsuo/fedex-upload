@@ -65,12 +65,18 @@
                     <tr>
 
                         <td style="width: 15%">{{ $hoge->created_at }}</td>
+
                         <td style="width: 15%">
 
                             <a href="{{ route('quotation_repeat', ['quotation_no' => $hoge->quotation_no]) }}">
                                 {{ $hoge->quotation_no }}
                             </a>
+
+                            <a href="{{ route('generate_quotation_pdf2', ['quotation_no' => $hoge->quotation_no]) }}">
+                                {{ $hoge->quotation_no }}
+                            </a>
                         </td>
+
                         <td style="width: 15%">
                             @if (isset($hoge->invoices->invoice_no))
                             <a href="{{ route('invoice_repeat', ['invoice_no' => $hoge->invoices->invoice_no]) }}">
@@ -101,8 +107,14 @@
                             @endif
 
                         </td>
-                        <td style="width: 15%">Blance<br>Progress<br>packinglist</td>
-                        <td style="width: 15%">Packinglist<br>Air Waybill<br>Bill of Loading</td>
+                        <td style="width: 15%">Blance<br>Progress</td>
+
+                        <td style="width: 15%">
+                            <a href="{{-- route('account.packinglist',['order_number'=>$hoge->invoices->order_confirms->order_no]) --}}">
+                            Packinglist
+                            </a>
+                            
+                            <br>Air Waybill<br>Bill of Loading</td>
                         <td style="width: 10%">Export Declaration</td>
 
                     </tr>

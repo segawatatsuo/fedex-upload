@@ -28,7 +28,7 @@ class Invoice extends Model
     {
         return $this->hasOne('App\Model\Quotation','quotation_no');
     }
-    //quotaions(孫)テーブルとリレーション
+    //order_confirms(孫)テーブルとリレーション
     public function order_confirms()
     {
         return $this->hasOne('App\Model\Order_confirm', 'quotation_no');

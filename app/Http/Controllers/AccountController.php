@@ -49,7 +49,7 @@ class AccountController extends Controller
 
         $id = Auth::id();
         $users = User::with('Userinformations')->where('id', $id)->first();
-
+ 
         return view('account/index',compact('data','consignee','users'));
     }
 

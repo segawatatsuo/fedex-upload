@@ -405,15 +405,13 @@ class QuotationController extends Controller
             } elseif ($type == "ship" and $total >= $ship_low and $total <= $ship_up) {
                 $tanka = Product::whereGroup($group)->first()->price_ship;
                 return $tanka;
-
             } elseif ($type == "ship" and $array_sum >= $ship_low and $array_sum <= $ship_up) {
-
                 $tanka = Product::whereGroup($group)->first()->price_ship;
                 return $tanka;
             }
         }
 
-        
+
 
         function set_item($hinban, $ctn, $tanka, $hinmei, $unit)
         {
@@ -876,16 +874,20 @@ class QuotationController extends Controller
         $amount_total = $quotations[0]->amount_total;
         $total = [$quantity_total, $ctn_total, $amount_total];
 
-        $image_path = 'https://ccmedico.com/fedex/storage/hamada.png';
+        //$image_path = 'https://ccmedico.com/fedex/storage/hamada.png';
+        $image_path = storage_path('app/public/hamada.png');
         $image_data = base64_encode(file_get_contents($image_path));
 
         //レターヘッド画像
         $image_path = storage_path('img/head.png');
         $image_data2 = base64_encode(file_get_contents($image_path));
 
+        //レターヘッド画像 C:\xampp\htdocs\fedex\storage\app\public\head.png
+        $image_path2 = storage_path('app/public/head.png');
+        $image_data2 = base64_encode(file_get_contents($image_path2));
+
 
         $output = $quotation_no . '.pdf';
-
         //pdf_printout.blade.phpを読み込む
         $pdf = \PDF::loadView('quotation_print', compact('image_data', 'main', 'items', 'total', 'quotation_no', 'image_data2', 'day', 'type'))->setPaper('a4')->setWarnings(false);
 
