@@ -29,6 +29,7 @@ class PackinglistController extends Controller
 
         //consignee
         $hoge=Order::where('order_no', $order_number)->first();
+        //dd($order_number);
         $consignee=$hoge->consignee;
         $ui = Order_detail::where('order_no', $order_number)->get();
 

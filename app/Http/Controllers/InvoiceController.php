@@ -71,7 +71,8 @@ class InvoiceController extends Controller
             $latestOrder->save();
         }
         $no = $latestOrder->count;
-        $invoice_no =  $ct . $cp . date('md') . '_' . str_pad($no, 2, 0, STR_PAD_LEFT);;
+        $invoice_no =  $ct . $cp . date('md') . '_' . str_pad($no, 2, 0, STR_PAD_LEFT);
+        ;
         $output = $invoice_no . '.pdf';
         $print_no = $invoice_no;
         ///////////////////////////////
@@ -189,8 +190,8 @@ class InvoiceController extends Controller
         $expiryaddday = date('M j Y', strtotime($expiryaddday));//Apr 26 2021などを作成
 
         $expiry_days2 = $expiry_days." (".$expiryaddday.")";
-        session()->put('expiry_days',$expiry_days2);//15days
-        session()->put('expiryaddday',$expiryaddday);//Apr 26 2021
+        session()->put('expiry_days', $expiry_days2);//15days
+        session()->put('expiryaddday', $expiryaddday);//Apr 26 2021
 
 
 
@@ -227,9 +228,9 @@ class InvoiceController extends Controller
     public function invoice_repeat(Request $request)
     {
         $invoice_no = $request->invoice_no;
-        $inv = Invoice::where('invoice_no',$invoice_no)->first();
+        $inv = Invoice::where('invoice_no', $invoice_no)->first();
         $quotation_no = $inv->quotation_no;
-        $qt=Quotation::where('quotation_no',$quotation_no)->first();
+        $qt=Quotation::where('quotation_no', $quotation_no)->first();
 
 
         $preference_data = Preference::first();
@@ -247,7 +248,7 @@ class InvoiceController extends Controller
             'expiry' => $qt->expiry,
             'day' => $qt->expiry_days2,
         ];
-        $ui = Userinformation::where('user_id',Auth::id())->first();
+        $ui = Userinformation::where('user_id', Auth::id())->first();
         //画面上の顧客情報用(base.blade.php)
 
         $user = [
@@ -291,9 +292,9 @@ class InvoiceController extends Controller
 
 
         */
-        $details = Quotation_detail::where('quotation_no',$quotation_no)->get();
+        $details = Quotation_detail::where('quotation_no', $quotation_no)->get();
         $items = [];
-        foreach($details as $detail){
+        foreach ($details as $detail) {
             $hinban = $detail->product_code;
             $hinmei = $detail->product_name;
             $tanka = $detail->unit_price;
@@ -319,7 +320,6 @@ class InvoiceController extends Controller
         ];
 
         return view('invoice', compact('main', 'items', 'total', 'user'));
- 
     }
 
 

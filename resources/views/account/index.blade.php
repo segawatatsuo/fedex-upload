@@ -112,15 +112,25 @@
                             @endif
 
                         </td>
-                        <td style="width: 15%">Blance<br>Progress</td>
+                        <td style="width: 15%">
+                            Balance<br>
+                            Progress
+                        </td>
 
                         <td style="width: 15%">
-                            <a href="{{-- route('account.packinglist',['order_number'=>$hoge->invoices->order_confirms->order_no]) --}}">
-                            Packinglist
-                            </a>
+                            @if (isset($hoge->invoices->order_confirms->order_no))
+                            <!--
+                            <a href="{{-- route('account.packinglist', ['order_no' => $hoge->invoices->order_confirms->order_no]) --}}">
+                            -->
+                            <a href="{{ asset('storage/account/packinglist.pdf') }}">Packinglist</a>
                             
-                            <br>Air Waybill<br>Bill of Loading</td>
-                        <td style="width: 10%">Export Declaration</td>
+                            @else
+                            <a href="{{ asset('storage/account/packinglist.pdf') }}">Packinglist</a>
+                            @endif
+                            
+                            <br><a href="{{ asset('storage/account/AirWaybill.pdf') }}">Air Waybill</a><br>
+                            <a href="{{ asset('storage/account/BillOfLoading.pdf') }}">Bill of Loading</a></td>
+                        <td style="width: 10%"><a href="{{ asset('storage/account/Export_Declaration.pdf') }}">Declaration</a></td>
 
                     </tr>
                 @endforeach

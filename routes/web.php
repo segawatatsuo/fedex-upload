@@ -99,15 +99,16 @@ Route::middleware(['verified'])->group(function () {
     Route::post('account/order', 'AccountController@order')->name('account.order');
 
     Route::get('account/order_each/{id}', 'AccountController@order_each')->name('account.order_each');
-    //quotation　pdf再作成 generate_quotation_pdf 
+    //quotation　pdf再作成 generate_quotation_pdf
     Route::get('account/generate_quotation_pdf2', 'QuotationController@generate_quotation_pdf2')->name('generate_quotation_pdf2');
 
     Route::get('account/generate_invoice_pdf2', 'InvoiceController@generate_invoice_pdf2')->name('generate_invoice_pdf2');
     Route::get('account/ShowOrderSheet', 'OrderController@ShowOrderSheet')->name('ShowOrderSheet');
     Route::get('account/ShowPaymentSheet', 'OrderController@ShowPaymentSheet')->name('ShowPaymentSheet');
 
-    Route::get('account/packinglist/{order_number}', 'PackinglistController@index')->name('account.packinglist');
-
+    //Route::get('account/packinglist/{order_number}', 'PackinglistController@index')->name('account.packinglist');
+    Route::get('account/packinglist', 'PackinglistController@index')->name('account.packinglist');
+    Route::get('account/balance', 'BalanceController@index')->name('account.balance');
 
     Route::get('account/payment_uploader', 'OrderController@payment_uploader')->name('payment_uploader');
     Route::get('account/payment_up', 'OrderController@payment_up')->name('payment_up');
@@ -141,8 +142,6 @@ Route::middleware(['verified'])->group(function () {
     Route::post('account/change_update', 'AccountController@change_update')->name('account.change_update');
 
     Route::post('account/importer_update', 'AccountController@importer_update')->name('account.importer_update');
-
-    Route::get('account/packinglist/{order_no}', 'PackinglistController@index')->name('Packinglist.index');
 });
 
 //住所未登録ユーザーの場合に入力フォームへ移動
