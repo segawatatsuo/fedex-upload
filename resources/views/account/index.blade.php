@@ -130,7 +130,7 @@
                             
                             <br><a href="{{ asset('storage/account/AirWaybill.pdf') }}">Air Waybill</a><br>
                             <a href="{{ asset('storage/account/BillOfLoading.pdf') }}">Bill of Loading</a></td>
-                        <td style="width: 10%"><a href="{{ asset('storage/account/Export_Declaration.pdf') }}">Declaration</a></td>
+                        <td style="width: 10%"><a href="{{ asset('storage/account/Export_Declaration.pdf') }}">Export Declaration</a></td>
 
                     </tr>
                 @endforeach
