@@ -8,7 +8,7 @@
             <div class="col">
                 <!--画像-->
                 <div>
-                    <img src="{{ asset('storage/img/export.jpg') }}" class="img-fluid" alt="">
+                    <!--<img src="{{-- asset('storage/img/export.jpg') --}}" class="img-fluid" alt="">-->
                 </div>
 
                 <div class="mt-3 h5">
