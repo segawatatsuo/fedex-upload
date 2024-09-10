@@ -18,7 +18,6 @@ class ConsigneeComposer
         if ($user_id == null) {
             $view->with('consignee_name', '');
         } else {
-
             $consn = Consignee::where('user_id', $user_id)->where('default_destination', '1')->first();
             $pic = Pic::where('user_id', $user_id)->where('default_destination', '1')->first();
 
@@ -33,14 +32,14 @@ class ConsigneeComposer
                 $consignee_zip = $consn->post_code;
                 $consignee_person = $consn->name;
 
-                $person_in_charge_name = $pic->name;
-                $person_in_charge_email = $pic->email;
-                $person_in_charge_country = $pic->country;
-                $person_in_charge_company_name = $pic->company_name;
+                $person_in_charge_name = optional($pic)->name;
+                $person_in_charge_email = optional($pic)->email;
+                $person_in_charge_country = optional($pic)->country;
+                $person_in_charge_company_name = optional($pic)->company_name;
 
-                $hash = array( 
-                    'consignee_name' => $consignee_name, 
-                    'consignee_address_line1' => $consignee_address_line1, 
+                $hash = array(
+                    'consignee_name' => $consignee_name,
+                    'consignee_address_line1' => $consignee_address_line1,
                     'consignee_address_line2' => $consignee_address_line2 ,
                     'consignee_city' => $consignee_city,
                     'consignee_state' => $consignee_state,
@@ -53,7 +52,7 @@ class ConsigneeComposer
                     'person_in_charge_country' => $person_in_charge_country,
                     'person_in_charge_company_name' => $person_in_charge_company_name,
                 );
-                $view->with( $hash);
+                $view->with($hash);
             //一番最初にPerson in chargeで名前を登録しただけではまだconsigneeがないので
             } else {
                 //$view->with('consignee_name', '');
@@ -71,9 +70,9 @@ class ConsigneeComposer
                 $person_in_charge_country = "";
                 $person_in_charge_company_name ="";
 
-                $hash = array( 
-                    'consignee_name' => $consignee_name, 
-                    'consignee_address_line1' => $consignee_address_line1, 
+                $hash = array(
+                    'consignee_name' => $consignee_name,
+                    'consignee_address_line1' => $consignee_address_line1,
                     'consignee_address_line2' => $consignee_address_line2 ,
                     'consignee_city' => $consignee_city,
                     'consignee_state' => $consignee_state,
@@ -86,7 +85,7 @@ class ConsigneeComposer
                     'person_in_charge_country' => $person_in_charge_country,
                     'person_in_charge_company_name' => $person_in_charge_company_name,
                 );
-                $view->with( $hash);
+                $view->with($hash);
             }
         }
     }
