@@ -14,15 +14,13 @@
         "fideloper/proxy": "^4.4",
         "friendsofphp/php-cs-fixer": "^2.1",
         "haruncpi/laravel-id-generator": "^1.1",
+        "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^6.20.26",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^1.2",
         "setasign/fpdi": "^2.3",
         "tecnickcom/tcpdf": "^6.4",
-        "wyrihaximus/html-compress": "^4.2",
-
-            "jeroennoten/laravel-adminlte": "^1.22"
-            
+        "wyrihaximus/html-compress": "^4.2"
     },
     "require-dev": {
         "facade/ignition": "^1.16.15",
